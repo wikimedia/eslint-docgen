@@ -1,0 +1,28 @@
+{
+	"name": "eslint-docgen",
+	"version": "0.0.0",
+	"description": "Generate ESLint documentation form tests.",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/wikimedia/eslint-docgen.git"
+	},
+	"license": "MIT",
+	"keywords": [
+		"eslint",
+		"documentation"
+	],
+	"main": "src/index.js",
+	"files": [
+		"src"
+	],
+	"scripts": {
+		"test": "eslint ."
+	},
+	"dependencies": {
+		"ejs": "^3.1.2",
+		"eslint": ">=2.3.0"
+	},
+	"devDependencies": {
+		"eslint-config-wikimedia": "^0.15.3"
+	}
+}
