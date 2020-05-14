@@ -129,7 +129,7 @@ function buildDocsFromTests( name, rule, tests ) {
 	}
 
 	function codeLink( pattern, name ) {
-		const filePath = config.rulePath.replace( '{name}', name );
+		const filePath = pattern.replace( '{name}', name );
 		return path.join( '/', filePath );
 	}
 
