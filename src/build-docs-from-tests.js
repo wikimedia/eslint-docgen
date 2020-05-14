@@ -11,7 +11,7 @@ const pluginName = require( packagePath( './package' ) ).name.replace( 'eslint-p
 
 const templates = {};
 [
-	'config',
+	'inConfig',
 	'deprecated',
 	'fixable',
 	'index',
@@ -89,7 +89,7 @@ function buildRuleDetails( tests, icon, showFixes ) {
 }
 
 function buildDocsFromTests( name, rule, tests ) {
-	let config = '',
+	let inConfig = '',
 		description = '',
 		deprecated = '',
 		fixable = '';
@@ -110,13 +110,13 @@ function buildDocsFromTests( name, rule, tests ) {
 	}
 
 	if ( name in rulesData ) {
-		config += rulesData[ name ].map( ( data ) => {
+		inConfig = rulesData[ name ].map( ( data ) => {
 			const configDesc = '`plugin:' + pluginName + '/' + data.ruleset + '`' +
 				// TODO: Create util to compare options to defaults
 				( data.options && Object.keys( data.options[ 0 ] ).length ?
 					' with `' + JSON.stringify( data.options ) + '` options' :
 					'' );
-			return ejs.render( templates.config, { configDesc: configDesc } );
+			return ejs.render( templates.inConfig, { configDesc: configDesc } );
 		} ).join( '\n\n' );
 	}
 
@@ -134,10 +134,10 @@ function buildDocsFromTests( name, rule, tests ) {
 	const sourceLink = mdLink( '/' + path, path );
 
 	const output = ejs.render( templates.index, {
-		config: config,
 		deprecated: deprecated,
 		description: description,
 		fixable: fixable,
+		inConfig: inConfig,
 		invalid: invalid,
 		sourceLink: sourceLink,
 		title: name,
