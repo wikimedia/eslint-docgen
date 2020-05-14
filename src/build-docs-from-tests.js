@@ -91,16 +91,18 @@ function buildDocsFromTests( name, rule, tests ) {
 		inConfig = '',
 		resources = '';
 
-	if ( rule.meta.docs.description ) {
-		description = rule.meta.docs.description;
+	const docs = rule.meta.docs || {};
+
+	if ( docs.description ) {
+		description = docs.description;
 	} else {
 		console.warn( 'Rule ' + name + ' has no description.' );
 	}
 
-	if ( rule.meta.docs.deprecated ) {
+	if ( docs.deprecated ) {
 		let replacedBy = '';
-		if ( rule.meta.docs.replacedBy ) {
-			const ruleLinks = rule.meta.docs.replacedBy.map( ( name ) => mdLink( name + '.md', '`' + name + '`' ) ).join( ', ' );
+		if ( docs.replacedBy ) {
+			const ruleLinks = docs.replacedBy.map( ( name ) => mdLink( name + '.md', '`' + name + '`' ) ).join( ', ' );
 			replacedBy = ejs.render( templates.replacedBy, { ruleLinks: ruleLinks } );
 		}
 		deprecated = ejs.render( templates.deprecated, { replacedBy: replacedBy } ).trim();
