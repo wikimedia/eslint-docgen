@@ -1,13 +1,13 @@
 const ejs = require( 'ejs' );
 const path = require( 'path' );
 const fs = require( 'fs' );
-const rulePath = 'src/rules/{name}.js';
-const docPath = 'docs/{name}.md';
 
 const rulesData = require( './rules-data' );
 
+const config = require( './config' );
 const packagePath = require( './package-path' );
-const pluginName = require( packagePath( './package' ) ).name.replace( 'eslint-plugin-', '' );
+const pluginName = config.pluginName ||
+	require( packagePath( './package' ) ).name.replace( 'eslint-plugin-', '' );
 
 const templates = {};
 [
@@ -129,7 +129,7 @@ function buildDocsFromTests( name, rule, tests ) {
 		fixable = ejs.render( templates.fixable, { fixes: fixes } );
 	}
 
-	const path = rulePath.replace( '{name}', name );
+	const path = config.rulePath.replace( '{name}', name );
 
 	const sourceLink = mdLink( '/' + path, path );
 
@@ -145,7 +145,7 @@ function buildDocsFromTests( name, rule, tests ) {
 	} ).replace( /\n{3,}/g, '\n\n' );
 
 	fs.writeFile(
-		docPath.replace( '{name}', name ),
+		config.docPath.replace( '{name}', name ),
 		output,
 		( err ) => {
 			if ( err ) {
