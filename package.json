@@ -23,6 +23,7 @@
 		"eslint": ">=2.3.0"
 	},
 	"devDependencies": {
-		"eslint-config-wikimedia": "^0.15.3"
+		"eslint-config-wikimedia": "^0.15.3",
+		"import-fresh": "^3.2.1"
 	}
 }
