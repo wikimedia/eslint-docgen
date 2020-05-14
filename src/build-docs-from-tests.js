@@ -6,20 +6,8 @@ const rulesData = require( './rules-data' );
 
 const config = require( './config' );
 
-const templates = {};
-[
-	'deprecated',
-	'docLink',
-	'fixable',
-	'inConfig',
-	'index',
-	'replacedBy',
-	'resources',
-	'ruleLink',
-	'testLink'
-].forEach( ( template ) => {
-	templates[ template ] = fs.readFileSync( path.join( __dirname, './templates/' + template + '.ejs' ) ).toString();
-} );
+const loadTemplates = require( './load-templates' );
+const templates = loadTemplates( path.join( __dirname, 'templates' ) );
 
 function mdLink( target, label ) {
 	return '[' + label + '](' + target + ')';
