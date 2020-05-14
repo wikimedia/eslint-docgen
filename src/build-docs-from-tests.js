@@ -9,6 +9,12 @@ const config = require( './config' );
 const loadTemplates = require( './load-templates' );
 const templates = loadTemplates( path.join( __dirname, 'templates' ) );
 
+if ( config.templatePath ) {
+	const packagePath = require( './package-path' );
+	const packageTemplates = loadTemplates( packagePath( config.templatePath ) );
+	Object.assign( templates, packageTemplates );
+}
+
 function mdLink( target, label ) {
 	return '[' + label + '](' + target + ')';
 }

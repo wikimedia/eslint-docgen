@@ -4,6 +4,7 @@ const pluginName = ( packageName || '' ).replace( 'eslint-plugin-', '' );
 
 module.exports = {
 	pluginName: pluginName,
+	templatePath: null,
 	docPath: null,
 	rulePath: null,
 	testPath: null,
