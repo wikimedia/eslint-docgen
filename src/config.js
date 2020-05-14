@@ -23,4 +23,15 @@ if ( !config ) {
 	throw new Error( '.eslintdocgenrc not found' );
 }
 
+const defaultConfig = require( './default-config.js' );
+config = Object.assign( {}, defaultConfig, config );
+
+// Validation
+if ( config.ruleLink && !config.rulePath ) {
+	throw new Error( 'rulePath must be set when ruleLink is true' );
+}
+if ( config.testLink && !config.testPath ) {
+	throw new Error( 'testPath must be set when testLink is true' );
+}
+
 module.exports = config;

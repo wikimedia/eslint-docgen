@@ -5,17 +5,18 @@ const fs = require( 'fs' );
 const rulesData = require( './rules-data' );
 
 const config = require( './config' );
-const packagePath = require( './package-path' );
-const pluginName = config.pluginName ||
-	require( packagePath( './package' ) ).name.replace( 'eslint-plugin-', '' );
 
 const templates = {};
 [
-	'inConfig',
 	'deprecated',
+	'docLink',
 	'fixable',
+	'inConfig',
 	'index',
-	'replacedBy'
+	'replacedBy',
+	'resources',
+	'ruleLink',
+	'testLink'
 ].forEach( ( template ) => {
 	templates[ template ] = fs.readFileSync( path.join( __dirname, './templates/' + template + '.ejs' ) ).toString();
 } );
@@ -89,10 +90,12 @@ function buildRuleDetails( tests, icon, showFixes ) {
 }
 
 function buildDocsFromTests( name, rule, tests ) {
-	let inConfig = '',
-		description = '',
+	let
 		deprecated = '',
-		fixable = '';
+		description = '',
+		fixable = '',
+		inConfig = '',
+		resources = '';
 
 	if ( rule.meta.docs.description ) {
 		description = rule.meta.docs.description;
@@ -111,7 +114,7 @@ function buildDocsFromTests( name, rule, tests ) {
 
 	if ( name in rulesData ) {
 		inConfig = rulesData[ name ].map( ( data ) => {
-			const configDesc = '`plugin:' + pluginName + '/' + data.ruleset + '`' +
+			const configDesc = '`plugin:' + config.pluginName + '/' + data.ruleset + '`' +
 				// TODO: Create util to compare options to defaults
 				( data.options && Object.keys( data.options[ 0 ] ).length ?
 					' with `' + JSON.stringify( data.options ) + '` options' :
@@ -129,7 +132,21 @@ function buildDocsFromTests( name, rule, tests ) {
 		fixable = ejs.render( templates.fixable, { fixes: fixes } );
 	}
 
-	const path = config.rulePath.replace( '{name}', name );
+	function codeLink( pattern, name ) {
+		const filePath = config.rulePath.replace( '{name}', name );
+		return path.join( '/', filePath );
+	}
+
+	if ( config.docLink || config.ruleLink || config.testLink ) {
+		resources = ejs.render( templates.resources, {
+			docLink: config.docLink ?
+				ejs.render( templates.docLink, { link: codeLink( config.docPath, name ) } ) : '',
+			ruleLink: config.ruleLink ?
+				ejs.render( templates.ruleLink, { link: codeLink( config.rulePath, name ) } ) : '',
+			testLink: config.testLink ?
+				ejs.render( templates.testLink, { link: codeLink( config.testPath, name ) } ) : ''
+		} );
+	}
 
 	const sourceLink = mdLink( '/' + path, path );
 
@@ -139,10 +156,11 @@ function buildDocsFromTests( name, rule, tests ) {
 		fixable: fixable,
 		inConfig: inConfig,
 		invalid: invalid,
+		resources: resources,
 		sourceLink: sourceLink,
 		title: name,
 		valid: valid
-	} ).replace( /\n{3,}/g, '\n\n' );
+	} ).replace( /\n{3,}/g, '\n\n' ).trim() + '\n';
 
 	fs.writeFile(
 		config.docPath.replace( '{name}', name ),
