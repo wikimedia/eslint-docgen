@@ -5,7 +5,7 @@ Generate ESLint documentation form tests
 
 Required:
 
-```json
+```jsonc
 {
 	"rulePath": "src/rules/{name}.js",
 	"docPath": "docs/{name}.md"
@@ -14,7 +14,7 @@ Required:
 
 Optional:
 
-```json
+```jsonc
 {
 	"pluginName": "myplugin" // defaults to package name with 'eslint-plugin-' stripped
 }
