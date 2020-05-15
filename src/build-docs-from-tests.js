@@ -73,7 +73,7 @@ function buildDocsFromTests( name, rule, tests ) {
 		} );
 
 		let directives = {};
-		if ( config.showDirectiveInExamples ) {
+		if ( config.showConfigComments ) {
 			directives = Object.keys( testsByOptions ).map( ( key ) => {
 				const optionsAndSettings = testsByOptions[ key ].optionsAndSettings;
 				const value = optionsAndSettings && optionsAndSettings.options ?
@@ -103,7 +103,7 @@ function buildDocsFromTests( name, rule, tests ) {
 				output += ':\n';
 			}
 			output += '```js\n';
-			if ( config.showDirectiveInExamples ) {
+			if ( config.showConfigComments ) {
 				output += directives[ i ] + '\n';
 			}
 			output += section.tests.join( '\n' );

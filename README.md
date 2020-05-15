@@ -6,7 +6,7 @@ Generate ESLint documentation form tests
 ```jsonc
 {
 	"pluginName": "myplugin", // optional, defaults to package name with 'eslint-plugin-' stripped
-	"showDirectiveInExamples": false, // optional, defaults to false
+	"showConfigComments": false, // optional, defaults to false
 	"docPath": "docs/{name}.md", // required
 	"rulePath": "src/rules/{name}.js", // optional, required if ruleLink is true
 	"testPath": "tests/rules/{name}.js", // optional, required if testLink is true
