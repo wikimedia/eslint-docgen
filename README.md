@@ -99,3 +99,8 @@ Shows config comments at the top of code examples:
 /* eslint myPlugin/rule: "error" */
 // Test cases
 ```
+
+## ✏️ Examples
+* [Rule in eslint-plugin-no-jquery](https://github.com/wikimedia/eslint-plugin-no-jquery/blob/master/docs/no-error-shorthand.md)
+* [Rule in eslint-plugin-mediawiki](https://github.com/wikimedia/eslint-plugin-mediawiki/blob/master/docs/valid-package-file-require.md)
+* [Sample test case output](tests/cases/simple-rule.md)
