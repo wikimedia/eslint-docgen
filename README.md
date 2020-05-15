@@ -75,25 +75,25 @@ The path where the rule is defined, only required if `ruleLink` is `true`. Same 
 #### `testPath`
 The path where the rule's tests are defined, only required if `testPath` is `true`. Same format as `docPath`.
 
-#### `docLink` (defaults to `false`)
+#### `docLink` (default `false`)
 Add a link to the documentation source in the "Resources" section.
 
-#### `ruleLink` (defaults to `true`)
+#### `ruleLink` (default `true`)
 Add a link to the rule source in the "Resources" section. Requires `rulePath` to be defined.
 
-#### `testLink` (defaults to `true`)
+#### `testLink` (default `true`)
 Add a link to the rule's test source in the "Resources" section. Requires `testPath` to be defined.
 
 #### `templatePath`
 When defined, templates in this path will override the defaults defined in [src/templates](src/templates).
 
-#### `pluginName` (defaults to package name)
+#### `pluginName` (default from package name)
 The name of your plugin as used in directives, e.g. `plugin:pluginName/rule`. Defaults to the name in `package.json` with `eslint-plugin-` stripped.
 
-#### `fixCodeExamples` (defaults to `true`)
+#### `fixCodeExamples` (default `true`)
 Fix code examples using the ESLint configuration used for your `main` script.
 
-#### `showConfigComments` (defaults to `false`)
+#### `showConfigComments` (default `false`)
 Shows config comments at the top of code examples:
 ```js
 /* eslint myPlugin/rule: "error" */
