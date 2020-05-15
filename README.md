@@ -66,7 +66,7 @@ module.exports = {
 
 The following config options are available:
 
-#### `docPath` (**required**)
+#### `docPath` (*required*)
 The path to store rule documentation files, with `{name}` as a placeholder for the rule name, e.g. `"docs/{name}.md"` or `"rules/{name}/README.md"`.
 
 #### `rulePath`
