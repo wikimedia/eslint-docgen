@@ -1,18 +1,98 @@
 # eslint-docgen
-Generate ESLint documentation form tests
+Generate ESLint documentation form rule metadata and test cases.
 
-# Configuration
+## ⬇️ Installation
 
+```sh
+npm install eslint-docgen --save-dev
+```
+
+## 🛠️ Setup
+
+Replace all uses of `RuleTester` with the version from this package:
+```js
+// Old:
+const RuleTester = require( 'eslint' ).RuleTester;
+// New:
+const RuleTester = require( 'eslint-docgen' ).RuleTester;
+```
+Documentation will be built using rule metadata and test data passed to `RuleTester`:
+
+`rule.meta.docs.description`
+Used as the description of the rule in the documentation.
+
+`rule.meta.docs.deprecated`
+Will show a deprecation warning in the documentation.
+
+`rule.meta.docs.replacedBy`
+Will link to the replacement rule(s).
+
+`tests.valid`/`tests.invalid` from `RuleTester#run`
+Will generate code blocks showing examples of valid/invalid usage. Blocks will be grouped by unique `options`/`settings` configurations. Fixable rules with `output` will generate a separate block showing the before and after.
+To exclude a test case from these comment blocks use the `noDoc` option:
+```js
+{
+  code: 'App.invalid();',
+  output: 'App.INVALID();',
+  noDoc: true
+}
+```
+
+## 📖 Usage
+To build your documentation, run your test suite as normal with a `--doc` flag in the command line, e.g.
+```sh
+mocha tests/ --doc
+```
+
+## ⚙️ Configuration
+
+Create a JSON/JavaScript file called `.eslintdocgenrc.json`/`.eslintdocgenrc.js` in your project root:
+
+**JSON**
 ```jsonc
 {
-	"pluginName": "myplugin", // optional, defaults to package name with 'eslint-plugin-' stripped
-	"showConfigComments": false, // optional, defaults to false
-	"docPath": "docs/{name}.md", // required
-	"rulePath": "src/rules/{name}.js", // optional, required if ruleLink is true
-	"testPath": "tests/rules/{name}.js", // optional, required if testLink is true
-	"docLink": false, // optional, adds a link to documentation source, default false
-	"ruleLink": true, // optional, adds a link to rule source, default true
-	"testLink": true, // optional, adds a link to test source, default true
-	"templatePath": "docs/templates", // optional, path containing .ejs template overrides
+	"docPath": "docs/{name}.md",
+	// ...
 }
+```
+
+**JavaScript**
+```js
+module.exports = {
+	docPath: 'docs/{name}.md',
+	// ...
+};
+```
+
+The following config options are available:
+
+`docPath` (**required**)
+The path to store rule documentation files, with `{name}` as a placeholder for the rule name, e.g. `"docs/{name}.md"` or `"rules/{name}/README.md"`.
+
+`rulePath`
+The path where the rule is defined, only required if `ruleLink` is `true`. Same format as `docPath`.
+
+`testPath`
+The path where the rule's tests are defined, only required if `testPath` is `true`. Same format as `docPath`.
+
+`docLink` (defaults to `false`)
+Add a link to the documentation source in the "Resources" section.
+
+`ruleLink` (defaults to `true`)
+Add a link to the rule source in the "Resources" section. Requires `rulePath` to be defined.
+
+`testLink` (defaults to `true`)
+Add a link to the rule's test source in the "Resources" section. Requires `testPath` to be defined.
+
+`templatePath`
+When defined, templates in this path will override the defaults defined in [/templates](templates).
+
+`pluginName` (defaults to package name)
+The name of your plugin as used in directives, e.g. `plugin:pluginName/rule`. Defaults to the name in `package.json` with `eslint-plugin-` stripped.
+
+`showConfigComments` (defaults to `false`)
+Shows config comments at the top of code examples:
+```js
+/* eslint myPlugin/rule: "error" */
+// Test cases
 ```
