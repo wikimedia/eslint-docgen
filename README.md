@@ -90,6 +90,9 @@ When defined, templates in this path will override the defaults defined in [src/
 #### `pluginName` (defaults to package name)
 The name of your plugin as used in directives, e.g. `plugin:pluginName/rule`. Defaults to the name in `package.json` with `eslint-plugin-` stripped.
 
+#### `fixCodeExamples` (defaults to `true`)
+Fix code examples using the ESLint configuration used for your `main` script.
+
 #### `showConfigComments` (defaults to `false`)
 Shows config comments at the top of code examples:
 ```js
