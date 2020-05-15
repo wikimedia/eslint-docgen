@@ -30,7 +30,6 @@ function buildDocsFromTests( name, rule, tests ) {
 	function buildRuleDetails( testList, icon, showFixes ) {
 		const fix = require( './fix' );
 		const testsByOptions = {};
-		let output = '';
 		let maxCodeLength;
 
 		const fixedCode = fix.batchLintFix( testList.map( ( test ) => typeof test === 'string' ? test : test.code ) );
@@ -86,7 +85,8 @@ function buildDocsFromTests( name, rule, tests ) {
 			directives = fix.batchLintFix( directives );
 		}
 
-		Object.keys( testsByOptions ).forEach( ( key, i ) => {
+		return Object.keys( testsByOptions ).map( ( key, i ) => {
+			let output = '';
 			const section = testsByOptions[ key ];
 			const optionsAndSettings = section.optionsAndSettings;
 			if ( optionsAndSettings ) {
@@ -107,10 +107,10 @@ function buildDocsFromTests( name, rule, tests ) {
 				output += directives[ i ] + '\n';
 			}
 			output += section.tests.join( '\n' );
-			output += '\n```\n';
-		} );
+			output += '\n```';
 
-		return output;
+			return output;
+		} ).join( '\n\n' );
 	}
 	const docs = rule.meta.docs || {};
 
