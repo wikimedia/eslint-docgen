@@ -85,7 +85,7 @@ Add a link to the rule source in the "Resources" section. Requires `rulePath` to
 Add a link to the rule's test source in the "Resources" section. Requires `testPath` to be defined.
 
 #### `templatePath`
-When defined, templates in this path will override the defaults defined in [/templates](templates).
+When defined, templates in this path will override the defaults defined in [src/templates](src/templates).
 
 #### `pluginName` (defaults to package name)
 The name of your plugin as used in directives, e.g. `plugin:pluginName/rule`. Defaults to the name in `package.json` with `eslint-plugin-` stripped.
