@@ -19,70 +19,6 @@ function mdLink( target, label ) {
 	return '[' + label + '](' + target + ')';
 }
 
-function buildRuleDetails( tests, icon, showFixes ) {
-	const batchLintFix = require( './fix' ).batchLintFix;
-	const testsByOptions = {};
-	let output = '';
-	let maxCodeLength;
-
-	const fixedCode = batchLintFix( tests.map( ( test ) => typeof test === 'string' ? test : test.code ) );
-
-	let fixedOutput;
-	if ( showFixes ) {
-		maxCodeLength = fixedCode.reduce( function ( acc, code ) {
-			return Math.max( acc, code.length );
-		}, 0 );
-		fixedOutput = batchLintFix( tests.map( ( test ) => test.output || 'null' ) );
-	}
-
-	tests.forEach( function ( test, i ) {
-		let options = '';
-		const code = fixedCode[ i ];
-
-		if ( test.noDoc ) {
-			return;
-		}
-		if ( test.options || test.settings ) {
-			options = JSON.stringify( {
-				options: test.options,
-				settings: test.settings
-			} );
-		}
-		testsByOptions[ options ] = testsByOptions[ options ] || [];
-		if ( showFixes && test.output ) {
-			testsByOptions[ options ].push(
-				code + ' '.repeat( Math.max( 0, maxCodeLength - code.length ) ) +
-				' /* → */ ' +
-				fixedOutput[ i ]
-			);
-		} else {
-			testsByOptions[ options ].push( code );
-		}
-	} );
-
-	for ( const options in testsByOptions ) {
-		if ( options ) {
-			const optionsAndSettings = JSON.parse( options );
-			output += icon + ' With';
-			if ( optionsAndSettings.options ) {
-				output += ' `' + JSON.stringify( optionsAndSettings.options ) + '` options';
-			}
-			if ( optionsAndSettings.settings ) {
-				if ( optionsAndSettings.options ) {
-					output += ' and';
-				}
-				output += ' `' + JSON.stringify( optionsAndSettings.settings ) + '` settings';
-			}
-			output += ':\n';
-		}
-		output += '```js\n';
-		output += testsByOptions[ options ].join( '\n' );
-		output += '\n```\n';
-	}
-
-	return output;
-}
-
 function buildDocsFromTests( name, rule, tests ) {
 	let
 		deprecated = '',
@@ -91,6 +27,91 @@ function buildDocsFromTests( name, rule, tests ) {
 		inConfig = '',
 		resources = '';
 
+	function buildRuleDetails( testList, icon, showFixes ) {
+		const fix = require( './fix' );
+		const testsByOptions = {};
+		let output = '';
+		let maxCodeLength;
+
+		const fixedCode = fix.batchLintFix( testList.map( ( test ) => typeof test === 'string' ? test : test.code ) );
+
+		let fixedOutput;
+		if ( showFixes ) {
+			maxCodeLength = fixedCode.reduce( function ( acc, code ) {
+				return Math.max( acc, code.length );
+			}, 0 );
+			fixedOutput = fix.batchLintFix( testList.map( ( test ) => test.output || 'null' ) );
+		}
+
+		testList.forEach( function ( test, i ) {
+			let optionsAndSettings = null;
+			const code = fixedCode[ i ];
+
+			if ( test.noDoc ) {
+				return;
+			}
+			if ( test.options || test.settings ) {
+				optionsAndSettings = {
+					options: test.options,
+					settings: test.settings
+				};
+			}
+			const hash = JSON.stringify( optionsAndSettings );
+			testsByOptions[ hash ] = testsByOptions[ hash ] ||
+				{
+					tests: [],
+					optionsAndSettings: optionsAndSettings
+				};
+			if ( showFixes && test.output ) {
+				testsByOptions[ hash ].tests.push(
+					code + ' '.repeat( Math.max( 0, maxCodeLength - code.length ) ) +
+					' /* → */ ' +
+					fixedOutput[ i ]
+				);
+			} else {
+				testsByOptions[ hash ].tests.push( code );
+			}
+		} );
+
+		let directives = {};
+		if ( config.showDirectiveInExamples ) {
+			directives = Object.keys( testsByOptions ).map( ( key ) => {
+				const optionsAndSettings = testsByOptions[ key ].optionsAndSettings;
+				const value = optionsAndSettings && optionsAndSettings.options ?
+					[ 'error', optionsAndSettings.options ] :
+					'error';
+				return '/*eslint ' + config.pluginName + '/' + name + ': ' + JSON.stringify( value ) + '*/';
+			} );
+			// Fixes whitespace in block comment. Too expensive for such a small fix?
+			directives = fix.batchLintFix( directives );
+		}
+
+		Object.keys( testsByOptions ).forEach( ( key, i ) => {
+			const section = testsByOptions[ key ];
+			const optionsAndSettings = section.optionsAndSettings;
+			if ( optionsAndSettings ) {
+				output += icon + ' With';
+				if ( optionsAndSettings.options ) {
+					output += ' `' + JSON.stringify( optionsAndSettings.options ) + '` options';
+				}
+				if ( optionsAndSettings.settings ) {
+					if ( optionsAndSettings.options ) {
+						output += ' and';
+					}
+					output += ' `' + JSON.stringify( optionsAndSettings.settings ) + '` settings';
+				}
+				output += ':\n';
+			}
+			output += '```js\n';
+			if ( config.showDirectiveInExamples ) {
+				output += directives[ i ] + '\n';
+			}
+			output += section.tests.join( '\n' );
+			output += '\n```\n';
+		} );
+
+		return output;
+	}
 	const docs = rule.meta.docs || {};
 
 	if ( docs.description ) {
