@@ -92,7 +92,7 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates 
 			const section = testsByOptions[ key ];
 			const optionsAndSettings = section.optionsAndSettings;
 			if ( optionsAndSettings ) {
-				output += icon + ' With';
+				output += ( icon ? icon + ' ' : '' ) + 'With';
 				if ( optionsAndSettings.options ) {
 					output += ' `' + JSON.stringify( optionsAndSettings.options ) + '` options';
 				}
@@ -142,13 +142,20 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates 
 		} ).join( '\n\n' );
 	}
 
-	const invalid = buildRuleDetails( tests.invalid, '❌' );
+	const invalid = buildRuleDetails( tests.invalid, templates.iconInvalid );
 
-	const valid = buildRuleDetails( tests.valid, '✔️' );
+	const valid = buildRuleDetails( tests.valid, templates.iconValid );
 
 	if ( ruleMeta.fixable ) {
-		const fixes = buildRuleDetails( tests.invalid.filter( ( test ) => !!test.output ), '🔧', true );
-		fixable = ejs.render( templates.fixable, { fixes: fixes } );
+		const fixes = buildRuleDetails(
+			tests.invalid.filter( ( test ) => !!test.output ),
+			templates.iconFix,
+			true
+		);
+		fixable = ejs.render( templates.fixable, {
+			icon: templates.iconFix ? templates.iconFix + ' ' : '',
+			fixes: fixes
+		} );
 	}
 
 	function codeLink( pattern, name ) {
@@ -173,6 +180,8 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates 
 		deprecated: deprecated,
 		description: description,
 		fixable: fixable,
+		iconValid: templates.iconValid ? templates.iconValid + ' ' : '',
+		iconInvalid: templates.iconInvalid ? templates.iconInvalid + ' ' : '',
 		inConfig: inConfig,
 		invalid: invalid,
 		resources: resources,
