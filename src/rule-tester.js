@@ -7,8 +7,8 @@ const docMode = process.argv.includes( '--doc' );
 class RuleTester extends ESLintRuleTester {
 	run( name, rule, tests ) {
 		if ( docMode ) {
-			const buildDocsFromTests = require( './build-docs-from-tests' );
-			buildDocsFromTests( name, rule, tests );
+			const writeDocsFromTests = require( './write-docs-from-tests' );
+			writeDocsFromTests( name, rule, tests );
 		} else {
 			// Filter out invalid top level property "noDoc", used in documentation building mode
 			tests.valid.forEach( ( test ) => {

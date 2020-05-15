@@ -1,25 +1,11 @@
 const ejs = require( 'ejs' );
 const path = require( 'path' );
-const fs = require( 'fs' );
-
-const rulesData = require( './rules-data' );
-
-const config = require( './config' );
-
-const loadTemplates = require( './load-templates' );
-const templates = loadTemplates( path.join( __dirname, 'templates' ) );
-
-if ( config.templatePath ) {
-	const packagePath = require( './package-path' );
-	const packageTemplates = loadTemplates( packagePath( config.templatePath ) );
-	Object.assign( templates, packageTemplates );
-}
 
 function mdLink( target, label ) {
 	return '[' + label + '](' + target + ')';
 }
 
-function buildDocsFromTests( name, rule, tests ) {
+function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates ) {
 	let
 		deprecated = '',
 		description = '',
@@ -85,9 +71,9 @@ function buildDocsFromTests( name, rule, tests ) {
 			}
 		} );
 
-		let directives = {};
+		let comments = {};
 		if ( config.showConfigComments ) {
-			directives = Object.keys( testsByOptions ).map( ( key ) => {
+			comments = Object.keys( testsByOptions ).map( ( key ) => {
 				const optionsAndSettings = testsByOptions[ key ].optionsAndSettings;
 				const value = optionsAndSettings && optionsAndSettings.options ?
 					[ 'error', optionsAndSettings.options ] :
@@ -97,7 +83,7 @@ function buildDocsFromTests( name, rule, tests ) {
 			if ( config.fixCodeExamples ) {
 				const fix = require( './fix' );
 				// Fixes whitespace in block comment. Too expensive for such a small fix?
-				directives = fix.batchLintFix( directives );
+				comments = fix.batchLintFix( comments );
 			}
 		}
 
@@ -120,7 +106,7 @@ function buildDocsFromTests( name, rule, tests ) {
 			}
 			output += '```js\n';
 			if ( config.showConfigComments ) {
-				output += directives[ i ] + '\n';
+				output += comments[ i ] + '\n';
 			}
 			output += section.tests.join( '\n' );
 			output += '\n```';
@@ -128,7 +114,7 @@ function buildDocsFromTests( name, rule, tests ) {
 			return output;
 		} ).join( '\n\n' );
 	}
-	const docs = rule.meta.docs || {};
+	const docs = ruleMeta.docs || {};
 
 	if ( docs.description ) {
 		description = docs.description;
@@ -145,8 +131,8 @@ function buildDocsFromTests( name, rule, tests ) {
 		deprecated = ejs.render( templates.deprecated, { replacedBy: replacedBy } ).trim();
 	}
 
-	if ( name in rulesData ) {
-		inConfig = rulesData[ name ].map( ( data ) => {
+	if ( ruleData ) {
+		inConfig = ruleData.map( ( data ) => {
 			const configDesc = '`plugin:' + config.pluginName + '/' + data.ruleset + '`' +
 				// TODO: Create util to compare options to defaults
 				( data.options && Object.keys( data.options[ 0 ] ).length ?
@@ -160,7 +146,7 @@ function buildDocsFromTests( name, rule, tests ) {
 
 	const valid = buildRuleDetails( tests.valid, '✔️' );
 
-	if ( rule.meta.fixable ) {
+	if ( ruleMeta.fixable ) {
 		const fixes = buildRuleDetails( tests.invalid.filter( ( test ) => !!test.output ), '🔧', true );
 		fixable = ejs.render( templates.fixable, { fixes: fixes } );
 	}
@@ -183,7 +169,7 @@ function buildDocsFromTests( name, rule, tests ) {
 
 	const sourceLink = mdLink( '/' + path, path );
 
-	const output = ejs.render( templates.index, {
+	return ejs.render( templates.index, {
 		deprecated: deprecated,
 		description: description,
 		fixable: fixable,
@@ -194,16 +180,6 @@ function buildDocsFromTests( name, rule, tests ) {
 		title: name,
 		valid: valid
 	} ).replace( /\n{3,}/g, '\n\n' ).trim() + '\n';
-
-	fs.writeFile(
-		config.docPath.replace( '{name}', name ),
-		output,
-		( err ) => {
-			if ( err ) {
-				throw err;
-			}
-		}
-	);
 }
 
 module.exports = buildDocsFromTests;
