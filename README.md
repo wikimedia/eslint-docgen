@@ -18,16 +18,16 @@ const RuleTester = require( 'eslint-docgen' ).RuleTester;
 ```
 Documentation will be built using rule metadata and test data passed to `RuleTester`:
 
-### `rule.meta.docs.description`
+#### `rule.meta.docs.description`
 Used as the description of the rule in the documentation.
 
-### `rule.meta.docs.deprecated`
+#### `rule.meta.docs.deprecated`
 Will show a deprecation warning in the documentation.
 
-### `rule.meta.docs.replacedBy`
+#### `rule.meta.docs.replacedBy`
 Will link to the replacement rule(s).
 
-### `tests.valid`/`tests.invalid` from `RuleTester#run`
+#### `tests.valid`/`tests.invalid` from `RuleTester#run`
 Will generate code blocks showing examples of valid/invalid usage. Blocks will be grouped by unique `options`/`settings` configurations. Fixable rules with `output` will generate a separate block showing the before and after.
 To exclude a test case from these comment blocks use the `noDoc` option:
 ```js
@@ -48,7 +48,7 @@ mocha tests/ --doc
 
 Create a JSON/JavaScript file called `.eslintdocgenrc.json`/`.eslintdocgenrc.js` in your project root:
 
-### JSON
+#### JSON
 ```jsonc
 {
 	"docPath": "docs/{name}.md",
@@ -56,7 +56,7 @@ Create a JSON/JavaScript file called `.eslintdocgenrc.json`/`.eslintdocgenrc.js`
 }
 ```
 
-### JavaScript
+#### JavaScript
 ```js
 module.exports = {
 	docPath: 'docs/{name}.md',
@@ -66,31 +66,31 @@ module.exports = {
 
 The following config options are available:
 
-### `docPath` (**required**)
+#### `docPath` (**required**)
 The path to store rule documentation files, with `{name}` as a placeholder for the rule name, e.g. `"docs/{name}.md"` or `"rules/{name}/README.md"`.
 
-### `rulePath`
+#### `rulePath`
 The path where the rule is defined, only required if `ruleLink` is `true`. Same format as `docPath`.
 
-### `testPath`
+#### `testPath`
 The path where the rule's tests are defined, only required if `testPath` is `true`. Same format as `docPath`.
 
-### `docLink` (defaults to `false`)
+#### `docLink` (defaults to `false`)
 Add a link to the documentation source in the "Resources" section.
 
-### `ruleLink` (defaults to `true`)
+#### `ruleLink` (defaults to `true`)
 Add a link to the rule source in the "Resources" section. Requires `rulePath` to be defined.
 
-### `testLink` (defaults to `true`)
+#### `testLink` (defaults to `true`)
 Add a link to the rule's test source in the "Resources" section. Requires `testPath` to be defined.
 
-### `templatePath`
+#### `templatePath`
 When defined, templates in this path will override the defaults defined in [/templates](templates).
 
-### `pluginName` (defaults to package name)
+#### `pluginName` (defaults to package name)
 The name of your plugin as used in directives, e.g. `plugin:pluginName/rule`. Defaults to the name in `package.json` with `eslint-plugin-` stripped.
 
-### `showConfigComments` (defaults to `false`)
+#### `showConfigComments` (defaults to `false`)
 Shows config comments at the top of code examples:
 ```js
 /* eslint myPlugin/rule: "error" */
