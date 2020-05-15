@@ -32,9 +32,9 @@ Will generate code blocks showing examples of valid/invalid usage. Blocks will b
 To exclude a test case from these comment blocks use the `noDoc` option:
 ```js
 {
-  code: 'App.invalid();',
-  output: 'App.INVALID();',
-  noDoc: true
+    code: 'App.invalid();',
+    output: 'App.INVALID();',
+    noDoc: true
 }
 ```
 
@@ -51,16 +51,16 @@ Create a JSON/JavaScript file called `.eslintdocgenrc.json`/`.eslintdocgenrc.js`
 #### JSON
 ```jsonc
 {
-	"docPath": "docs/{name}.md",
-	// ...
+    "docPath": "docs/{name}.md",
+    // ...
 }
 ```
 
 #### JavaScript
 ```js
 module.exports = {
-	docPath: 'docs/{name}.md',
-	// ...
+    docPath: 'docs/{name}.md',
+    // ...
 };
 ```
 
