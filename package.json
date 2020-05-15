@@ -16,7 +16,7 @@
 		"src"
 	],
 	"scripts": {
-		"test": "eslint ."
+		"test": "eslint . --cache && nyc mocha tests/"
 	},
 	"dependencies": {
 		"ejs": "^3.1.2",
@@ -24,6 +24,8 @@
 	},
 	"devDependencies": {
 		"eslint-config-wikimedia": "^0.15.3",
-		"import-fresh": "^3.2.1"
+		"import-fresh": "^3.2.1",
+		"mocha": "^7.1.2",
+		"nyc": "^15.0.1"
 	}
 }
