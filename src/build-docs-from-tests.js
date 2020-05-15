@@ -28,18 +28,31 @@ function buildDocsFromTests( name, rule, tests ) {
 		resources = '';
 
 	function buildRuleDetails( testList, icon, showFixes ) {
-		const fix = require( './fix' );
+		let fixedCode, fixedOutput, maxCodeLength;
 		const testsByOptions = {};
-		let maxCodeLength;
 
-		const fixedCode = fix.batchLintFix( testList.map( ( test ) => typeof test === 'string' ? test : test.code ) );
+		const codeList = testList.map( ( test ) => typeof test === 'string' ? test : test.code );
+		if ( config.fixCodeExamples ) {
+			const fix = require( './fix' );
+			fixedCode = fix.batchLintFix( codeList );
 
-		let fixedOutput;
+		} else {
+			fixedCode = codeList;
+		}
+
 		if ( showFixes ) {
+			// Calculate maxCodeLength for alignment
 			maxCodeLength = fixedCode.reduce( function ( acc, code ) {
 				return Math.max( acc, code.length );
 			}, 0 );
-			fixedOutput = fix.batchLintFix( testList.map( ( test ) => test.output || 'null' ) );
+
+			const outputList = testList.map( ( test ) => test.output || 'null' );
+			if ( config.fixCodeExamples ) {
+				const fix = require( './fix' );
+				fixedOutput = fix.batchLintFix( outputList );
+			} else {
+				fixedOutput = outputList;
+			}
 		}
 
 		testList.forEach( function ( test, i ) {
@@ -81,8 +94,11 @@ function buildDocsFromTests( name, rule, tests ) {
 					'error';
 				return '/*eslint ' + config.pluginName + '/' + name + ': ' + JSON.stringify( value ) + '*/';
 			} );
-			// Fixes whitespace in block comment. Too expensive for such a small fix?
-			directives = fix.batchLintFix( directives );
+			if ( config.fixCodeExamples ) {
+				const fix = require( './fix' );
+				// Fixes whitespace in block comment. Too expensive for such a small fix?
+				directives = fix.batchLintFix( directives );
+			}
 		}
 
 		return Object.keys( testsByOptions ).map( ( key, i ) => {
