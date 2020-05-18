@@ -2,18 +2,12 @@
 
 <%- description %>
 
-<%- deprecated %>
+<%- include( 'deprecated' ) %>
 
-<%- inConfig %>
+<%- include( 'inConfigs' ) %>
 
 ## Rule details
 
-<%- iconInvalid %>The following patterns are considered errors:
-<%- invalid %>
+<%- include( 'examples' ) %>
 
-<%- iconValid %>The following patterns are not considered errors:
-<%- valid %>
-
-<%- fixable %>
-
-<%- resources %>
+<%- include( 'resources' ) %>

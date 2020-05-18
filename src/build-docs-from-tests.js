@@ -5,14 +5,7 @@ function mdLink( target, label ) {
 }
 
 function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates ) {
-	let
-		deprecated = '',
-		description = '',
-		fixable = '',
-		inConfig = '',
-		resources = '';
-
-	function buildRuleDetails( testList, icon, showFixes ) {
+	function buildRuleDetails( testList, showFixes ) {
 		let fixedCode, fixedOutput, maxCodeLength;
 		const testsByOptions = {};
 
@@ -87,74 +80,55 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates 
 		}
 
 		return Object.keys( testsByOptions ).map( ( key, i ) => {
-			let output = '';
 			const section = testsByOptions[ key ];
 			const optionsAndSettings = section.optionsAndSettings;
-			if ( optionsAndSettings ) {
-				output += ( icon ? icon + ' ' : '' ) + 'With';
-				if ( optionsAndSettings.options ) {
-					output += ' `' + JSON.stringify( optionsAndSettings.options ) + '` options';
-				}
-				if ( optionsAndSettings.settings ) {
-					if ( optionsAndSettings.options ) {
-						output += ' and';
-					}
-					output += ' `' + JSON.stringify( optionsAndSettings.settings ) + '` settings';
-				}
-				output += ':\n';
-			}
-			output += '```js\n';
-			if ( config.showConfigComments ) {
-				output += comments[ i ] + '\n';
-			}
-			output += section.tests.join( '\n' );
-			output += '\n```';
+			const options = optionsAndSettings && optionsAndSettings.options;
+			const settings = optionsAndSettings && optionsAndSettings.settings;
 
-			return output;
-		} ).join( '\n\n' );
+			let examples = '```js\n';
+			if ( config.showConfigComments ) {
+				examples += comments[ i ] + '\n';
+			}
+			examples += section.tests.join( '\n' );
+			examples += '\n```';
+
+			return {
+				options: options ? JSON.stringify( options ) : '',
+				settings: settings ? JSON.stringify( settings ) : '',
+				examples: examples
+			};
+		} );
 	}
+
 	const docs = ruleMeta.docs || {};
 
-	if ( docs.description ) {
-		description = docs.description;
-	} else {
-		console.warn( 'Rule ' + name + ' has no description.' );
+	if ( !docs.description ) {
+		console.warn( 'Rule `' + name + '` has no description.' );
 	}
 
-	if ( docs.deprecated ) {
-		let replacedBy = '';
-		if ( docs.replacedBy ) {
-			const ruleLinks = docs.replacedBy.map( ( name ) => mdLink( name + '.md', '`' + name + '`' ) ).join( ', ' );
-			replacedBy = templates.replacedBy( { ruleLinks: ruleLinks } );
-		}
-		deprecated = templates.deprecated( { replacedBy: replacedBy } ).trim();
+	let replacedByLinks = '';
+	if ( docs.deprecated && docs.replacedBy ) {
+		replacedByLinks = docs.replacedBy.map( ( name ) => mdLink( name + '.md', '`' + name + '`' ) ).join( ', ' );
 	}
 
+	let inConfigs = [];
 	if ( ruleData ) {
-		inConfig = ruleData.map( ( data ) => {
-			const configDesc = '`plugin:' + config.pluginName + '/' + data.ruleset + '`' +
-				// TODO: Create util to compare options to defaults
-				( data.options && Object.keys( data.options[ 0 ] ).length ?
-					' with `' + JSON.stringify( data.options ) + '` options' :
-					'' );
-			return templates.inConfig( { configDesc: configDesc } );
-		} ).join( '\n\n' );
+		inConfigs = ruleData.map( ( data ) => ( {
+			config: data.config,
+			options: data.options && Object.keys( data.options[ 0 ] ).length ? JSON.stringify( data.options ) : ''
+		} ) );
 	}
 
-	const invalid = buildRuleDetails( tests.invalid, templates.iconInvalid() );
+	const invalid = buildRuleDetails( tests.invalid );
 
-	const valid = buildRuleDetails( tests.valid, templates.iconValid() );
+	const valid = buildRuleDetails( tests.valid );
 
+	let fixed = [];
 	if ( ruleMeta.fixable ) {
-		const fixes = buildRuleDetails(
+		fixed = buildRuleDetails(
 			tests.invalid.filter( ( test ) => !!test.output ),
-			templates.iconFix(),
 			true
 		);
-		fixable = templates.fixable( {
-			icon: templates.iconFix() ? templates.iconFix() + ' ' : '',
-			fixes: fixes
-		} );
 	}
 
 	function codeLink( pattern, name ) {
@@ -162,31 +136,24 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates 
 		return path.join( '/', filePath );
 	}
 
-	if ( config.docLink || config.ruleLink || config.testLink ) {
-		resources = templates.resources( {
-			docLink: config.docLink ?
-				templates.docLink( { link: codeLink( config.docPath, name ) } ) : '',
-			ruleLink: config.ruleLink ?
-				templates.ruleLink( { link: codeLink( config.rulePath, name ) } ) : '',
-			testLink: config.testLink ?
-				templates.testLink( { link: codeLink( config.testPath, name ) } ) : ''
-		} );
-	}
-
-	const sourceLink = mdLink( '/' + path, path );
-
 	return templates.index( {
-		deprecated: deprecated,
-		description: description,
-		fixable: fixable,
-		iconValid: templates.iconValid() ? templates.iconValid() + ' ' : '',
-		iconInvalid: templates.iconInvalid() ? templates.iconInvalid() + ' ' : '',
-		inConfig: inConfig,
-		invalid: invalid,
-		resources: resources,
-		sourceLink: sourceLink,
+		// root
+		description: docs.description,
 		title: name,
-		valid: valid
+		// deprecated
+		deprecated: docs.deprecated,
+		replacedByLinks: replacedByLinks,
+		// inConfigs
+		inConfigs: inConfigs,
+		pluginName: config.pluginName,
+		// examples
+		fixed: fixed,
+		invalid: invalid,
+		valid: valid,
+		// resources
+		linkDoc: config.docLink ? codeLink( config.docPath, name ) : '',
+		linkRule: config.ruleLink ? codeLink( config.rulePath, name ) : '',
+		linkTest: config.testLink ? codeLink( config.testPath, name ) : ''
 	} ).replace( /\n{3,}/g, '\n\n' ).trim() + '\n';
 }
 

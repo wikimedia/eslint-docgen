@@ -1,0 +1,14 @@
+<% invalid.forEach( ( section ) => { %>
+<%- include( 'exampleInvalid', { section: section } ) %>
+<%- section.examples %>
+<% } ) %>
+
+<% valid.forEach( ( section ) => { %>
+<%- include( 'exampleValid', { section: section } ) %>
+<%- section.examples %>
+<% } ) %>
+
+<% fixed.forEach( ( section ) => { %>
+<%- include( 'exampleFixed', { section: section } ) %>
+<%- section.examples %>
+<% } ) %>
