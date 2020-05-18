@@ -1,1 +1,3 @@
-⚠️ This rule is deprecated. <%- replacedBy %>
+<% if ( deprecated ) { %>
+⚠️ This rule is deprecated.<% if ( replacedByLinks ) { %> Use <%- replacedByLinks %> instead.<% } %>
+<% } %>

@@ -73,10 +73,10 @@ describe( 'buildDocsFromTests', () => {
 			},
 			ruleData: [
 				{
-					ruleset: 'recommended',
+					config: 'recommended',
 					options: [ { myOption: true } ]
 				},
-				{ ruleset: 'strict' }
+				{ config: 'strict' }
 			],
 			config: config,
 			templates: templates,

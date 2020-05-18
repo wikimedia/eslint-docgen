@@ -1,0 +1,4 @@
+<% if ( data.options || data.settings ) { _%>
+ with<% if ( data.options ) { %> `<%- data.options %>` options<% } _%>
+<% if ( data.settings ) { %><% if ( data.options ) { %> and<% } %> `<%- data.settings %>` settings<% } _%>
+<% } %>

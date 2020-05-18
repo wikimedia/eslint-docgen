@@ -1,5 +1,10 @@
+<% if ( linkRule || linkTest || linkDoc ) { %>
 ## Resources
 
-<%- ruleLink %>
-<%- testLink %>
-<%- docLink %>
+<% if ( linkRule ) { %>
+* [Rule source](<%- linkRule %>)<% } -%>
+<% if ( linkTest ) { %>
+* [Test source](<%- linkTest %>)<% } -%>
+<% if ( linkDoc ) { %>
+* [Documentation source](<%- linkDoc %>)<% } -%>
+<% } %>
