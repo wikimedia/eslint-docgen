@@ -80,13 +80,10 @@ describe( 'buildDocsFromTests', () => {
 			testerConfig: {
 				parserOptions: { ecmaVersion: 2019 }
 			},
-			ruleData: [
-				{
-					config: 'recommended',
-					options: [ { myOption: true } ]
-				},
-				{ config: 'strict' }
-			],
+			configMap: new Map( Object.entries( {
+				recommended: [ { myOption: true } ],
+				strict: null
+			} ) ),
 			expected: 'cases/simple-rule.md'
 		},
 		{
@@ -267,7 +264,7 @@ describe( 'buildDocsFromTests', () => {
 				caseItem.name || 'my-rule',
 				caseItem.ruleMeta || {},
 				caseItem.tests,
-				caseItem.ruleData,
+				caseItem.configMap,
 				Object.assign( {}, defaultConfig, caseItem.config ),
 				caseItem.templates || globalTemplates,
 				loadRuleTemplate,

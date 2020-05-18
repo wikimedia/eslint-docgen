@@ -16,7 +16,7 @@ function mdLink( target, label ) {
 }
 
 function buildDocsFromTests(
-	name, ruleMeta, tests, ruleData, config, globalTemplates, loadRuleTemplate, testerConfig
+	name, ruleMeta, tests, configMap, config, globalTemplates, loadRuleTemplate, testerConfig
 ) {
 
 	const messages = [];
@@ -190,11 +190,14 @@ function buildDocsFromTests(
 	}
 
 	let inConfigs = [];
-	if ( ruleData ) {
-		inConfigs = ruleData.map( ( data ) => ( {
-			config: data.config,
-			options: data.options && Object.keys( data.options[ 0 ] ).length ? JSON.stringify( data.options ) : ''
-		} ) );
+	if ( configMap ) {
+		inConfigs = Array.from( configMap.keys() ).map( ( name ) => {
+			const options = configMap.get( name );
+			return {
+				config: name,
+				options: options && Object.keys( options[ 0 ] ).length ? JSON.stringify( options ) : ''
+			};
+		} );
 	}
 
 	const invalid = buildRuleDetails( tests.invalid, false );

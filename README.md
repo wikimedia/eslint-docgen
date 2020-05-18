@@ -115,6 +115,26 @@ Maximum examples per rule. Tuple where first value is one of `'warn'` or `'error
 #### `tabWidth` (default `4`)
 Number of spaces to convert tabs to in code examples. Tabs in examples are always converted to spaces so their widths can be determined reliably for alignment.
 
+## 🔍 Rules index
+
+To assist with building an index of your rules, for example to put in a root README, this package exports `rulesWithConfig`. The value is a Map much like the one returned by [Linter#getRules](https://eslint.org/docs/developer-guide/nodejs-api#linter-getrules) but each rule has an additional `configMap` property that describes which configs include the rule and the options used (`null` if no options are used).
+
+Note that the rule names do not include the plugin prefix.
+
+Example:
+```js
+require( 'eslint-docgen' ).rulesWithConfig.get( 'no-event-shorthand' );
+// Outputs:
+{
+    meta: [Object],
+    create: [Function],
+    configMap: Map {
+        'deprecated-3.5' => null,
+        'deprecated-3.3' => [ { allowAjaxEvents: true } ]
+    }
+}
+```
+
 ## ✏️ Examples
 * [Rule in eslint-plugin-no-jquery](https://github.com/wikimedia/eslint-plugin-no-jquery/blob/master/docs/no-error-shorthand.md)
 * [Rule in eslint-plugin-mediawiki](https://github.com/wikimedia/eslint-plugin-mediawiki/blob/master/docs/valid-package-file-require.md)

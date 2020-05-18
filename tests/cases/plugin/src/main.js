@@ -1,7 +1,7 @@
 module.exports = {
 	rules: {
-		'my-plugin/recommended-rule': {},
-		'my-plugin/my-rule': {},
+		'recommended-rule': { meta: { docs: 'Recommended' } },
+		'my-rule': { meta: { docs: 'My' } },
 	},
 	configs: {
 		recommended: {
