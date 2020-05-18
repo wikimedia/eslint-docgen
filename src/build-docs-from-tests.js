@@ -1,4 +1,3 @@
-const ejs = require( 'ejs' );
 const path = require( 'path' );
 
 function mdLink( target, label ) {
@@ -126,9 +125,9 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates 
 		let replacedBy = '';
 		if ( docs.replacedBy ) {
 			const ruleLinks = docs.replacedBy.map( ( name ) => mdLink( name + '.md', '`' + name + '`' ) ).join( ', ' );
-			replacedBy = ejs.render( templates.replacedBy, { ruleLinks: ruleLinks } );
+			replacedBy = templates.replacedBy( { ruleLinks: ruleLinks } );
 		}
-		deprecated = ejs.render( templates.deprecated, { replacedBy: replacedBy } ).trim();
+		deprecated = templates.deprecated( { replacedBy: replacedBy } ).trim();
 	}
 
 	if ( ruleData ) {
@@ -138,22 +137,22 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates 
 				( data.options && Object.keys( data.options[ 0 ] ).length ?
 					' with `' + JSON.stringify( data.options ) + '` options' :
 					'' );
-			return ejs.render( templates.inConfig, { configDesc: configDesc } );
+			return templates.inConfig( { configDesc: configDesc } );
 		} ).join( '\n\n' );
 	}
 
-	const invalid = buildRuleDetails( tests.invalid, templates.iconInvalid );
+	const invalid = buildRuleDetails( tests.invalid, templates.iconInvalid() );
 
-	const valid = buildRuleDetails( tests.valid, templates.iconValid );
+	const valid = buildRuleDetails( tests.valid, templates.iconValid() );
 
 	if ( ruleMeta.fixable ) {
 		const fixes = buildRuleDetails(
 			tests.invalid.filter( ( test ) => !!test.output ),
-			templates.iconFix,
+			templates.iconFix(),
 			true
 		);
-		fixable = ejs.render( templates.fixable, {
-			icon: templates.iconFix ? templates.iconFix + ' ' : '',
+		fixable = templates.fixable( {
+			icon: templates.iconFix() ? templates.iconFix() + ' ' : '',
 			fixes: fixes
 		} );
 	}
@@ -164,24 +163,24 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates 
 	}
 
 	if ( config.docLink || config.ruleLink || config.testLink ) {
-		resources = ejs.render( templates.resources, {
+		resources = templates.resources( {
 			docLink: config.docLink ?
-				ejs.render( templates.docLink, { link: codeLink( config.docPath, name ) } ) : '',
+				templates.docLink( { link: codeLink( config.docPath, name ) } ) : '',
 			ruleLink: config.ruleLink ?
-				ejs.render( templates.ruleLink, { link: codeLink( config.rulePath, name ) } ) : '',
+				templates.ruleLink( { link: codeLink( config.rulePath, name ) } ) : '',
 			testLink: config.testLink ?
-				ejs.render( templates.testLink, { link: codeLink( config.testPath, name ) } ) : ''
+				templates.testLink( { link: codeLink( config.testPath, name ) } ) : ''
 		} );
 	}
 
 	const sourceLink = mdLink( '/' + path, path );
 
-	return ejs.render( templates.index, {
+	return templates.index( {
 		deprecated: deprecated,
 		description: description,
 		fixable: fixable,
-		iconValid: templates.iconValid ? templates.iconValid + ' ' : '',
-		iconInvalid: templates.iconInvalid ? templates.iconInvalid + ' ' : '',
+		iconValid: templates.iconValid() ? templates.iconValid() + ' ' : '',
+		iconInvalid: templates.iconInvalid() ? templates.iconInvalid() + ' ' : '',
 		inConfig: inConfig,
 		invalid: invalid,
 		resources: resources,
