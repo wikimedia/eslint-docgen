@@ -6,13 +6,12 @@ const rulesData = require( './rules-data' );
 const config = require( './config' );
 
 const loadTemplates = require( './load-templates' );
-const templates = loadTemplates( path.join( __dirname, 'templates' ) );
-
+const templatePaths = [ path.join( __dirname, 'templates' ) ];
 if ( config.templatePath ) {
 	const packagePath = require( './package-path' );
-	const packageTemplates = loadTemplates( packagePath( config.templatePath ) );
-	Object.assign( templates, packageTemplates );
+	templatePaths.push( packagePath( config.templatePath ) );
 }
+const templates = loadTemplates( templatePaths );
 
 function writeDocsFromTests( name, rule, tests ) {
 	const ruleData = Object.prototype.hasOwnProperty.call( rulesData, name ) ?

@@ -5,7 +5,7 @@ const path = require( 'path' );
 
 describe( 'buildDocsFromTests', () => {
 	const loadTemplates = require( '../src/load-templates' );
-	const templates = loadTemplates( path.join( __dirname, '../src/templates' ) );
+	const templates = loadTemplates( [ path.join( __dirname, '../src/templates' ) ] );
 	const config = require( '../src/default-config' );
 
 	config.rulePath = 'rules/{name}.js';
