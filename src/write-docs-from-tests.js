@@ -6,7 +6,7 @@ const path = require( 'path' );
 const buildDocsFromTests = require( './build-docs-from-tests' );
 
 const formatter = require( './formatter' );
-const rulesData = require( './rules-data' );
+const rulesWithConfig = require( './rules-with-config' );
 
 const getConfig = require( './get-config' );
 let config, configPath;
@@ -38,14 +38,12 @@ if ( config.globalTemplatePath ) {
 const { globalTemplates, loadRuleTemplate } = loadTemplates( templatePaths );
 
 function writeDocsFromTests( name, rule, tests, testerConfig ) {
-	const fullName = config.pluginName + '/' + name;
-	const ruleData = Object.prototype.hasOwnProperty.call( rulesData, fullName ) ?
-		rulesData[ fullName ] : null;
+	const configMap = rulesWithConfig.get( name ).configMap;
 	const outputPath = packagePath( config.docPath.replace( '{name}', name ) );
 	let output, messages;
 	try {
 		( { output, messages } = buildDocsFromTests(
-			name, rule.meta, tests, ruleData, config,
+			name, rule.meta, tests, configMap, config,
 			globalTemplates, loadRuleTemplate, testerConfig
 		) );
 	} catch ( e ) {
