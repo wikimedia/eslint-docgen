@@ -2,14 +2,41 @@ const fs = require( 'fs' );
 const path = require( 'path' );
 const ejs = require( 'ejs' );
 
-function loadTemplates( dirPath ) {
+function loadTemplatesFromPath( dirPath ) {
 	const files = fs.readdirSync( dirPath );
 	const templates = {};
-	files.forEach( ( template ) => {
-		templates[ path.parse( template ).name ] = ejs.compile(
-			fs.readFileSync( path.join( dirPath, template ) ).toString()
-		);
+	files.forEach( ( filename ) => {
+		templates[ path.parse( filename ).name ] =
+			fs.readFileSync( path.join( dirPath, filename ) ).toString();
 	} );
+	return templates;
+}
+
+function loadTemplates( dirPaths ) {
+	const templateStrings = {};
+	const templates = {};
+	dirPaths.forEach( ( dirPath ) => {
+		Object.assign( templateStrings, loadTemplatesFromPath( dirPath ) );
+	} );
+	const hasOwn = Object.prototype.hasOwnProperty;
+
+	function compile( string ) {
+		const compiled = ejs.compile( string, { client: true } );
+		return ( data ) => {
+			return compiled( data, null, function ( path, includeData ) {
+				const mergedData = Object.assign( {}, data, includeData );
+				if ( !hasOwn.call( templateStrings, path ) ) {
+					throw new Error( 'Template `' + path + '` not found.' );
+				}
+				return templates[ path ]( mergedData );
+			} );
+		};
+	}
+
+	Object.keys( templateStrings ).forEach( ( filename ) => {
+		templates[ filename ] = compile( templateStrings[ filename ] );
+	} );
+
 	return templates;
 }
 
