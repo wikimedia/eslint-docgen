@@ -1,6 +1,6 @@
 {
 	"name": "eslint-docgen",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"description": "Generate ESLint documentation form rule metadata and test cases.",
 	"repository": {
 		"type": "git",
