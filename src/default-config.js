@@ -6,6 +6,7 @@ module.exports = {
 	pluginName: pluginName,
 	fixCodeExamples: true,
 	showConfigComments: false,
+	tabWidth: 4,
 	templatePath: null,
 	docPath: null,
 	rulePath: null,

@@ -100,6 +100,9 @@ Shows config comments at the top of code examples:
 // Test cases
 ```
 
+#### `tabWidth` (default `4`)
+Number of spaces to convert tabs to in code examples. Tabs in examples are always converted to spaces so their widths can be determined reliably for alignment.
+
 ## ✏️ Examples
 * [Rule in eslint-plugin-no-jquery](https://github.com/wikimedia/eslint-plugin-no-jquery/blob/master/docs/no-error-shorthand.md)
 * [Rule in eslint-plugin-mediawiki](https://github.com/wikimedia/eslint-plugin-mediawiki/blob/master/docs/valid-package-file-require.md)

@@ -5,6 +5,18 @@ function mdLink( target, label ) {
 }
 
 function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates ) {
+	/**
+	 * Replace tabs with spaces.
+	 *
+	 * We can't reply on browsers to render tabs at at consistent width.
+	 *
+	 * @param {string} code
+	 * @return {string}
+	 */
+	function fixTabs( code ) {
+		return code.replace( /\t/g, ' '.repeat( config.tabWidth ) );
+	}
+
 	function buildRuleDetails( testList, showFixes ) {
 		let fixedCode, fixedOutput, maxCodeLength;
 		const testsByOptions = {};
@@ -13,16 +25,20 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates 
 		if ( config.fixCodeExamples ) {
 			const fix = require( './fix' );
 			fixedCode = fix.batchLintFix( codeList );
-
 		} else {
 			fixedCode = codeList;
 		}
 
+		fixedCode = fixedCode.map( fixTabs );
+
 		if ( showFixes ) {
 			// Calculate maxCodeLength for alignment
-			maxCodeLength = fixedCode.reduce( function ( acc, code ) {
-				return Math.max( acc, code.length );
-			}, 0 );
+			maxCodeLength = fixedCode.reduce( ( acc, code ) =>
+				code.split( '\n' ).reduce(
+					( lineAcc, line ) => Math.max( lineAcc, line.length ),
+					acc
+				),
+			0 );
 
 			const outputList = testList.map( ( test ) => test.output || 'null' );
 			if ( config.fixCodeExamples ) {
@@ -31,9 +47,14 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates 
 			} else {
 				fixedOutput = outputList;
 			}
+
+			fixedOutput = fixedOutput.map( fixTabs );
 		}
 
+		let previousMultiLine = false;
 		testList.forEach( function ( test, i ) {
+			let example = '';
+			let multiLine = false;
 			let optionsAndSettings = null;
 			const code = fixedCode[ i ];
 
@@ -52,15 +73,33 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates 
 					tests: [],
 					optionsAndSettings: optionsAndSettings
 				};
+
 			if ( showFixes && test.output ) {
-				testsByOptions[ hash ].tests.push(
-					code + ' '.repeat( Math.max( 0, maxCodeLength - code.length ) ) +
-					' /* → */ ' +
-					fixedOutput[ i ]
-				);
+				const output = fixedOutput[ i ];
+				const codeLines = code.split( '\n' );
+				const outputLines = output.split( '\n' );
+				const maxLines = Math.max( codeLines.length, outputLines.length );
+				const exampleLines = [];
+				for ( let i = 0; i < maxLines; i++ ) {
+					const code = codeLines[ i ] || '';
+					const output = outputLines[ i ] || '';
+					exampleLines.push(
+						code + ' '.repeat( Math.max( 0, maxCodeLength - code.length ) ) +
+						' /* → */' +
+						( output ? ' ' + output : '' )
+					);
+				}
+				example = exampleLines.join( '\n' );
+				multiLine = maxLines > 1;
 			} else {
-				testsByOptions[ hash ].tests.push( code );
+				example = code;
+				multiLine = code.split( '\n' ).length > 1;
 			}
+			if ( multiLine || previousMultiLine ) {
+				example = '\n' + example;
+			}
+			testsByOptions[ hash ].tests.push( example );
+			previousMultiLine = multiLine;
 		} );
 
 		let comments = {};

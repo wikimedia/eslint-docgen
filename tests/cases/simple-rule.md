@@ -15,6 +15,13 @@ My simple rule enforces a thing
 /* eslint eslint-docgen/simple-rule: "error"*/
 var x = '1.23';
 var y = '4.5678';
+
+multi
+    .line
+    .case;
+
+multi.line.case;
+singleAfterMulti;
 ```
 
 ❌ Examples of **incorrect** code with `[{"myOption":true}]` options:
@@ -55,6 +62,16 @@ var z1 = '1,23';
 /* eslint eslint-docgen/simple-rule: "error"*/
 var x = '1.23';   /* → */ var x = '123';
 var y = '4.5678'; /* → */ var y = '45678';
+
+multi             /* → */ Multi
+    .line         /* → */     .Line.Case;
+    .case;        /* → */
+
+multi.line.case;  /* → */ Multi
+                  /* → */     .Line
+                  /* → */     .Case;
+
+singleAfterMulti; /* → */ SingleAfterMulti;
 ```
 
 🔧 Examples of code **fixed** by using  `--fix` with `[{"myOption":true}]` options:

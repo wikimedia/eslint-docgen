@@ -60,6 +60,18 @@ describe( 'buildDocsFromTests', () => {
 						output: 'var y = "45678"'
 					},
 					{
+						code: 'multi\n.line\n.case',
+						output: 'Multi\n.Line.Case;'
+					},
+					{
+						code: 'multi.line.case',
+						output: 'Multi\n.Line\n.Case;'
+					},
+					{
+						code: 'singleAfterMulti;',
+						output: 'SingleAfterMulti;'
+					},
+					{
 						code: 'var z1 = "1.23"',
 						options: [ { myOption: true } ],
 						output: 'var z1 = "123"'
