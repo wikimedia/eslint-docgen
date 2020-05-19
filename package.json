@@ -26,6 +26,7 @@
 		"eslint-config-wikimedia": "^0.15.3",
 		"import-fresh": "^3.2.1",
 		"mocha": "^7.1.2",
-		"nyc": "^15.0.1"
+		"nyc": "^15.0.1",
+		"simple-mock": "^0.8.0"
 	}
 }

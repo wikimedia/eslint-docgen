@@ -40,7 +40,7 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates 
 				),
 			0 );
 
-			const outputList = testList.map( ( test ) => test.output || 'null' );
+			const outputList = testList.map( ( test ) => test.output );
 			if ( config.fixCodeExamples ) {
 				const fix = require( './fix' );
 				fixedOutput = fix.batchLintFix( outputList );
