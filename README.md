@@ -1,5 +1,5 @@
 # eslint-docgen
-Generate ESLint documentation form rule metadata and test cases.
+Generate ESLint plugin documentation form rule metadata and test cases.
 
 ## ⬇️ Installation
 
