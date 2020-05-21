@@ -1,4 +1,3 @@
-const buildDocsFromTests = require( '../src/build-docs-from-tests' );
 const assert = require( 'assert' );
 const fs = require( 'fs' );
 const path = require( 'path' );
@@ -8,6 +7,7 @@ describe( 'buildDocsFromTests', () => {
 	it( 'test output', () => {
 		testUtils.mockCwd( 'cases/plugin/src' );
 
+		const buildDocsFromTests = require( '../src/build-docs-from-tests' );
 		const loadTemplates = require( '../src/load-templates' );
 		const defaultTemplates = loadTemplates( [ path.join( __dirname, '../src/templates' ) ] );
 		const defaultConfig = require( '../src/default-config' );
