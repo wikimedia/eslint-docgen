@@ -2,10 +2,30 @@ const fs = require( 'fs' );
 const path = require( 'path' );
 const buildDocsFromTests = require( './build-docs-from-tests' );
 
-const rulesData = require( './rules-data' );
-const config = require( './config' );
-const packagePath = require( './package-path' );
 const formatter = require( './formatter' );
+const rulesData = require( './rules-data' );
+
+const getConfig = require( './get-config' );
+let config, configPath;
+try {
+	( { config, configPath } = getConfig() );
+} catch ( e ) {
+	console.log( formatter.heading( 'eslint-docgen' ) );
+	console.log( '  ' + formatter.error( e.message ) );
+	console.log();
+	process.exit( 1 );
+}
+
+const configErrors = require( './validate-config' )( config );
+
+if ( configErrors.length ) {
+	console.log( formatter.heading( configPath ) );
+	configErrors.forEach( ( error ) => console.log( '  ' + formatter.error( error ) ) );
+	console.log();
+	process.exit( 1 );
+}
+
+const packagePath = require( './package-path' );
 
 const loadTemplates = require( './load-templates' );
 const templatePaths = [ path.join( __dirname, 'templates' ) ];
