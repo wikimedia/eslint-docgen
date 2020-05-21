@@ -13,5 +13,7 @@ module.exports = {
 	testPath: null,
 	docLink: false,
 	ruleLink: true,
-	testLink: true
+	testLink: true,
+	minExamples: [ 'warn', 2 ],
+	maxExamples: [ 'warn', 50 ]
 };
