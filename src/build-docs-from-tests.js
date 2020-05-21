@@ -139,10 +139,11 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates 
 		} );
 	}
 
+	const messages = [];
 	const docs = ruleMeta.docs || {};
 
 	if ( !docs.description ) {
-		console.warn( 'Rule `' + name + '` has no description.' );
+		messages.push( { type: 'warning', text: 'No description found in rule metadata' } );
 	}
 
 	let replacedByLinks = '';
@@ -175,25 +176,36 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates 
 		return path.join( '/', filePath );
 	}
 
-	return templates.index( {
-		// root
-		description: docs.description,
-		title: name,
-		// deprecated
-		deprecated: docs.deprecated,
-		replacedByLinks: replacedByLinks,
-		// inConfigs
-		inConfigs: inConfigs,
-		pluginName: config.pluginName,
-		// examples
-		fixed: fixed,
-		invalid: invalid,
-		valid: valid,
-		// resources
-		linkDoc: config.docLink ? codeLink( config.docPath, name ) : '',
-		linkRule: config.ruleLink ? codeLink( config.rulePath, name ) : '',
-		linkTest: config.testLink ? codeLink( config.testPath, name ) : ''
-	} ).replace( /\n{3,}/g, '\n\n' ).trim() + '\n';
+	let output;
+	try {
+		output = templates.index( {
+			// root
+			description: docs.description,
+			title: name,
+			// deprecated
+			deprecated: docs.deprecated,
+			replacedByLinks: replacedByLinks,
+			// inConfigs
+			inConfigs: inConfigs,
+			pluginName: config.pluginName,
+			// examples
+			fixed: fixed,
+			invalid: invalid,
+			valid: valid,
+			// resources
+			linkDoc: config.docLink ? codeLink( config.docPath, name ) : '',
+			linkRule: config.ruleLink ? codeLink( config.rulePath, name ) : '',
+			linkTest: config.testLink ? codeLink( config.testPath, name ) : ''
+		} ).replace( /\n{3,}/g, '\n\n' ).trim() + '\n';
+	} catch ( e ) {
+		// istanbul ignore next
+		messages.push( { type: 'error', text: e } );
+	}
+
+	return {
+		output: output,
+		messages: messages
+	};
 }
 
 module.exports = buildDocsFromTests;

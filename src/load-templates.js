@@ -20,13 +20,13 @@ function loadTemplates( dirPaths ) {
 	} );
 	const hasOwn = Object.prototype.hasOwnProperty;
 
-	function compile( string ) {
+	function compile( string, filename ) {
 		const compiled = ejs.compile( string, { client: true } );
 		return ( data ) => {
 			return compiled( data, null, function ( path, includeData ) {
 				const mergedData = Object.assign( {}, data, includeData );
 				if ( !hasOwn.call( templateStrings, path ) ) {
-					throw new Error( 'Template `' + path + '` not found.' );
+					throw new Error( 'Template `' + path + '` not found in template `' + filename + '`' );
 				}
 				return templates[ path ]( mergedData );
 			} );
@@ -34,7 +34,7 @@ function loadTemplates( dirPaths ) {
 	}
 
 	Object.keys( templateStrings ).forEach( ( filename ) => {
-		templates[ filename ] = compile( templateStrings[ filename ] );
+		templates[ filename ] = compile( templateStrings[ filename ], filename );
 	} );
 
 	return templates;

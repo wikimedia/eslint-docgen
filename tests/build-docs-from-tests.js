@@ -10,6 +10,8 @@ describe( 'buildDocsFromTests', () => {
 	const defaultTemplates = loadTemplates( [ path.join( __dirname, '../src/templates' ) ] );
 	const defaultConfig = require( '../src/default-config' );
 
+	const noDesc = { type: 'warning', text: 'No description found in rule metadata' };
+
 	defaultConfig.docPath = 'docs/{name}.md';
 	defaultConfig.rulePath = 'rules/{name}.js';
 	defaultConfig.testPath = 'tests/{name}.js';
@@ -125,6 +127,7 @@ describe( 'buildDocsFromTests', () => {
 				fixCodeExamples: false
 			},
 			description: 'no-fix-code-examples.md: No description, rule with `noDoc`, fixCodeExamples:false, showConfigComments:true',
+			messages: [ noDesc ],
 			expected: loadCase( 'cases/no-fix-code-examples.md' )
 		},
 		{
@@ -145,6 +148,7 @@ describe( 'buildDocsFromTests', () => {
 				fixCodeExamples: true
 			},
 			description: 'no-config-comments.md: No valid cases, fixCodeExamples:true, showConfigComments:true',
+			messages: [ noDesc ],
 			expected: loadCase( 'cases/no-config-comments.md' )
 		},
 		{
@@ -164,12 +168,13 @@ describe( 'buildDocsFromTests', () => {
 				testLink: false
 			},
 			description: 'not-fixable.md: Rule not fixable, only docLink',
+			messages: [ noDesc ],
 			expected: loadCase( 'cases/not-fixable.md' )
 		}
 	];
 	it( 'test output', () => {
 		cases.forEach( ( caseItem ) => {
-			const output = buildDocsFromTests(
+			const { output, messages } = buildDocsFromTests(
 				caseItem.name || 'my-rule',
 				caseItem.ruleMeta || {},
 				caseItem.tests,
@@ -178,7 +183,8 @@ describe( 'buildDocsFromTests', () => {
 				caseItem.templates || defaultTemplates
 			);
 
-			assert.strictEqual( output, caseItem.expected, caseItem.description );
+			assert.strictEqual( output, caseItem.expected, caseItem.description + ': output' );
+			assert.deepEqual( messages, caseItem.messages || [], caseItem.description + ': messages' );
 		} );
 	} );
 } );

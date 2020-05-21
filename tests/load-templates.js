@@ -8,6 +8,6 @@ describe( 'loadTemplates', () => {
 		const templates = loadTemplates( [ path.join( __dirname, 'cases/templates' ) ] );
 		assert.throws( () => {
 			templates.test();
-		}, { message: /Template `doesNotExist` not found./ } );
+		}, { message: /Template `doesNotExist` not found in template `test`/ } );
 	} );
 } );

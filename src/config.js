@@ -1,16 +1,17 @@
 const fs = require( 'fs' );
 const packagePath = require( './package-path' );
 const importFresh = require( 'import-fresh' );
+const formatter = require( './formatter' );
 
 const configFilenames = [
 	'.eslintdocgenrc.js',
 	'.eslintdocgenrc.json'
 ];
 
-let config;
+let config, configPath;
 
 configFilenames.some( ( configFilename ) => {
-	const configPath = packagePath( configFilename );
+	configPath = packagePath( configFilename );
 
 	if ( fs.existsSync( configPath ) ) {
 		config = importFresh( configPath );
@@ -20,18 +21,26 @@ configFilenames.some( ( configFilename ) => {
 } );
 
 if ( !config ) {
-	throw new Error( '.eslintdocgenrc not found' );
+	console.log( formatter.heading( 'eslint-docgen' ) );
+	console.log( '  ' + formatter.error( '.eslintdocgenrc not found' ) );
+	process.exit( 1 );
 }
 
 const defaultConfig = require( './default-config.js' );
 config = Object.assign( {}, defaultConfig, config );
 
+const errors = [];
 // Validation
 if ( config.ruleLink && !config.rulePath ) {
-	throw new Error( 'rulePath must be set when ruleLink is true' );
+	errors.push( 'rulePath must be set when ruleLink is true' );
 }
 if ( config.testLink && !config.testPath ) {
-	throw new Error( 'testPath must be set when testLink is true' );
+	errors.push( 'testPath must be set when testLink is true' );
+}
+if ( errors.length ) {
+	console.log( formatter.heading( configPath ) );
+	errors.forEach( ( error ) => console.log( '  ' + formatter.error( error ) ) );
+	process.exit( 1 );
 }
 
 module.exports = config;
