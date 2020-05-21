@@ -12,7 +12,7 @@ describe( 'buildDocsFromTests', () => {
 		const defaultTemplates = loadTemplates( [ path.join( __dirname, '../src/templates' ) ] );
 		const defaultConfig = require( '../src/default-config' );
 
-		const noDesc = { type: 'warning', text: 'No description found in rule metadata' };
+		const noDesc = { type: 'warn', text: 'No description found in rule metadata' };
 
 		defaultConfig.docPath = 'docs/{name}.md';
 		defaultConfig.rulePath = 'rules/{name}.js';
@@ -126,10 +126,19 @@ describe( 'buildDocsFromTests', () => {
 				},
 				config: {
 					showConfigComments: true,
-					fixCodeExamples: false
+					fixCodeExamples: false,
+					minExamples: [ 'warn', 1 ],
+					maxExamples: [ 'error', 3 ]
 				},
 				description: 'no-fix-code-examples.md: No description, rule with `noDoc`, fixCodeExamples:false, showConfigComments:true',
-				messages: [ noDesc ],
+				messages: [
+					noDesc,
+					{
+						type: 'error',
+						text: '5 examples found, expected fewer than 3.',
+						label: 'config.maxExamples'
+					}
+				],
 				expected: loadCase( 'cases/no-fix-code-examples.md' )
 			},
 			{
@@ -170,7 +179,14 @@ describe( 'buildDocsFromTests', () => {
 					testLink: false
 				},
 				description: 'not-fixable.md: Rule not fixable, only docLink',
-				messages: [ noDesc ],
+				messages: [
+					noDesc,
+					{
+						type: 'warn',
+						text: '1 example found, expected at least 2.',
+						label: 'config.minExamples'
+					}
+				],
 				expected: loadCase( 'cases/not-fixable.md' )
 			}
 		];

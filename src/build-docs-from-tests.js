@@ -1,3 +1,4 @@
+const pluralize = require( 'pluralize' );
 const path = require( 'path' );
 
 function mdLink( target, label ) {
@@ -134,7 +135,8 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates 
 			return {
 				options: options ? JSON.stringify( options ) : '',
 				settings: settings ? JSON.stringify( settings ) : '',
-				examples: examples
+				examples: examples,
+				testCount: section.tests.length
 			};
 		} );
 	}
@@ -143,7 +145,7 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates 
 	const docs = ruleMeta.docs || {};
 
 	if ( !docs.description ) {
-		messages.push( { type: 'warning', text: 'No description found in rule metadata' } );
+		messages.push( { type: 'warn', text: 'No description found in rule metadata' } );
 	}
 
 	let replacedByLinks = '';
@@ -169,6 +171,24 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates 
 			tests.invalid.filter( ( test ) => !!test.output ),
 			true
 		);
+	}
+
+	const exampleCount = invalid.concat( valid ).concat( fixed )
+		.reduce( ( acc, section ) => acc + section.testCount, 0 );
+
+	if ( config.minExamples && exampleCount < config.minExamples[ 1 ] ) {
+		messages.push( {
+			type: config.minExamples[ 0 ],
+			text: exampleCount + ' ' + pluralize( 'example', exampleCount ) + ' found, expected at least ' + config.minExamples[ 1 ] + '.',
+			label: 'config.minExamples'
+		} );
+	}
+	if ( config.maxExamples && exampleCount > config.maxExamples[ 1 ] ) {
+		messages.push( {
+			type: config.maxExamples[ 0 ],
+			text: exampleCount + ' ' + pluralize( 'example', exampleCount ) + ' found, expected fewer than ' + config.maxExamples[ 1 ] + '.',
+			label: 'config.maxExamples'
+		} );
 	}
 
 	function codeLink( pattern, name ) {

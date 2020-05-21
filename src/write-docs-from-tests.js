@@ -51,8 +51,12 @@ function writeDocsFromTests( name, rule, tests ) {
 			}
 			if ( messages.length ) {
 				console.log( formatter.heading( outputPath ) );
-				messages.forEach( ( message ) => console.log( '  ' + formatter[ message.type ]( message.text ) ) );
+				messages.forEach( ( message ) => console.log( '  ' + formatter[ message.type ]( message.text, message.label ) ) );
 				console.log();
+			}
+
+			if ( messages.some( ( message ) => message.type === 'error' ) ) {
+				process.exit( 1 );
 			}
 		}
 	);

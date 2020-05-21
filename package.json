@@ -28,6 +28,7 @@
 		"import-fresh": "^3.2.1",
 		"mocha": "^7.1.2",
 		"nyc": "^15.0.1",
+		"pluralize": "^8.0.0",
 		"simple-mock": "^0.8.0"
 	}
 }
