@@ -39,9 +39,9 @@ To exclude a test case from these comment blocks use the `noDoc` option:
 ```
 
 ## 📖 Usage
-To build your documentation, run your test suite as normal with a `--doc` flag in the command line, e.g.
+To build your documentation, run your rule tests with a `--doc` flag in the command line, e.g.
 ```sh
-mocha tests/ --doc
+mocha tests/rules/ --doc
 ```
 
 ## ⚙️ Configuration
