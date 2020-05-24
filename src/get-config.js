@@ -1,3 +1,5 @@
+'use strict';
+
 const fs = require( 'fs' );
 const packagePath = require( './package-path' );
 const importFresh = require( 'import-fresh' );

@@ -1,3 +1,5 @@
+'use strict';
+
 const packagePath = require( './package-path' );
 const packageName = require( packagePath( './package' ) ).name;
 const pluginName = packageName.replace( 'eslint-plugin-', '' );

@@ -1,3 +1,5 @@
+'use strict';
+
 const fs = require( 'fs' );
 const path = require( 'path' );
 const ejs = require( 'ejs' );
@@ -22,15 +24,14 @@ function loadTemplates( dirPaths ) {
 
 	function compile( string, filename ) {
 		const compiled = ejs.compile( string, { client: true } );
-		return ( data ) => {
-			return compiled( data, null, function ( path, includeData ) {
+		return ( data ) =>
+			compiled( data, null, function ( path, includeData ) {
 				const mergedData = Object.assign( {}, data, includeData );
 				if ( !hasOwn.call( templateStrings, path ) ) {
 					throw new Error( 'Template `' + path + '` not found in template `' + filename + '`' );
 				}
 				return templates[ path ]( mergedData );
 			} );
-		};
 	}
 
 	Object.keys( templateStrings ).forEach( ( filename ) => {
