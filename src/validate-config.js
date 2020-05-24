@@ -1,3 +1,5 @@
+'use strict';
+
 function validateConfig( config ) {
 	const errors = [];
 	// Validation

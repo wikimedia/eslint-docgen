@@ -1,3 +1,5 @@
+'use strict';
+
 const ESLintRuleTester = require( 'eslint' ).RuleTester;
 const docMode = process.argv.includes( '--doc' );
 

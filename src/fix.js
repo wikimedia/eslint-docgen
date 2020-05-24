@@ -1,3 +1,5 @@
+'use strict';
+
 const eslint = require( 'eslint' );
 const linter = new eslint.Linter();
 const cli = new eslint.CLIEngine();
