@@ -28,7 +28,7 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates,
 		return typeof test === 'string' ? test : test.code;
 	}
 
-	function buildRuleDetails( testList, showFixes ) {
+	function buildRuleDetails( testList, valid, showFixes ) {
 		let fixedCode, fixedOutput, maxCodeLength;
 		const testsByOptions = {};
 
@@ -69,14 +69,14 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates,
 				return;
 			}
 
-			let optionsAndSettings = null;
+			let optionsAndSettings;
 			if ( test.options || test.settings ) {
 				optionsAndSettings = {
 					options: test.options,
 					settings: test.settings
 				};
 			}
-			const hash = JSON.stringify( optionsAndSettings );
+			const hash = optionsAndSettings ? JSON.stringify( optionsAndSettings ) : '';
 
 			codeSet[ hash ] = codeSet[ hash ] || {};
 
@@ -158,6 +158,8 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates,
 			examples += '\n```';
 
 			return {
+				key: key,
+				valid: valid,
 				options: options ? JSON.stringify( options ) : '',
 				settings: settings ? JSON.stringify( settings ) : '',
 				examples: examples,
@@ -183,14 +185,20 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates,
 		} ) );
 	}
 
-	const invalid = buildRuleDetails( tests.invalid );
+	const invalid = buildRuleDetails( tests.invalid, false );
+	const valid = buildRuleDetails( tests.valid, true );
 
-	const valid = buildRuleDetails( tests.valid );
+	const validInvalid = invalid.concat( valid ).sort( ( a, b ) => {
+		return a.key === b.key ?
+			( a.valid < b.valid ? -1 : 1 ) :
+			( a.key < b.key ? -1 : 1 );
+	} );
 
 	let fixed = [];
 	if ( ruleMeta.fixable ) {
 		fixed = buildRuleDetails(
 			tests.invalid.filter( ( test ) => !!test.output ),
+			false,
 			true
 		);
 	}
@@ -232,6 +240,7 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates,
 			pluginName: config.pluginName,
 			// examples
 			fixed: fixed,
+			validInvalid: validInvalid,
 			invalid: invalid,
 			valid: valid,
 			// resources
