@@ -2,18 +2,18 @@
 
 ## Rule details
 
-❌ Examples of **incorrect** code with `[{"myOption":true}]` options:
-```js
-/*eslint my-plugin/my-rule: ["error",[{"myOption":true}]]*/
-var x="1.23"
-var y="4.5678"
-```
-
 ✔️ Examples of **correct** code:
 ```js
 /*eslint my-plugin/my-rule: "error"*/
 var x="123"
 var y="45678"
+```
+
+❌ Examples of **incorrect** code with `[{"myOption":true}]` options:
+```js
+/*eslint my-plugin/my-rule: ["error",[{"myOption":true}]]*/
+var x="1.23"
+var y="4.5678"
 ```
 
 🔧 Examples of code **fixed** by using  `--fix` with `[{"myOption":true}]` options:

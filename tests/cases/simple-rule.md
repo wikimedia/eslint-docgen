@@ -23,17 +23,22 @@ multi.line.case;
 singleAfterMulti;
 ```
 
-❌ Examples of **incorrect** code with `[{"myOption":true}]` options:
-```js
-var z1 = '1.23';
-var z2 = '1.23';
-```
-
 ✔️ Examples of **correct** code:
 ```js
 var x = '123';
 var y = '45678';
 var z = { a: 3, ...b };
+```
+
+✔️ Examples of **correct** code with `[{"myOption":true}]` options and `[{"lang":"fr"}]` settings:
+```js
+var z1 = '1,23';
+```
+
+❌ Examples of **incorrect** code with `[{"myOption":true}]` options:
+```js
+var z1 = '1.23';
+var z2 = '1.23';
 ```
 
 ✔️ Examples of **correct** code with `[{"myOption":true}]` options:
@@ -45,11 +50,6 @@ var z2 = '123';
 ✔️ Examples of **correct** code with `[{"lang":"fr"}]` settings:
 ```js
 var x = '1,23';
-```
-
-✔️ Examples of **correct** code with `[{"myOption":true}]` options and `[{"lang":"fr"}]` settings:
-```js
-var z1 = '1,23';
 ```
 
 🔧 Examples of code **fixed** by using  `--fix`:
