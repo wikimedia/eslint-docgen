@@ -162,6 +162,12 @@ describe( 'buildDocsFromTests', () => {
 						{
 							code: 'var x = "1.23"',
 							output: 'var x = "123"'
+						},
+						// Different options, not a duplicate
+						{
+							code: 'var x = "1.23"',
+							options: [ { myOption: true } ],
+							output: 'var x = "123"'
 						}
 					]
 				},
