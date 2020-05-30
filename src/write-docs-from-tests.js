@@ -14,7 +14,7 @@ try {
 	( { config, configPath } = getConfig() );
 } catch ( e ) {
 	console.log( formatter.heading( 'eslint-docgen' ) );
-	console.log( '  ' + formatter.error( e.message ) );
+	console.log( formatter.error( e.message ) );
 	console.log();
 	process.exit( 1 );
 }
@@ -23,7 +23,7 @@ const configErrors = require( './validate-config' )( config );
 
 if ( configErrors.length ) {
 	console.log( formatter.heading( configPath ) );
-	configErrors.forEach( ( error ) => console.log( '  ' + formatter.error( error ) ) );
+	configErrors.forEach( ( error ) => console.log( formatter.error( error ) ) );
 	console.log();
 	process.exit( 1 );
 }
@@ -49,7 +49,7 @@ function writeDocsFromTests( name, rule, tests, testerConfig ) {
 		) );
 	} catch ( e ) {
 		console.log( formatter.heading( outputPath ) );
-		console.log( '  ' + formatter.error( e.message ) );
+		console.log( formatter.error( e.message ) );
 		console.log();
 		process.exit( 1 );
 	}
@@ -63,7 +63,9 @@ function writeDocsFromTests( name, rule, tests, testerConfig ) {
 			}
 			if ( messages.length ) {
 				console.log( formatter.heading( outputPath ) );
-				messages.forEach( ( message ) => console.log( '  ' + formatter[ message.type ]( message.text, message.label ) ) );
+				messages.forEach( ( message ) =>
+					console.log( formatter[ message.type ]( message.text, message.label ) )
+				);
 				console.log();
 			}
 
