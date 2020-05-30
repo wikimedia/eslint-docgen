@@ -1,6 +1,8 @@
 'use strict';
 
-const ESLintRuleTester = require( 'eslint' ).RuleTester;
+const packagePath = require( './package-path' );
+// Use plugin's version of ESLint
+const ESLintRuleTester = require( packagePath( 'node_modules/eslint' ) ).RuleTester;
 const docMode = process.argv.includes( '--doc' );
 
 /**
