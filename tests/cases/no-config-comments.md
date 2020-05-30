@@ -9,10 +9,22 @@ var x = '1.23';
 var x = '1.23';
 ```
 
+❌ Examples of **incorrect** code with `[{"myOption":true}]` options:
+```js
+/* eslint my-plugin/my-rule: ["error",[{"myOption":true}]] */
+var x = '1.23';
+```
+
 🔧 Examples of code **fixed** by using  `--fix`:
 ```js
 /* eslint my-plugin/my-rule: "error" */
 var x = '1.23'; /* → */ var x = '123';
+var x = '1.23'; /* → */ var x = '123';
+```
+
+🔧 Examples of code **fixed** by using  `--fix` with `[{"myOption":true}]` options:
+```js
+/* eslint my-plugin/my-rule: ["error",[{"myOption":true}]] */
 var x = '1.23'; /* → */ var x = '123';
 ```
 
