@@ -7,7 +7,11 @@ function mdLink( target, label ) {
 	return '[' + label + '](' + target + ')';
 }
 
-function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates ) {
+function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates, testerConfig ) {
+
+	const messages = [];
+	const docs = ruleMeta.docs || {};
+
 	/**
 	 * Replace tabs with spaces.
 	 *
@@ -20,14 +24,18 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates 
 		return code.replace( /\t/g, ' '.repeat( config.tabWidth ) );
 	}
 
+	function getCode( test ) {
+		return typeof test === 'string' ? test : test.code;
+	}
+
 	function buildRuleDetails( testList, showFixes ) {
 		let fixedCode, fixedOutput, maxCodeLength;
 		const testsByOptions = {};
 
-		const codeList = testList.map( ( test ) => typeof test === 'string' ? test : test.code );
+		const codeList = testList.map( getCode );
 		if ( config.fixCodeExamples ) {
 			const fix = require( './fix' );
-			fixedCode = fix.batchLintFix( codeList );
+			fixedCode = fix.batchLintFix( codeList, testerConfig );
 		} else {
 			fixedCode = codeList;
 		}
@@ -46,7 +54,7 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates 
 			const outputList = testList.map( ( test ) => test.output );
 			if ( config.fixCodeExamples ) {
 				const fix = require( './fix' );
-				fixedOutput = fix.batchLintFix( outputList );
+				fixedOutput = fix.batchLintFix( outputList, testerConfig );
 			} else {
 				fixedOutput = outputList;
 			}
@@ -117,7 +125,7 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates 
 			if ( config.fixCodeExamples ) {
 				const fix = require( './fix' );
 				// Fixes whitespace in block comment. Too expensive for such a small fix?
-				comments = fix.batchLintFix( comments );
+				comments = fix.batchLintFix( comments, testerConfig );
 			}
 		}
 
@@ -142,9 +150,6 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates 
 			};
 		} );
 	}
-
-	const messages = [];
-	const docs = ruleMeta.docs || {};
 
 	if ( !docs.description ) {
 		messages.push( { type: 'warn', text: 'No description found in rule metadata' } );

@@ -39,6 +39,7 @@ describe( 'buildDocsFromTests', () => {
 					valid: [
 						'var x = "123"',
 						'var y = "45678"',
+						'var z = { a: 3, ...b }',
 						{
 							code: 'var z1 = "123"',
 							options: [ { myOption: true } ]
@@ -89,6 +90,9 @@ describe( 'buildDocsFromTests', () => {
 							output: 'var z2 = "123"'
 						}
 					]
+				},
+				testerConfig: {
+					parserOptions: { ecmaVersion: 2019 }
 				},
 				ruleData: [
 					{
@@ -200,7 +204,8 @@ describe( 'buildDocsFromTests', () => {
 				caseItem.tests,
 				caseItem.ruleData,
 				Object.assign( {}, defaultConfig, caseItem.config ),
-				caseItem.templates || defaultTemplates
+				caseItem.templates || defaultTemplates,
+				caseItem.testerConfig
 			);
 
 			assert.strictEqual( output, caseItem.expected, caseItem.description + ': output' );
