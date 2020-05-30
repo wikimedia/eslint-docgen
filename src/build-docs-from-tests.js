@@ -62,12 +62,23 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates,
 			fixedOutput = fixedOutput.map( fixTabs );
 		}
 
+		const codeSet = {};
 		let previousMultiLine = false;
 		testList.forEach( function ( test, i ) {
 			let example = '';
 			let multiLine = false;
 			let optionsAndSettings = null;
 			const code = fixedCode[ i ];
+			if ( !showFixes && Object.prototype.hasOwnProperty.call( codeSet, code ) ) {
+				messages.push( {
+					type: 'warn',
+					text: 'Duplicate code example found, examples can be hidden with `noDoc`:\n' +
+						getCode( testList[ codeSet[ code ] ] ) + '\n' +
+						getCode( testList[ i ] )
+				} );
+			}
+
+			codeSet[ code ] = i;
 
 			if ( test.noDoc ) {
 				return;

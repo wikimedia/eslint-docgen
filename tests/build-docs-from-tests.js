@@ -157,6 +157,11 @@ describe( 'buildDocsFromTests', () => {
 						{
 							code: 'var x="1.23"',
 							output: 'var x="123"'
+						},
+						// Duplicate example after lint-fix
+						{
+							code: 'var x = "1.23"',
+							output: 'var x = "123"'
 						}
 					]
 				},
@@ -165,7 +170,13 @@ describe( 'buildDocsFromTests', () => {
 					fixCodeExamples: true
 				},
 				description: 'no-config-comments.md: No valid cases, fixCodeExamples:true, showConfigComments:true',
-				messages: [ noDesc ],
+				messages: [
+					noDesc,
+					{
+						type: 'warn',
+						text: 'Duplicate code example found, examples can be hidden with `noDoc`:\nvar x="1.23"\nvar x = "1.23"'
+					}
+				],
 				expected: loadCase( 'cases/no-config-comments.md' )
 			},
 			{
