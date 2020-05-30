@@ -10,5 +10,6 @@ describe( 'formatter', () => {
 		assert.ok( formatter.heading( 'baz' ).match( /baz/ ) );
 		assert.ok( formatter.warn( 'quux', 'whee' ).match( /warning.*quux.*whee/ ) );
 		assert.ok( formatter.error( 'whee', 'quux' ).match( /error.*whee.*quux/ ) );
+		assert.ok( formatter.warn( 'foo\nbar' ).match( /warning.*foo\n {11}bar/ ) );
 	} );
 } );
