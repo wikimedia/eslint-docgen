@@ -1,5 +1,9 @@
 # eslint-docgen release history
 
+## v0.3.1
+
+* Fix: Use plugin's version of ESLint
+
 ## v0.3.0
 
 * Breaking change: New: Support multi-line test cases (#34)
