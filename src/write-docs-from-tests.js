@@ -37,13 +37,22 @@ if ( config.templatePath ) {
 }
 const templates = loadTemplates( templatePaths );
 
-function writeDocsFromTests( name, rule, tests ) {
+function writeDocsFromTests( name, rule, tests, testerConfig ) {
 	const fullName = config.pluginName + '/' + name;
 	const ruleData = Object.prototype.hasOwnProperty.call( rulesData, fullName ) ?
 		rulesData[ fullName ] : null;
 	const outputPath = packagePath( config.docPath.replace( '{name}', name ) );
-	const { output, messages } =
-		buildDocsFromTests( name, rule.meta, tests, ruleData, config, templates );
+	let output, messages;
+	try {
+		( { output, messages } = buildDocsFromTests(
+			name, rule.meta, tests, ruleData, config, templates, testerConfig
+		) );
+	} catch ( e ) {
+		console.log( formatter.heading( outputPath ) );
+		console.log( '  ' + formatter.error( e.message ) );
+		console.log();
+		process.exit( 1 );
+	}
 
 	fs.writeFile(
 		outputPath,

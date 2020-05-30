@@ -33,6 +33,7 @@ var z2 = '1.23';
 ```js
 var x = '123';
 var y = '45678';
+var z = { a: 3, ...b };
 ```
 
 ✔️ Examples of **correct** code with `[{"myOption":true}]` options:

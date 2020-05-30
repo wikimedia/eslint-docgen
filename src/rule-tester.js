@@ -10,7 +10,7 @@ class RuleTester extends ESLintRuleTester {
 	run( name, rule, tests ) {
 		if ( docMode ) {
 			const writeDocsFromTests = require( './write-docs-from-tests' );
-			writeDocsFromTests( name, rule, tests );
+			writeDocsFromTests( name, rule, tests, this.testerConfig );
 		} else {
 			// Filter out invalid top level property "noDoc", used in documentation building mode
 			tests.valid.forEach( ( test ) => {
