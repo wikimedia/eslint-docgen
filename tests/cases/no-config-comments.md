@@ -6,11 +6,13 @@
 ```js
 /* eslint my-plugin/my-rule: "error" */
 var x = '1.23';
+var x = '1.23';
 ```
 
 🔧 Examples of code **fixed** by using  `--fix`:
 ```js
 /* eslint my-plugin/my-rule: "error" */
+var x = '1.23'; /* → */ var x = '123';
 var x = '1.23'; /* → */ var x = '123';
 ```
 
