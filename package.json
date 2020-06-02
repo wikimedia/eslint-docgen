@@ -31,9 +31,9 @@
 		"simple-mock": "^0.8.0"
 	},
 	"devDependencies": {
-		"eslint-config-wikimedia": "^0.15.3",
+		"eslint-config-wikimedia": "^0.16.0",
 		"eslint-plugin-node": "^11.1.0",
-		"mocha": "^7.1.2",
-		"nyc": "^15.0.1"
+		"mocha": "^7.2.0",
+		"nyc": "^15.1.0"
 	}
 }
