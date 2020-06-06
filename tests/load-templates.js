@@ -4,9 +4,8 @@ const assert = require( 'assert' );
 const path = require( 'path' );
 
 describe( 'loadTemplates', () => {
-	const loadTemplates = require( '../src/load-templates' );
-
 	it( 'Use invalid include', () => {
+		const loadTemplates = require( '../src/load-templates' );
 		const templates = loadTemplates( [ path.join( __dirname, 'cases/templates' ) ] );
 		assert.throws( () => {
 			templates.test();
