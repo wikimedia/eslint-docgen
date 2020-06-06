@@ -2,6 +2,7 @@
 
 const simple = require( 'simple-mock' );
 
+// eslint-disable-next-line mocha/no-top-level-hooks
 afterEach( () => {
 	// Un-mock
 	simple.restore();
