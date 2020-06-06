@@ -51,7 +51,7 @@ Create a JSON/JavaScript file called `.eslintdocgenrc.json`/`.eslintdocgenrc.js`
 #### JSON
 ```jsonc
 {
-    "docPath": "docs/{name}.md",
+    "docPath": "docs/rules/{name}.md",
     // ...
 }
 ```
@@ -59,7 +59,7 @@ Create a JSON/JavaScript file called `.eslintdocgenrc.json`/`.eslintdocgenrc.js`
 #### JavaScript
 ```js
 module.exports = {
-    docPath: 'docs/{name}.md',
+    docPath: 'docs/rules/{name}.md',
     // ...
 };
 ```
@@ -67,7 +67,7 @@ module.exports = {
 The following config options are available:
 
 #### `docPath` (*required*)
-The path to store rule documentation files, with `{name}` as a placeholder for the rule name, e.g. `"docs/{name}.md"` or `"rules/{name}/README.md"`.
+The path to store rule documentation files, with `{name}` as a placeholder for the rule name, e.g. `"docs/rules/{name}.md"` or `"rules/{name}/README.md"`.
 
 #### `rulePath`
 The path where the rule is defined, only required if `ruleLink` is `true`. Same format as `docPath`.
