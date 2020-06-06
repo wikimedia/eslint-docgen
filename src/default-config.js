@@ -8,6 +8,7 @@ module.exports = {
 	pluginName: pluginName,
 	fixCodeExamples: true,
 	showConfigComments: false,
+	showFixExamples: true,
 	tabWidth: 4,
 	templatePath: null,
 	docPath: null,

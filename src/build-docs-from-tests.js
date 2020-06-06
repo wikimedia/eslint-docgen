@@ -205,7 +205,7 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates,
 	} );
 
 	let fixed = [];
-	if ( ruleMeta.fixable ) {
+	if ( ruleMeta.fixable && config.showFixExamples ) {
 		fixed = buildRuleDetails(
 			tests.invalid.filter( ( test ) => !!test.output ),
 			false,
