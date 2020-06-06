@@ -1,0 +1,83 @@
+{
+	"type": "object",
+	"properties": {
+		"pluginName": {
+			"type": "string"
+		},
+		"fixCodeExamples": {
+			"type": "boolean"
+		},
+		"showConfigComments": {
+			"type": "boolean"
+		},
+		"showFixExamples": {
+			"type": "boolean"
+		},
+		"tabWidth": {
+			"type": "integer",
+			"minimum": 0
+		},
+		"templatePath": {
+			"type": [ "string", "null" ]
+		},
+		"docPath": {
+			"type": [ "string", "null" ]
+		},
+		"rulePath": {
+			"type": [ "string", "null" ]
+		},
+		"testPath": {
+			"type": [ "string", "null" ]
+		},
+		"docLink": {
+			"type": "boolean"
+		},
+		"ruleLink": {
+			"type": "boolean"
+		},
+		"testLink": {
+			"type": "boolean"
+		},
+		"minExamples": {
+			"anyOf": [
+				{
+					"type": "array",
+					"items": [
+						{
+							"type": "string",
+							"enum": [ "warn", "error" ]
+						},
+						{
+							"type": "integer",
+							"minimum": 0
+						}
+					]
+				},
+				{
+					"type": "null"
+				}
+			]
+		},
+		"maxExamples": {
+			"anyOf": [
+				{
+					"type": "array",
+					"items": [
+						{
+							"type": "string",
+							"enum": [ "warn", "error" ]
+						},
+						{
+							"type": "integer",
+							"minimum": 0
+						}
+					]
+				},
+				{
+					"type": "null"
+				}
+			]
+		}
+	},
+	"additionalProperties": false
+}
