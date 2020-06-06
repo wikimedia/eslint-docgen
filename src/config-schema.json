@@ -1,0 +1,109 @@
+{
+	"type": "object",
+	"properties": {
+		"pluginName": {
+			"type": "string"
+		},
+		"fixCodeExamples": {
+			"type": "boolean"
+		},
+		"showConfigComments": {
+			"type": "boolean"
+		},
+		"showFixExamples": {
+			"type": "boolean"
+		},
+		"tabWidth": {
+			"type": "integer",
+			"minimum": 0
+		},
+		"templatePath": {
+			"type": [ "string", "null" ]
+		},
+		"docPath": { "$ref": "#/definitions/path" },
+		"rulePath": { "$ref": "#/definitions/nullablePath" },
+		"testPath": { "$ref": "#/definitions/nullablePath" },
+		"docLink": {
+			"type": "boolean"
+		},
+		"ruleLink": {
+			"type": "boolean"
+		},
+		"testLink": {
+			"type": "boolean"
+		},
+		"minExamples": { "$ref": "#/definitions/minMaxExamples" },
+		"maxExamples": { "$ref": "#/definitions/minMaxExamples" }
+	},
+	"allOf": [
+		{
+			"anyOf": [
+				{
+					"properties": {
+						"ruleLink": { "const": false }
+					}
+				},
+				{
+					"not": {
+						"properties": {
+							"rulePath": { "const": null }
+						}
+					}
+				}
+			],
+			"message": "does not have rulePath when ruleLink is true"
+		},
+		{
+			"anyOf": [
+				{
+					"properties": {
+						"testLink": { "const": false }
+					}
+				},
+				{
+					"not": {
+						"properties": {
+							"testPath": { "const": null }
+						}
+					}
+				}
+			],
+			"message": "does not have testPath when testLink is true"
+		}
+	],
+	"definitions": {
+		"path": {
+			"type": "string",
+			"pattern": "\\{name\\}",
+			"message": "must contain \"{name}\""
+		},
+		"nullablePath": {
+			"anyOf": [
+				{ "$ref": "#/definitions/path" },
+				{ "type": "null" }
+			],
+			"message": "must contain \"{name}\" or be null"
+		},
+		"minMaxExamples": {
+			"anyOf": [
+				{
+					"type": "array",
+					"items": [
+						{
+							"enum": [ "warn", "error" ]
+						},
+						{
+							"type": "integer",
+							"minimum": 0
+						}
+					]
+				},
+				{
+					"type": "null"
+				}
+			],
+			"message": "must be a tuple containing \"warn\"/\"error\" and a positive integer, or be null"
+		}
+	},
+	"additionalProperties": false
+}

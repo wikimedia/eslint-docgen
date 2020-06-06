@@ -104,10 +104,10 @@ Shows config comments at the top of code examples:
 Show examples of how code is fixed by the rule.
 
 #### `minExamples` (default `['warn', 2]`)
-Minimum examples per rule. Tuple where first value is one of `'warn'` or `'error'`, and the second value is the minimum number of examples required.
+Minimum examples per rule. Tuple where first value is one of `'warn'` or `'error'`, and the second value is the minimum number of examples required. Use `null` for no minimum.
 
 #### `maxExamples` (default `['warn', 50]`)
-Maximum examples per rule. Tuple where first value is one of `'warn'` or `'error'`, and the second value is the maximum number of examples allowed.
+Maximum examples per rule. Tuple where first value is one of `'warn'` or `'error'`, and the second value is the maximum number of examples allowed. Use `null` for no maximum.
 
 #### `tabWidth` (default `4`)
 Number of spaces to convert tabs to in code examples. Tabs in examples are always converted to spaces so their widths can be determined reliably for alignment.
