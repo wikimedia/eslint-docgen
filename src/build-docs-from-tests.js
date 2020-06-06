@@ -2,6 +2,14 @@
 
 const pluralize = require( 'pluralize' );
 const path = require( 'path' );
+// Intl.ListFormat not always available in Node 10
+// const listFormatter = new Intl.ListFormat( 'en', { type: 'conjunction' } );
+
+function listFormatter( list ) {
+	return list.reduce( ( acc, cur, i, arr ) =>
+		acc + ( i === 0 ? '' : ( ( i === arr.length - 1 ) ? ' and ' : ', ' ) ) + cur,
+	'' );
+}
 
 function mdLink( target, label ) {
 	return '[' + label + '](' + target + ')';
@@ -174,7 +182,9 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates,
 
 	let replacedByLinks = '';
 	if ( docs.deprecated && docs.replacedBy ) {
-		replacedByLinks = docs.replacedBy.map( ( name ) => mdLink( name + '.md', '`' + name + '`' ) ).join( ', ' );
+		replacedByLinks = listFormatter(
+			docs.replacedBy.map( ( name ) => mdLink( name + '.md', '`' + name + '`' ) )
+		);
 	}
 
 	let inConfigs = [];
