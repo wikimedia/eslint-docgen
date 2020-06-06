@@ -196,6 +196,29 @@ describe( 'buildDocsFromTests', () => {
 				}
 			],
 			expected: 'cases/not-fixable.md'
+		},
+		{
+			ruleMeta: {
+				fixable: 'code'
+			},
+			tests: {
+				valid: [
+					'var x="4.56"'
+				],
+				invalid: [
+					{
+						code: 'var x="1.23"',
+						// Rule is not fixable, so output is ignored
+						output: 'var x="123"'
+					}
+				]
+			},
+			config: {
+				showFixExamples: false
+			},
+			description: 'not-show-fixes.md: Don\'t show fixes',
+			messages: [ noDesc ],
+			expected: 'cases/no-show-fixes.md'
 		}
 	];
 

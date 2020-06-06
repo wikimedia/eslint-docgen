@@ -100,6 +100,9 @@ Shows config comments at the top of code examples:
 // Test cases
 ```
 
+#### `showFixExamples` (default `true`)
+Show examples of how code is fixed by the rule.
+
 #### `minExamples` (default `['warn', 2]`)
 Minimum examples per rule. Tuple where first value is one of `'warn'` or `'error'`, and the second value is the minimum number of examples required.
 
