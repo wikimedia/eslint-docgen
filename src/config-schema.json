@@ -38,27 +38,11 @@
 		"testLink": {
 			"type": "boolean"
 		},
-		"minExamples": {
-			"anyOf": [
-				{
-					"type": "array",
-					"items": [
-						{
-							"type": "string",
-							"enum": [ "warn", "error" ]
-						},
-						{
-							"type": "integer",
-							"minimum": 0
-						}
-					]
-				},
-				{
-					"type": "null"
-				}
-			]
-		},
-		"maxExamples": {
+		"minExamples": { "$ref": "#/definitions/minMaxExamples" },
+		"maxExamples": { "$ref": "#/definitions/minMaxExamples" }
+	},
+	"definitions": {
+		"minMaxExamples": {
 			"anyOf": [
 				{
 					"type": "array",
