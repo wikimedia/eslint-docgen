@@ -11,7 +11,7 @@ module.exports = {
 	"docLink": "",
 	"ruleLink": "true",
 	"testLink": "true",
-	"minExamples": [ "info", -2 ],
-	"maxExamples": false,
+	"minExamples": [ "info", 3 ],
+	"maxExamples": [ "error", -2 ],
 	"additionalProperty": "foo"
 };

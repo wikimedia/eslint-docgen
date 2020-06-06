@@ -54,7 +54,6 @@
 					"type": "array",
 					"items": [
 						{
-							"type": "string",
 							"enum": [ "warn", "error" ]
 						},
 						{
