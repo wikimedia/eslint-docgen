@@ -35,6 +35,42 @@
 		"minExamples": { "$ref": "#/definitions/minMaxExamples" },
 		"maxExamples": { "$ref": "#/definitions/minMaxExamples" }
 	},
+	"allOf": [
+		{
+			"anyOf": [
+				{
+					"properties": {
+						"ruleLink": { "const": false }
+					}
+				},
+				{
+					"not": {
+						"properties": {
+							"rulePath": { "const": null }
+						}
+					}
+				}
+			],
+			"message": "does not have rulePath when ruleLink is true"
+		},
+		{
+			"anyOf": [
+				{
+					"properties": {
+						"testLink": { "const": false }
+					}
+				},
+				{
+					"not": {
+						"properties": {
+							"testPath": { "const": null }
+						}
+					}
+				}
+			],
+			"message": "does not have testPath when testLink is true"
+		}
+	],
 	"definitions": {
 		"path": {
 			"type": "string",

@@ -36,11 +36,37 @@ describe( 'getConfig/validateConfig', () => {
 				'instance.testLink is not of a type(s) boolean',
 				'instance.minExamples must be a tuple containing "warn"/"error" and a positive integer, or be null',
 				'instance.maxExamples must be a tuple containing "warn"/"error" and a positive integer, or be null',
-				'instance additionalProperty "additionalProperty" exists in instance when not allowed',
-				'rulePath must be set when ruleLink is true',
-				'testPath must be set when testLink is true'
+				'instance additionalProperty "additionalProperty" exists in instance when not allowed'
 			]
 		);
+	} );
+
+	it( 'ruleLink but no rulePath', () => {
+		const validateConfig = require( '../src/validate-config.js' );
+		const defaultConfig = require( '../src/default-config.js' );
+		const result = validateConfig( Object.assign( {}, defaultConfig, {
+			docPath: 'docs/{name}.md',
+			ruleLink: true,
+			testLink: false
+		} ) );
+		assert.deepEqual( result, [
+			'instance does not match allOf schema [subschema 0] with 1 error[s]:',
+			'instance does not have rulePath when ruleLink is true'
+		] );
+	} );
+
+	it( 'testLink but no testPath', () => {
+		const validateConfig = require( '../src/validate-config.js' );
+		const defaultConfig = require( '../src/default-config.js' );
+		const result = validateConfig( Object.assign( {}, defaultConfig, {
+			docPath: 'docs/{name}.md',
+			ruleLink: false,
+			testLink: true
+		} ) );
+		assert.deepEqual( result, [
+			'instance does not match allOf schema [subschema 1] with 1 error[s]:',
+			'instance does not have testPath when testLink is true'
+		] );
 	} );
 
 	it( 'missing config', () => {
