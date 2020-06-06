@@ -1,3 +1,4 @@
 {
-	"file": "./tests/init.js"
+	"file": "./tests/init.js",
+	"timeout": 5000
 }
