@@ -5,7 +5,7 @@ module.exports = {
 	"showFixExamples": {},
 	"tabWidth": -1.5,
 	"templatePath": false,
-	"docPath": null,
+	"docPath": "no-name-param",
 	"rulePath": "",
 	"testPath": "",
 	"docLink": "",

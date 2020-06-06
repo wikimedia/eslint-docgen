@@ -20,15 +20,9 @@
 		"templatePath": {
 			"type": [ "string", "null" ]
 		},
-		"docPath": {
-			"type": "string"
-		},
-		"rulePath": {
-			"type": [ "string", "null" ]
-		},
-		"testPath": {
-			"type": [ "string", "null" ]
-		},
+		"docPath": { "$ref": "#/definitions/path" },
+		"rulePath": { "$ref": "#/definitions/nullablePath" },
+		"testPath": { "$ref": "#/definitions/nullablePath" },
 		"docLink": {
 			"type": "boolean"
 		},
@@ -42,6 +36,18 @@
 		"maxExamples": { "$ref": "#/definitions/minMaxExamples" }
 	},
 	"definitions": {
+		"path": {
+			"type": "string",
+			"pattern": "\\{name\\}",
+			"message": "must contain \"{name}\""
+		},
+		"nullablePath": {
+			"anyOf": [
+				{ "$ref": "#/definitions/path" },
+				{ "type": "null" }
+			],
+			"message": "must contain \"{name}\" or be null"
+		},
 		"minMaxExamples": {
 			"anyOf": [
 				{
@@ -60,7 +66,8 @@
 				{
 					"type": "null"
 				}
-			]
+			],
+			"message": "must be a tuple containing \"warn\"/\"error\" and a positive integer, or be null"
 		}
 	},
 	"additionalProperties": false
