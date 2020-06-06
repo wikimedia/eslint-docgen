@@ -8,6 +8,8 @@ My rule enforces a thing
 
 ⚙️ This rule is enabled in `plugin:my-plugin/strict`.
 
+🔧 The `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#fixing-problems) can automatically fix some of the problems reported by this rule.
+
 ## Rule details
 
 ❌ Examples of **incorrect** code:
@@ -52,7 +54,7 @@ var z2 = '123';
 var x = '1,23';
 ```
 
-🔧 Examples of code **fixed** by using  `--fix`:
+🔧 Examples of code **fixed** by this rule:
 ```js
 var x = '1.23';   /* → */ var x = '123';
 var y = '4.5678'; /* → */ var y = '45678';
@@ -68,7 +70,7 @@ multi.line.case;  /* → */ Multi
 singleAfterMulti; /* → */ SingleAfterMulti;
 ```
 
-🔧 Examples of code **fixed** by using  `--fix` with `[{"myOption":true}]` options:
+🔧 Examples of code **fixed** by this rule with `[{"myOption":true}]` options:
 ```js
 var z1 = '1.23';  /* → */ var z1 = '123';
 var z2 = '1.23';  /* → */ var z2 = '123';

@@ -248,6 +248,8 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates,
 			// inConfigs
 			inConfigs: inConfigs,
 			pluginName: config.pluginName,
+			// fixable
+			fixable: !!ruleMeta.fixable,
 			// examples
 			fixed: fixed,
 			validInvalid: validInvalid,

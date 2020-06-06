@@ -160,7 +160,7 @@ describe( 'buildDocsFromTests', () => {
 				showConfigComments: true,
 				fixCodeExamples: true
 			},
-			description: 'no-config-comments.md: No valid cases, fixCodeExamples:true, showConfigComments:true',
+			description: 'config-comments.md: No valid cases, fixCodeExamples:true, showConfigComments:true',
 			messages: [
 				noDesc,
 				{
@@ -168,7 +168,7 @@ describe( 'buildDocsFromTests', () => {
 					text: 'Duplicate code example found, examples can be hidden with `noDoc`:\nvar x="1.23"\nvar x = "1.23"'
 				}
 			],
-			expected: 'cases/no-config-comments.md'
+			expected: 'cases/config-comments.md'
 		},
 		{
 			tests: {
