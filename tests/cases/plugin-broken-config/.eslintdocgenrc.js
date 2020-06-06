@@ -5,7 +5,7 @@ module.exports = {
 	"showFixExamples": {},
 	"tabWidth": -1.5,
 	"templatePath": false,
-	"docPath": "docs/{name}/README.md",
+	"docPath": null,
 	"rulePath": "",
 	"testPath": "",
 	"docLink": "",

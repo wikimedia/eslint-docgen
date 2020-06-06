@@ -18,7 +18,6 @@ describe( 'getConfig/validateConfig', () => {
 		testUtils.mockCwd( 'cases/plugin-broken-config' );
 		const { config } = require( '../src/get-config.js' )();
 		const validateConfig = require( '../src/validate-config.js' );
-		assert.strictEqual( config.docPath, 'docs/{name}/README.md' );
 		assert.deepEqual(
 			validateConfig( config ),
 			[
@@ -29,6 +28,7 @@ describe( 'getConfig/validateConfig', () => {
 				'instance.tabWidth is not of a type(s) integer',
 				'instance.tabWidth must have a minimum value of 0',
 				'instance.templatePath is not of a type(s) string,null',
+				'instance.docPath is not of a type(s) string',
 				'instance.docLink is not of a type(s) boolean',
 				'instance.ruleLink is not of a type(s) boolean',
 				'instance.testLink is not of a type(s) boolean',

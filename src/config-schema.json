@@ -21,7 +21,7 @@
 			"type": [ "string", "null" ]
 		},
 		"docPath": {
-			"type": [ "string", "null" ]
+			"type": "string"
 		},
 		"rulePath": {
 			"type": [ "string", "null" ]
