@@ -16,7 +16,7 @@ describe( 'buildDocsFromTests', () => {
 				docs: {
 					description: 'My rule enforces a thing',
 					deprecated: true,
-					replacedBy: [ 'my-new-rule', 'my-other-rule' ]
+					replacedBy: [ 'my-new-rule', 'my-other-rule', 'third-rule' ]
 				},
 				fixable: 'code'
 			},

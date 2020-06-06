@@ -2,7 +2,7 @@
 
 My rule enforces a thing
 
-⚠️ This rule is deprecated. Use [`my-new-rule`](my-new-rule.md), [`my-other-rule`](my-other-rule.md) instead.
+⚠️ This rule is deprecated. Use [`my-new-rule`](my-new-rule.md), [`my-other-rule`](my-other-rule.md) and [`third-rule`](third-rule.md) instead.
 
 ⚙️ This rule is enabled in `plugin:my-plugin/recommended` with `[{"myOption":true}]` options.
 
