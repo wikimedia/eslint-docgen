@@ -1,25 +1,41 @@
 'use strict';
 
 const assert = require( 'assert' );
-const testUtils = require( './test-utils' );
+const validateConfig = require( '../src/validate-config.js' );
 
-describe( 'getConfig/validateConfig', () => {
-	it( 'config', () => {
-		testUtils.mockCwd( 'cases/plugin/src' );
-		const { config } = require( '../src/get-config.js' )();
-		const validateConfig = require( '../src/validate-config.js' );
-		assert.strictEqual( config.docPath, 'docs/{name}/README.md' );
-		assert.strictEqual( config.ruleLink, false );
-		assert.strictEqual( config.tabWidth, 4 );
-		assert.deepEqual( validateConfig( config ), [] );
+describe( 'validateConfig', () => {
+	it( 'default config with valid paths', () => {
+		const defaultConfig = require( '../src/default-config.js' );
+		const result = validateConfig( Object.assign( {}, defaultConfig, {
+			docPath: 'docs/rules/{name}.md',
+			rulePath: 'rules/{name}.md',
+			testPath: 'tests/rules/{name}.md'
+		} ) );
+		assert.deepEqual(
+			result,
+			[]
+		);
 	} );
 
-	it( 'broken config', () => {
-		testUtils.mockCwd( 'cases/plugin-broken-config' );
-		const { config } = require( '../src/get-config.js' )();
-		const validateConfig = require( '../src/validate-config.js' );
+	it( 'various bad config values', () => {
 		assert.deepEqual(
-			validateConfig( config ),
+			validateConfig( {
+				pluginName: false,
+				fixCodeExamples: 3,
+				showConfigComments: 'string',
+				showFixExamples: {},
+				tabWidth: -1.5,
+				templatePath: false,
+				docPath: 'no-name-param',
+				rulePath: '',
+				testPath: '',
+				docLink: '',
+				ruleLink: 'true',
+				testLink: 'true',
+				minExamples: [ 'info', 3 ],
+				maxExamples: [ 'error', -2 ],
+				additionalProperty: 'foo'
+			} ),
 			[
 				'instance.pluginName is not of a type(s) string',
 				'instance.fixCodeExamples is not of a type(s) boolean',
@@ -42,7 +58,6 @@ describe( 'getConfig/validateConfig', () => {
 	} );
 
 	it( 'ruleLink but no rulePath', () => {
-		const validateConfig = require( '../src/validate-config.js' );
 		const defaultConfig = require( '../src/default-config.js' );
 		const result = validateConfig( Object.assign( {}, defaultConfig, {
 			docPath: 'docs/{name}.md',
@@ -56,7 +71,6 @@ describe( 'getConfig/validateConfig', () => {
 	} );
 
 	it( 'testLink but no testPath', () => {
-		const validateConfig = require( '../src/validate-config.js' );
 		const defaultConfig = require( '../src/default-config.js' );
 		const result = validateConfig( Object.assign( {}, defaultConfig, {
 			docPath: 'docs/{name}.md',
@@ -67,13 +81,5 @@ describe( 'getConfig/validateConfig', () => {
 			'instance does not match allOf schema [subschema 1] with 1 error[s]:',
 			'instance does not have testPath when testLink is true'
 		] );
-	} );
-
-	it( 'missing config', () => {
-		testUtils.mockCwd( 'cases/plugin-missing-config' );
-		const getConfig = require( '../src/get-config.js' );
-		assert.throws( () => {
-			getConfig();
-		}, { message: /.eslintdocgenrc not found/ } );
 	} );
 } );
