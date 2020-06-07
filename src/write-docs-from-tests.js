@@ -32,10 +32,10 @@ const packagePath = require( './package-path' );
 
 const loadTemplates = require( './load-templates' );
 const templatePaths = [ path.join( __dirname, 'templates' ) ];
-if ( config.templatePath ) {
-	templatePaths.push( packagePath( config.templatePath ) );
+if ( config.globalTemplatePath ) {
+	templatePaths.push( packagePath( config.globalTemplatePath ) );
 }
-const templates = loadTemplates( templatePaths );
+const { globalTemplates, loadRuleTemplate } = loadTemplates( templatePaths );
 
 function writeDocsFromTests( name, rule, tests, testerConfig ) {
 	const fullName = config.pluginName + '/' + name;
@@ -45,7 +45,8 @@ function writeDocsFromTests( name, rule, tests, testerConfig ) {
 	let output, messages;
 	try {
 		( { output, messages } = buildDocsFromTests(
-			name, rule.meta, tests, ruleData, config, templates, testerConfig
+			name, rule.meta, tests, ruleData, config,
+			globalTemplates, loadRuleTemplate, testerConfig
 		) );
 	} catch ( e ) {
 		console.log( formatter.heading( outputPath ) );

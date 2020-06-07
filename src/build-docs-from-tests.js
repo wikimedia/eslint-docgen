@@ -15,7 +15,9 @@ function mdLink( target, label ) {
 	return '[' + label + '](' + target + ')';
 }
 
-function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates, testerConfig ) {
+function buildDocsFromTests(
+	name, ruleMeta, tests, ruleData, config, globalTemplates, loadRuleTemplate, testerConfig
+) {
 
 	const messages = [];
 	const docs = ruleMeta.docs || {};
@@ -237,8 +239,19 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates,
 	}
 
 	let output;
+	let index = globalTemplates.index;
+
+	if ( config.ruleTemplatePath ) {
+		const fs = require( 'fs' );
+		const packagePath = require( './package-path' );
+		const path = packagePath( config.ruleTemplatePath.replace( '{name}', name ) );
+		if ( fs.existsSync( path ) ) {
+			index = loadRuleTemplate( path );
+		}
+	}
+
 	try {
-		output = templates.index( {
+		output = index( {
 			// root
 			description: docs.description,
 			title: name,
@@ -261,6 +274,7 @@ function buildDocsFromTests( name, ruleMeta, tests, ruleData, config, templates,
 			linkTest: config.testLink ? codeLink( config.testPath, name ) : ''
 		} ).replace( /\n{3,}/g, '\n\n' ).trim() + '\n';
 	} catch ( e ) {
+		// TODO: Test template errors
 		// istanbul ignore next
 		messages.push( { type: 'error', text: e } );
 	}

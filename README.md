@@ -75,6 +75,12 @@ The path where the rule is defined, only required if `ruleLink` is `true`. Same 
 #### `testPath`
 The path where the rule's tests are defined, only required if `testPath` is `true`. Same format as `docPath`.
 
+#### `ruleTemplatePath`
+When defined, will try to use a rule specific template instead of [`index.ejs`](src/templates/index.ejs), e.g. `"docs/.templates/{name}.ejs"`. Same format as `docPath`.
+
+#### `globalTemplatePath`
+When defined, templates in this path will override the global templates defined in [`src/templates`](src/templates).
+
 #### `docLink` (default `false`)
 Add a link to the documentation source in the "Resources" section.
 
@@ -83,9 +89,6 @@ Add a link to the rule source in the "Resources" section. Requires `rulePath` to
 
 #### `testLink` (default `true`)
 Add a link to the rule's test source in the "Resources" section. Requires `testPath` to be defined.
-
-#### `templatePath`
-When defined, templates in this path will override the defaults defined in [src/templates](src/templates).
 
 #### `pluginName` (default from package name)
 The name of your plugin as used in directives, e.g. `plugin:pluginName/rule`. Defaults to the name in `package.json` with `eslint-plugin-` stripped.
