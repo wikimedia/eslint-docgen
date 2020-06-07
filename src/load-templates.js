@@ -16,7 +16,7 @@ function loadTemplatesFromPath( dirPath ) {
 
 function loadTemplates( dirPaths ) {
 	const templateStrings = {};
-	const templates = {};
+	const globalTemplates = {};
 	dirPaths.forEach( ( dirPath ) => {
 		Object.assign( templateStrings, loadTemplatesFromPath( dirPath ) );
 	} );
@@ -30,15 +30,21 @@ function loadTemplates( dirPaths ) {
 				if ( !hasOwn.call( templateStrings, path ) ) {
 					throw new Error( 'Template `' + path + '` not found in template `' + filename + '`' );
 				}
-				return templates[ path ]( mergedData );
+				return globalTemplates[ path ]( mergedData );
 			} );
 	}
 
 	Object.keys( templateStrings ).forEach( ( filename ) => {
-		templates[ filename ] = compile( templateStrings[ filename ], filename );
+		globalTemplates[ filename ] = compile( templateStrings[ filename ], filename );
 	} );
 
-	return templates;
+	function loadRuleTemplate( path ) {
+		return compile(
+			fs.readFileSync( path ).toString()
+		);
+	}
+
+	return { globalTemplates, loadRuleTemplate };
 }
 
 module.exports = loadTemplates;

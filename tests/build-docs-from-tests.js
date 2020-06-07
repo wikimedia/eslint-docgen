@@ -11,6 +11,7 @@ describe( 'buildDocsFromTests', () => {
 	const noDesc = { type: 'warn', text: 'No description found in rule metadata' };
 	const cases = [
 		{
+			description: 'simple-rule.md: Basic features with default settings',
 			name: 'my-rule',
 			ruleMeta: {
 				docs: {
@@ -86,10 +87,10 @@ describe( 'buildDocsFromTests', () => {
 				},
 				{ config: 'strict' }
 			],
-			description: 'simple-rule.md: Basic features with default settings',
 			expected: 'cases/simple-rule.md'
 		},
 		{
+			description: 'no-fix-code-examples.md: No description, rule with `noDoc`, fixCodeExamples:false, showConfigComments:true',
 			ruleMeta: {
 				fixable: 'code'
 			},
@@ -121,7 +122,6 @@ describe( 'buildDocsFromTests', () => {
 				minExamples: [ 'warn', 1 ],
 				maxExamples: [ 'error', 3 ]
 			},
-			description: 'no-fix-code-examples.md: No description, rule with `noDoc`, fixCodeExamples:false, showConfigComments:true',
 			messages: [
 				noDesc,
 				{
@@ -133,6 +133,7 @@ describe( 'buildDocsFromTests', () => {
 			expected: 'cases/no-fix-code-examples.md'
 		},
 		{
+			description: 'config-comments.md: No valid cases, fixCodeExamples:true, showConfigComments:true',
 			ruleMeta: {
 				fixable: 'code'
 			},
@@ -160,7 +161,6 @@ describe( 'buildDocsFromTests', () => {
 				showConfigComments: true,
 				fixCodeExamples: true
 			},
-			description: 'config-comments.md: No valid cases, fixCodeExamples:true, showConfigComments:true',
 			messages: [
 				noDesc,
 				{
@@ -171,6 +171,7 @@ describe( 'buildDocsFromTests', () => {
 			expected: 'cases/config-comments.md'
 		},
 		{
+			description: 'not-fixable.md: Rule not fixable, only docLink',
 			tests: {
 				valid: [],
 				invalid: [
@@ -186,7 +187,6 @@ describe( 'buildDocsFromTests', () => {
 				ruleLink: false,
 				testLink: false
 			},
-			description: 'not-fixable.md: Rule not fixable, only docLink',
 			messages: [
 				noDesc,
 				{
@@ -198,6 +198,7 @@ describe( 'buildDocsFromTests', () => {
 			expected: 'cases/not-fixable.md'
 		},
 		{
+			description: 'not-show-fixes.md: Don\'t show fixes',
 			ruleMeta: {
 				fixable: 'code'
 			},
@@ -214,11 +215,34 @@ describe( 'buildDocsFromTests', () => {
 				]
 			},
 			config: {
-				showFixExamples: false
+				showFixExamples: false,
+				ruleTemplatePath: 'invalid/path/finds/no/templates/{name}.ejs'
 			},
-			description: 'not-show-fixes.md: Don\'t show fixes',
 			messages: [ noDesc ],
 			expected: 'cases/no-show-fixes.md'
+		},
+		{
+			description: 'ruleTemplatePath',
+			ruleMeta: {
+				fixable: 'code'
+			},
+			tests: {
+				valid: [
+					'var x="4.56"'
+				],
+				invalid: [
+					{
+						code: 'var x="1.23"',
+						// Rule is not fixable, so output is ignored
+						output: 'var x="123"'
+					}
+				]
+			},
+			config: {
+				ruleTemplatePath: 'ruleTemplates/{name}.ejs'
+			},
+			messages: [ noDesc ],
+			expected: 'cases/rule-template-path.md'
 		}
 	];
 
@@ -228,7 +252,7 @@ describe( 'buildDocsFromTests', () => {
 
 			const buildDocsFromTests = require( '../src/build-docs-from-tests' );
 			const loadTemplates = require( '../src/load-templates' );
-			const defaultTemplates = loadTemplates( [ path.join( __dirname, '../src/templates' ) ] );
+			const { globalTemplates, loadRuleTemplate } = loadTemplates( [ path.join( __dirname, '../src/templates' ) ] );
 			const defaultConfig = require( '../src/default-config' );
 
 			defaultConfig.docPath = 'docs/{name}.md';
@@ -245,7 +269,8 @@ describe( 'buildDocsFromTests', () => {
 				caseItem.tests,
 				caseItem.ruleData,
 				Object.assign( {}, defaultConfig, caseItem.config ),
-				caseItem.templates || defaultTemplates,
+				caseItem.templates || globalTemplates,
+				loadRuleTemplate,
 				caseItem.testerConfig
 			);
 

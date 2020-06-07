@@ -17,12 +17,17 @@
 			"type": "integer",
 			"minimum": 0
 		},
-		"templatePath": {
-			"type": [ "string", "null" ]
-		},
 		"docPath": { "$ref": "#/definitions/path" },
 		"rulePath": { "$ref": "#/definitions/nullablePath" },
 		"testPath": { "$ref": "#/definitions/nullablePath" },
+		"ruleTemplatePath": { "$ref": "#/definitions/nullablePath" },
+		"globalTemplatePath": {
+			"type": [ "string", "null" ]
+		},
+		"templatePath": {
+			"type": "null",
+			"message": "must be renamed to \"globalTemplatePath\""
+		},
 		"docLink": {
 			"type": "boolean"
 		},
