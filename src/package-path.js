@@ -1,13 +1,8 @@
 'use strict';
 
+const pkgDir = require( 'pkg-dir' );
 const path = require( 'path' );
-const fs = require( 'fs' );
-
-let dir = process.cwd();
-
-while ( dir !== '/' && !fs.existsSync( dir + '/package.json' ) ) {
-	dir = path.dirname( dir );
-}
+const dir = pkgDir.sync();
 
 function packagePath( p ) {
 	return path.join( dir, p );
