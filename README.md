@@ -144,6 +144,6 @@ require( 'eslint-docgen' ).rulesWithConfig.get( 'no-event-shorthand' );
 ```
 
 ## ✏️ Examples
-* [Rule in eslint-plugin-no-jquery](https://github.com/wikimedia/eslint-plugin-no-jquery/blob/master/docs/no-error-shorthand.md)
-* [Rule in eslint-plugin-mediawiki](https://github.com/wikimedia/eslint-plugin-mediawiki/blob/master/docs/valid-package-file-require.md)
+* [Rule in eslint-plugin-no-jquery](https://github.com/wikimedia/eslint-plugin-no-jquery/blob/master/docs/rules/no-error-shorthand.md)
+* [Rule in eslint-plugin-mediawiki](https://github.com/wikimedia/eslint-plugin-mediawiki/blob/master/docs/rules/valid-package-file-require.md)
 * [Sample test case output](tests/cases/simple-rule.md)
