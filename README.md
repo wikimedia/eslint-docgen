@@ -1,5 +1,5 @@
 # eslint-docgen
-Generate ESLint plugin documentation form rule metadata and test cases.
+Automatically generate ESLint plugin documentation from rule metadata and test cases.
 
 ## ⬇️ Installation
 
@@ -16,16 +16,22 @@ const RuleTester = require( 'eslint' ).RuleTester;
 // New:
 const RuleTester = require( 'eslint-docgen' ).RuleTester;
 ```
-Documentation will be built using rule metadata and test data passed to `RuleTester`:
+
+Create a configuration file as described in [*Configuration*](#%EF%B8%8F-configuration), setting `docPath` and preferably `rulePath` and `testPath`.
+
+## 📖 Usage
+To build your documentation, run your rule tests with a `--doc` flag in the command line, e.g.
+```sh
+mocha tests/rules/ --doc
+```
+
+Documentation will be built using **rule metadata** and **test data** passed to `RuleTester`:
 
 #### `rule.meta.docs.description`
 Used as the description of the rule in the documentation.
 
-#### `rule.meta.docs.deprecated`
-Will show a deprecation warning in the documentation.
-
-#### `rule.meta.docs.replacedBy`
-Will link to the replacement rule(s).
+#### `rule.meta.docs.deprecated` / `rule.meta.docs.replacedBy`
+Used to show a deprecation warning in the documentation, optionally with links to replacement rule(s).
 
 #### `tests.valid`/`tests.invalid` from `RuleTester#run`
 Will generate code blocks showing examples of valid/invalid usage. Blocks will be grouped by unique `options`/`settings` configurations. Fixable rules with `output` will generate a separate block showing the before and after.
@@ -38,11 +44,13 @@ To exclude a test case from these comment blocks use the `noDoc` option:
 }
 ```
 
-## 📖 Usage
-To build your documentation, run your rule tests with a `--doc` flag in the command line, e.g.
-```sh
-mocha tests/rules/ --doc
-```
+## 🤖 Migration
+To migrate an existing plugin with manually built documentation you can use the following process:
+
+1. Follow the steps in [*Installation*](#%EF%B8%8F-installation) and [*Setup*](#%EF%B8%8F-setup).
+2. Move your existing documentation to a new folder, e.g. `docs/template/MYRULE.md` and in your `.eslintdocgenrc` set `ruleTemplatePath` to this new folder, e.g. `"docs/template/{name}.md`". Optionally you can rename these files to `.ejs`.
+3. Run the generator (as described in [*Usage*](#-usage)) to confirm that it copies your old documentation (now your templates) back to the original documentation path.
+4. Start switching out manually written sections of your templates with include blocks such as those found in [`index.ejs`](src/templates/index.ejs).
 
 ## ⚙️ Configuration
 
@@ -76,7 +84,7 @@ The path where the rule is defined, only required if `ruleLink` is `true`. Same 
 The path where the rule's tests are defined, only required if `testPath` is `true`. Same format as `docPath`.
 
 #### `ruleTemplatePath`
-When defined, will try to use a rule specific template instead of [`index.ejs`](src/templates/index.ejs), e.g. `"docs/.templates/{name}.ejs"`. Same format as `docPath`.
+When defined, will try to use a rule specific template instead of [`index.ejs`](src/templates/index.ejs), e.g. `"docs/templates/{name}.ejs"`. Same format as `docPath`.
 
 #### `globalTemplatePath`
 When defined, templates in this path will override the global templates defined in [`src/templates`](src/templates).
