@@ -1,22 +1,18 @@
-== My rule ==
-
-Custom template for my rule.
+# my-rule
 
 ## Rule details
 
 ❌ Examples of **incorrect** code:
 ```js
-var x = '1.23';
+/* eslint @user/scoped/my-rule: "error" */
+const x = '1.23';
 ```
 
 ✔️ Examples of **correct** code:
 ```js
-var x = '4.56';
+/* eslint @user/scoped/my-rule: "error" */
+const x = '4.56';
 ```
-
-## When not to use use
-
-You may not need this rule if you don't use ES6.
 
 ## Resources
 
