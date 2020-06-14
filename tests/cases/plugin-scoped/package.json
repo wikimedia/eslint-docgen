@@ -1,4 +1,3 @@
 {
-	"name": "@user/eslint-plugin-scoped",
-	"main": "main.js"
+	"name": "@user/eslint-plugin-scoped"
 }
