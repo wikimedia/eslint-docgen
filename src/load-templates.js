@@ -14,6 +14,13 @@ function loadTemplatesFromPath( dirPath ) {
 	return templates;
 }
 
+/**
+ * Load templates from a list of paths
+ *
+ * @param {string[]} dirPaths Paths
+ * @return {Object} Keyed object with compiled EJS templates (globalTemplates),
+ *  and a function to load per-rule templates (loadRuleTemplate)
+ */
 function loadTemplates( dirPaths ) {
 	const templateStrings = {};
 	const globalTemplates = {};

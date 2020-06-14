@@ -19,6 +19,13 @@ Object.keys( config.rules ).forEach( function ( ruleName ) {
 } );
 config.rules = fixableRules;
 
+/**
+ * Lint and fix some code
+ *
+ * @param {string} code Code
+ * @param {Object} testerConfig Config
+ * @return {string} Fixed code
+ */
 function lintFix( code, testerConfig ) {
 	const mergedConfig = mergeOptions( config, testerConfig );
 
@@ -39,8 +46,16 @@ function lintFix( code, testerConfig ) {
 	return result.output;
 }
 
+/**
+ * Lint and fix a collection of code snippets
+ *
+ * Concatenates the code snippets into one code block to improve performance
+ *
+ * @param {string[]} codeList Code list
+ * @param {Object} testerConfig Config
+ * @return {string[]} Fixed code list
+ */
 function batchLintFix( codeList, testerConfig ) {
-	// Concatentate into one code block to improve performance
 	const separator = '\n/* - */\n';
 	const codeBlock = codeList.join( ';' + separator );
 	// Add an extra semicolon to avoid syntax error
