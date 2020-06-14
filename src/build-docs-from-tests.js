@@ -2,15 +2,30 @@
 
 const pluralize = require( 'pluralize' );
 const path = require( 'path' );
-// Intl.ListFormat not always available in Node 10
-// const listFormatter = new Intl.ListFormat( 'en', { type: 'conjunction' } );
 
+/**
+ * Format a list of items with natural language
+ *
+ * Equivalent to:
+ * new Intl.ListFormat( 'en', { type: 'conjunction' } );
+ * However Intl.ListFormat not always available
+ *
+ * @param {string[]} list List of strings
+ * @return {string} Concatenated list
+ */
 function listFormatter( list ) {
 	return list.reduce( ( acc, cur, i, arr ) =>
 		acc + ( i === 0 ? '' : ( ( i === arr.length - 1 ) ? ' and ' : ', ' ) ) + cur,
 	'' );
 }
 
+/**
+ * Make a markdown link from a target and label
+ *
+ * @param {string} target Link target
+ * @param {string} label Link label
+ * @return {string} Markdown link
+ */
 function mdLink( target, label ) {
 	return '[' + label + '](' + target + ')';
 }
@@ -34,6 +49,12 @@ function buildDocsFromTests(
 		return code.replace( /\t/g, ' '.repeat( config.tabWidth ) );
 	}
 
+	/**
+	 * Get code from test case
+	 *
+	 * @param {string|Object} test Test case
+	 * @return {string} Test case's code
+	 */
 	function getCode( test ) {
 		return typeof test === 'string' ? test : test.code;
 	}
@@ -236,6 +257,13 @@ function buildDocsFromTests(
 		} );
 	}
 
+	/**
+	 * Code path with substituted rule name
+	 *
+	 * @param {string} pattern Code path with {name} as placeholder for the rule name
+	 * @param {string} name Rule name
+	 * @return {string}
+	 */
 	function codeLink( pattern, name ) {
 		const filePath = pattern.replace( '{name}', name );
 		return path.join( '/', filePath );

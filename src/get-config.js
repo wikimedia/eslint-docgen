@@ -9,6 +9,13 @@ const configFilenames = [
 	'.eslintdocgenrc.json'
 ];
 
+/**
+ * Get the eslintdocgenrc config from the current working directory
+ *
+ * Missing values are backfilled with the defaults
+ *
+ * @return {Object} Config
+ */
 function getConfig() {
 	let config, configPath;
 
