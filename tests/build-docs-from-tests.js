@@ -206,7 +206,6 @@ describe( 'buildDocsFromTests', () => {
 				invalid: [
 					{
 						code: 'var x="1.23"',
-						// Rule is not fixable, so output is ignored
 						output: 'var x="123"'
 					}
 				]
@@ -228,11 +227,7 @@ describe( 'buildDocsFromTests', () => {
 					'var x="4.56"'
 				],
 				invalid: [
-					{
-						code: 'var x="1.23"',
-						// Rule is not fixable, so output is ignored
-						output: 'var x="123"'
-					}
+					'var x="1.23"'
 				]
 			},
 			config: {
@@ -240,12 +235,29 @@ describe( 'buildDocsFromTests', () => {
 			},
 			messages: [ noDesc ],
 			expected: 'cases/rule-template-path.md'
+		},
+		{
+			description: 'scoped plugin',
+			tests: {
+				valid: [
+					'var x="4.56"'
+				],
+				invalid: [
+					'var x="1.23"'
+				]
+			},
+			config: {
+				showConfigComments: true
+			},
+			messages: [ noDesc ],
+			cwd: 'cases/plugin-scoped',
+			expected: 'cases/scoped-plugin.md'
 		}
 	];
 
 	cases.forEach( ( caseItem ) => {
 		it( caseItem.description, () => {
-			testUtils.mockCwd( 'cases/plugin/src' );
+			testUtils.mockCwd( caseItem.cwd || 'cases/plugin/src' );
 
 			const buildDocsFromTests = require( '../src/build-docs-from-tests' );
 			const loadTemplates = require( '../src/load-templates' );

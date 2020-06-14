@@ -2,7 +2,8 @@
 
 const packagePath = require( './package-path' );
 const packageName = require( packagePath( './package' ) ).name;
-const pluginName = packageName.replace( 'eslint-plugin-', '' );
+const naming = require( './naming' );
+const pluginName = naming.getShorthandName( packageName, 'eslint-plugin' );
 
 module.exports = {
 	pluginName: pluginName,
