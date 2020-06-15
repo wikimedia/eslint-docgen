@@ -20,9 +20,9 @@ const RuleTester = require( 'eslint-docgen' ).RuleTester;
 Create a configuration file as described in [*Configuration*](#%EF%B8%8F-configuration), setting `docPath` and preferably `rulePath` and `testPath`.
 
 ## 📖 Usage
-To build your documentation, run your rule tests with a `--doc` flag in the command line, e.g.
+To build your documentation, run your rule tests with the `DOCGEN` environment variable set in the command line, e.g.
 ```sh
-mocha tests/rules/ --doc
+DOCGEN=1 mocha tests/rules/
 ```
 
 Documentation will be built using **rule metadata** and **test data** passed to `RuleTester`:

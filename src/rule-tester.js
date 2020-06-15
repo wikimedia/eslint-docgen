@@ -3,7 +3,14 @@
 const packagePath = require( './package-path' );
 // Use plugin's version of ESLint
 const ESLintRuleTester = require( packagePath( 'node_modules/eslint' ) ).RuleTester;
-const docMode = process.argv.includes( '--doc' );
+const docMode = !!process.env.DOCGEN || process.argv.includes( '--doc' );
+
+if ( process.argv.includes( '--doc' ) ) {
+	const formatter = require( './formatter' );
+	console.log(
+		formatter.warn( '--doc is deprecated, use the DOCGEN=1 environment variable instead.' )
+	);
+}
 
 /**
  * Extends ESLint's RuleTester to also build documentation
