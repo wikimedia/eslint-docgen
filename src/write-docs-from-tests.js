@@ -37,7 +37,7 @@ if ( config.globalTemplatePath ) {
 }
 const { globalTemplates, loadRuleTemplate } = loadTemplates( templatePaths );
 
-function writeDocsFromTests( name, rule, tests, testerConfig ) {
+function writeDocsFromTests( name, rule, tests, testerConfig, done ) {
 	const configMap = rulesWithConfig.get( name ).configMap;
 	const outputPath = packagePath( config.docPath.replace( '{name}', name ) );
 	let output, messages;
@@ -61,6 +61,7 @@ function writeDocsFromTests( name, rule, tests, testerConfig ) {
 				messages.push( { type: 'error', text: err } );
 			}
 			if ( messages.length ) {
+				console.log();
 				console.log( formatter.heading( outputPath ) );
 				messages.forEach( ( message ) =>
 					console.log( formatter[ message.type ]( message.text, message.label ) )
@@ -71,6 +72,8 @@ function writeDocsFromTests( name, rule, tests, testerConfig ) {
 			if ( messages.some( ( message ) => message.type === 'error' ) ) {
 				process.exit( 1 );
 			}
+
+			done();
 		}
 	);
 }
