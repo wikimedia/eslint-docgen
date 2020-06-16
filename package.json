@@ -16,7 +16,8 @@
 		"src"
 	],
 	"scripts": {
-		"test": "eslint . --cache && nyc mocha tests/"
+		"test": "eslint . --cache && nyc mocha tests/",
+		"report": "nyc report --reporter=html"
 	},
 	"engines": {
 		"node": ">=10.0.0"
