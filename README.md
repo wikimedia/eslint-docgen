@@ -35,14 +35,23 @@ Used to show a deprecation warning in the documentation, optionally with links t
 
 #### `tests.valid`/`tests.invalid` from `RuleTester#run`
 Will generate code blocks showing examples of valid/invalid usage. Blocks will be grouped by unique `options`/`settings` configurations. Fixable rules with `output` will generate a separate block showing the before and after.
-To exclude a test case from these comment blocks use the `noDoc` option:
+
+By default all test cases will be included in the examples. To **exclude** specific test cases from these code blocks use the `docgen: false` option:
 ```js
 {
-    code: 'App.invalid();',
-    output: 'App.INVALID();',
-    noDoc: true
+    code: 'App.method();',
+    docgen: false
 }
 ```
+
+If you have `excludeExamplesByDefault` set to `true` in your config, you can **include** specific test cases in these code blocks by using the `docgen: true` option:
+```js
+{
+    code: 'App.method();',
+    docgen: true
+}
+```
+
 
 ## 🤖 Migration
 To migrate an existing plugin with manually built documentation you can use the following process:
@@ -113,6 +122,9 @@ Shows config comments at the top of code examples:
 
 #### `showFixExamples` (default `true`)
 Show examples of how code is fixed by the rule.
+
+### `excludeExamplesByDefault` (default `false`)
+Exclude tests from being used as examples by default. When this is `true` users must set `docgen: true` on any test they want to be included in examples.
 
 #### `minExamples` (default `['warn', 2]`)
 Minimum examples per rule. Tuple where first value is one of `'warn'` or `'error'`, and the second value is the minimum number of examples required. Use `null` for no minimum.

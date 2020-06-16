@@ -23,6 +23,7 @@
 		"docLink": { "type": "boolean" },
 		"ruleLink": { "type": "boolean" },
 		"testLink": { "type": "boolean" },
+		"excludeExamplesByDefault": { "type": "boolean" },
 		"minExamples": { "$ref": "#/definitions/minMaxExamples" },
 		"maxExamples": { "$ref": "#/definitions/minMaxExamples" }
 	},

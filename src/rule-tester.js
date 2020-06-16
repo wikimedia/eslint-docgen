@@ -23,9 +23,13 @@ class RuleTester extends ESLintRuleTester {
 		} else {
 			// Filter out invalid top level property "noDoc", used in documentation building mode
 			tests.valid.forEach( ( test ) => {
+				delete test.docgen;
+				// Deprecated
 				delete test.noDoc;
 			} );
 			tests.invalid.forEach( ( test ) => {
+				delete test.docgen;
+				// Deprecated
 				delete test.noDoc;
 			} );
 			return super.run.call( this, name, rule, tests );

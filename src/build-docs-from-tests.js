@@ -96,7 +96,19 @@ function buildDocsFromTests(
 		const codeSet = {};
 		let previousMultiLine = false;
 		testList.forEach( function ( test, i ) {
-			if ( test.noDoc ) {
+			if ( !config.excludeExamplesByDefault && test.noDoc ) {
+				messages.push( {
+					type: 'warn',
+					text: '`noDoc: true` is deprecated. Use `docgen: false` instead.'
+				} );
+				return;
+			}
+
+			const docgen = test.docgen === undefined ?
+				!config.excludeExamplesByDefault :
+				test.docgen;
+
+			if ( !docgen ) {
 				return;
 			}
 
@@ -117,7 +129,7 @@ function buildDocsFromTests(
 			if ( !showFixes && Object.prototype.hasOwnProperty.call( codeSet[ hash ], code ) ) {
 				messages.push( {
 					type: 'warn',
-					text: 'Duplicate code example found, examples can be hidden with `noDoc`:\n' +
+					text: 'Duplicate code example found, examples can be hidden with `docgen: false`:\n' +
 						getCode( testList[ codeSet[ hash ][ code ] ] ) + '\n' +
 						getCode( testList[ i ] )
 				} );
