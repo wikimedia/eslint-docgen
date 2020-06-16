@@ -34,6 +34,7 @@ describe( 'validateConfig', () => {
 				docLink: '',
 				ruleLink: 'true',
 				testLink: 'true',
+				excludeExamplesByDefault: [],
 				minExamples: [ 'info', 3 ],
 				maxExamples: [ 'error', -2 ],
 				additionalProperty: 'foo'
@@ -54,6 +55,7 @@ describe( 'validateConfig', () => {
 				'instance.docLink is not of a type(s) boolean',
 				'instance.ruleLink is not of a type(s) boolean',
 				'instance.testLink is not of a type(s) boolean',
+				'instance.excludeExamplesByDefault is not of a type(s) boolean',
 				'instance.minExamples must be a tuple containing "warn"/"error" and a positive integer, or be null',
 				'instance.maxExamples must be a tuple containing "warn"/"error" and a positive integer, or be null',
 				'instance additionalProperty "additionalProperty" exists in instance when not allowed'

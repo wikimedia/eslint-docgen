@@ -87,7 +87,7 @@ describe( 'buildDocsFromTests', () => {
 			expected: 'cases/simple-rule.md'
 		},
 		{
-			description: 'no-fix-code-examples.md: No description, rule with `noDoc`, fixCodeExamples:false, showConfigComments:true',
+			description: 'no-fix-code-examples.md: No description, rule with `docgen: false`, fixCodeExamples:false, showConfigComments:true',
 			ruleMeta: {
 				fixable: 'code'
 			},
@@ -97,7 +97,7 @@ describe( 'buildDocsFromTests', () => {
 					'var y="45678"',
 					{
 						code: 'var z="not-included-in-docs"',
-						noDoc: true
+						docgen: false
 					}
 				],
 				invalid: [
@@ -125,6 +125,88 @@ describe( 'buildDocsFromTests', () => {
 					type: 'error',
 					text: '5 examples found, expected fewer than 3.',
 					label: 'config.maxExamples'
+				}
+			],
+			expected: 'cases/no-fix-code-examples.md'
+		},
+		{
+			description: 'no-fix-code-examples.md: No description, rules with `docgen: true`, excludeExamplesByDefault: true, fixCodeExamples:false, showConfigComments:true',
+			ruleMeta: {
+				fixable: 'code'
+			},
+			tests: {
+				valid: [
+					{
+						code: 'var x="123"',
+						docgen: true
+					},
+					{
+						code: 'var y="45678"',
+						docgen: true
+					},
+					'var z="not-included-in-docs"'
+				],
+				invalid: [
+					{
+						code: 'var x="1.23"',
+						options: [ { myOption: true } ],
+						output: 'var x="123"',
+						docgen: true
+					},
+					{
+						code: 'var y="4.5678"',
+						options: [ { myOption: true } ],
+						// `output` missing, not allowed in ESLint >= 7
+						docgen: true
+					}
+				]
+			},
+			config: {
+				excludeExamplesByDefault: true,
+				showConfigComments: true,
+				fixCodeExamples: false
+			},
+			messages: [
+				noDesc
+			],
+			expected: 'cases/no-fix-code-examples.md'
+		},
+		{
+			description: 'no-fix-code-examples.md: Deprecated `noDoc: true`.',
+			ruleMeta: {
+				fixable: 'code'
+			},
+			tests: {
+				valid: [
+					'var x="123"',
+					'var y="45678"',
+					{
+						code: 'var z="not-included-in-docs"',
+						noDoc: true
+					}
+				],
+				invalid: [
+					{
+						code: 'var x="1.23"',
+						options: [ { myOption: true } ],
+						output: 'var x="123"'
+					},
+					{
+						code: 'var y="4.5678"',
+						options: [ { myOption: true } ]
+						// `output` missing, not allowed in ESLint >= 7
+					}
+				]
+			},
+			config: {
+				showConfigComments: true,
+				fixCodeExamples: false
+			},
+			messages: [
+				noDesc,
+				{
+					type: 'warn',
+					text: '`noDoc: true` is deprecated. Use `docgen: false` instead.'
 				}
 			],
 			expected: 'cases/no-fix-code-examples.md'
@@ -162,7 +244,7 @@ describe( 'buildDocsFromTests', () => {
 				noDesc,
 				{
 					type: 'warn',
-					text: 'Duplicate code example found, examples can be hidden with `noDoc`:\nvar x="1.23"\nvar x = "1.23"'
+					text: 'Duplicate code example found, examples can be hidden with `docgen: false`:\nvar x="1.23"\nvar x = "1.23"'
 				}
 			],
 			expected: 'cases/config-comments.md'

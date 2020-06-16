@@ -19,6 +19,7 @@ module.exports = {
 	docLink: false,
 	ruleLink: true,
 	testLink: true,
+	excludeExamplesByDefault: false,
 	minExamples: [ 'warn', 2 ],
 	maxExamples: [ 'warn', 50 ]
 };

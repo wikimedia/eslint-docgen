@@ -23,6 +23,7 @@ describe( 'getConfig', () => {
 				docLink: false,
 				ruleLink: false,
 				testLink: false,
+				excludeExamplesByDefault: false,
 				minExamples: [ 'warn', 2 ],
 				maxExamples: [ 'warn', 50 ]
 			}
