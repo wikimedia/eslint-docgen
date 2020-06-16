@@ -1,18 +1,10 @@
 {
 	"type": "object",
 	"properties": {
-		"pluginName": {
-			"type": "string"
-		},
-		"fixCodeExamples": {
-			"type": "boolean"
-		},
-		"showConfigComments": {
-			"type": "boolean"
-		},
-		"showFixExamples": {
-			"type": "boolean"
-		},
+		"pluginName": { "type": "string" },
+		"fixCodeExamples": { "type": "boolean" },
+		"showConfigComments": { "type": "boolean" },
+		"showFixExamples": { "type": "boolean" },
 		"tabWidth": {
 			"type": "integer",
 			"minimum": 0
@@ -28,15 +20,9 @@
 			"type": "null",
 			"message": "must be renamed to \"globalTemplatePath\""
 		},
-		"docLink": {
-			"type": "boolean"
-		},
-		"ruleLink": {
-			"type": "boolean"
-		},
-		"testLink": {
-			"type": "boolean"
-		},
+		"docLink": { "type": "boolean" },
+		"ruleLink": { "type": "boolean" },
+		"testLink": { "type": "boolean" },
 		"minExamples": { "$ref": "#/definitions/minMaxExamples" },
 		"maxExamples": { "$ref": "#/definitions/minMaxExamples" }
 	},
