@@ -1,5 +1,17 @@
 # eslint-docgen release history
 
+## v0.4.1
+
+* Code: Update mocha to 8.0.1
+* Code: Replace path with upath for windows compatibility (#83)
+* Code: Use DOCGEN environment variable instead of --doc flag
+* Code: Add an editorconfig to make the tabs a reasonable width on GitHub (Jed Fox)
+* Code: Allow package.main to be empty
+* Code: Support scoped plugin names
+* Docs: Add more method documentation
+* Docs: Fix external links to examples
+* Docs: Add Migration section to README and move some pieces around
+
 ## v0.4.0
 
 * Breaking change: New: Add fix message to introduction (#49)
