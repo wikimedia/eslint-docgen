@@ -1,5 +1,11 @@
 # eslint-docgen release history
 
+## v0.4.2
+
+* New: Introduce excludeExamplesByDefault config
+* Code: Remove some whitespace in config-schema
+* Code: Add a 'report' script
+
 ## v0.4.1
 
 * Code: Update mocha to 8.0.1
