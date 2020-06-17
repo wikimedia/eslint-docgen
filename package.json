@@ -30,7 +30,8 @@
 		"merge-options": "^2.0.0",
 		"pkg-dir": "^4.2.0",
 		"pluralize": "^8.0.0",
-		"simple-mock": "^0.8.0"
+		"simple-mock": "^0.8.0",
+		"upath": "^1.2.0"
 	},
 	"devDependencies": {
 		"eslint-config-wikimedia": "^0.16.1",

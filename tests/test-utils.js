@@ -1,6 +1,6 @@
 'use strict';
 
-const path = require( 'path' );
+const path = require( 'upath' );
 const simple = require( 'simple-mock' );
 
 function mockCwd( relativePath ) {

@@ -2,7 +2,7 @@
 
 /* eslint-disable no-process-exit */
 const fs = require( 'fs' );
-const path = require( 'path' );
+const path = require( 'upath' );
 const buildDocsFromTests = require( './build-docs-from-tests' );
 
 const formatter = require( './formatter' );
