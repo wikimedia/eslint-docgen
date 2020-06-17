@@ -2,7 +2,7 @@
 
 const assert = require( 'assert' );
 const fs = require( 'fs' );
-const path = require( 'path' );
+const path = require( 'upath' );
 const testUtils = require( './test-utils' );
 
 /* eslint-disable mocha/no-setup-in-describe */

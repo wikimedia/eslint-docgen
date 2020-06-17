@@ -1,7 +1,7 @@
 'use strict';
 
 const assert = require( 'assert' );
-const path = require( 'path' );
+const path = require( 'upath' );
 
 describe( 'loadTemplates', () => {
 	it( 'Use invalid include', () => {

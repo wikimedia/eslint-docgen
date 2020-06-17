@@ -1,7 +1,7 @@
 'use strict';
 
 const pkgDir = require( 'pkg-dir' );
-const path = require( 'path' );
+const path = require( 'upath' );
 const dir = pkgDir.sync();
 
 function packagePath( p ) {

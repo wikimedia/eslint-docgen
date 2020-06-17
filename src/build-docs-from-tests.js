@@ -1,7 +1,7 @@
 'use strict';
 
 const pluralize = require( 'pluralize' );
-const path = require( 'path' );
+const path = require( 'upath' );
 
 /**
  * Format a list of items with natural language

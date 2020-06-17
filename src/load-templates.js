@@ -1,7 +1,7 @@
 'use strict';
 
 const fs = require( 'fs' );
-const path = require( 'path' );
+const path = require( 'upath' );
 const ejs = require( 'ejs' );
 
 function loadTemplatesFromPath( dirPath ) {
