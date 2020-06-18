@@ -1,5 +1,9 @@
 # eslint-docgen release history
 
+## v0.4.3
+
+* Code: Run one test 'it' per rule
+
 ## v0.4.2
 
 * New: Introduce excludeExamplesByDefault config
