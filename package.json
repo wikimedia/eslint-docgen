@@ -29,6 +29,7 @@
 		"import-fresh": "^3.2.1",
 		"jsonschema": "^1.2.6",
 		"merge-options": "^2.0.0",
+		"mkdirp": "^1.0.4",
 		"pkg-dir": "^4.2.0",
 		"pluralize": "^8.0.0",
 		"simple-mock": "^0.8.0",
