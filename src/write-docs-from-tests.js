@@ -2,6 +2,7 @@
 
 /* eslint-disable no-process-exit */
 const fs = require( 'fs' );
+const mkdirp = require( 'mkdirp' );
 const path = require( 'upath' );
 const buildDocsFromTests = require( './build-docs-from-tests' );
 
@@ -40,6 +41,7 @@ const { globalTemplates, loadRuleTemplate } = loadTemplates( templatePaths );
 function writeDocsFromTests( name, rule, tests, testerConfig, done ) {
 	const configMap = rulesWithConfig.get( name ).configMap;
 	const outputPath = packagePath( config.docPath.replace( '{name}', name ) );
+	const outputDir = packagePath( path.dirname( config.docPath ) );
 	let output, messages;
 	try {
 		( { output, messages } = buildDocsFromTests(
@@ -53,29 +55,31 @@ function writeDocsFromTests( name, rule, tests, testerConfig, done ) {
 		process.exit( 1 );
 	}
 
-	fs.writeFile(
-		outputPath,
-		output,
-		( err ) => {
-			if ( err ) {
-				messages.push( { type: 'error', text: err } );
-			}
-			if ( messages.length ) {
-				console.log();
-				console.log( formatter.heading( outputPath ) );
-				messages.forEach( ( message ) =>
-					console.log( formatter[ message.type ]( message.text, message.label ) )
-				);
-				console.log();
-			}
+	mkdirp( outputDir ).then( () => {
+		fs.writeFile(
+			outputPath,
+			output,
+			( err ) => {
+				if ( err ) {
+					messages.push( { type: 'error', text: err } );
+				}
+				if ( messages.length ) {
+					console.log();
+					console.log( formatter.heading( outputPath ) );
+					messages.forEach( ( message ) =>
+						console.log( formatter[ message.type ]( message.text, message.label ) )
+					);
+					console.log();
+				}
 
-			if ( messages.some( ( message ) => message.type === 'error' ) ) {
-				process.exit( 1 );
-			}
+				if ( messages.some( ( message ) => message.type === 'error' ) ) {
+					process.exit( 1 );
+				}
 
-			done();
-		}
-	);
+				done();
+			}
+		);
+	} );
 }
 
 module.exports = writeDocsFromTests;
