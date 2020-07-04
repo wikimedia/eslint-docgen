@@ -123,7 +123,7 @@ Shows config comments at the top of code examples:
 #### `showFixExamples` (default `true`)
 Show examples of how code is fixed by the rule.
 
-### `excludeExamplesByDefault` (default `false`)
+#### `excludeExamplesByDefault` (default `false`)
 Exclude tests from being used as examples by default. When this is `true` users must set `docgen: true` on any test they want to be included in examples.
 
 #### `minExamples` (default `['warn', 2]`)
