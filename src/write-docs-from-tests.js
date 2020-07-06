@@ -63,7 +63,7 @@ function writeDocsFromTests( name, rule, tests, testerConfig, done ) {
 		process.exit( 1 );
 	}
 
-	const outputDir = packagePath( path.dirname( config.docPath ) );
+	const outputDir = path.dirname( outputPath );
 	mkdirp( outputDir ).then( () => {
 		fs.writeFile(
 			outputPath,
