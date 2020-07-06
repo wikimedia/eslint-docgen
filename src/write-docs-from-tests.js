@@ -39,9 +39,16 @@ if ( config.globalTemplatePath ) {
 const { globalTemplates, loadRuleTemplate } = loadTemplates( templatePaths );
 
 function writeDocsFromTests( name, rule, tests, testerConfig, done ) {
-	const configMap = rulesWithConfig.get( name ).configMap;
 	const outputPath = packagePath( config.docPath.replace( '{name}', name ) );
-	const outputDir = packagePath( path.dirname( config.docPath ) );
+	const ruleWithConfig = rulesWithConfig.get( name );
+	if ( !ruleWithConfig ) {
+		console.log();
+		console.log( formatter.heading( outputPath ) );
+		console.log( formatter.error( 'Rule not found.' ) );
+		console.log();
+		process.exit( 1 );
+	}
+	const configMap = rulesWithConfig.get( name ).configMap;
 	let output, messages;
 	try {
 		( { output, messages } = buildDocsFromTests(
@@ -49,12 +56,14 @@ function writeDocsFromTests( name, rule, tests, testerConfig, done ) {
 			globalTemplates, loadRuleTemplate, testerConfig
 		) );
 	} catch ( e ) {
+		console.log();
 		console.log( formatter.heading( outputPath ) );
 		console.log( formatter.error( e.message ) );
 		console.log();
 		process.exit( 1 );
 	}
 
+	const outputDir = packagePath( path.dirname( config.docPath ) );
 	mkdirp( outputDir ).then( () => {
 		fs.writeFile(
 			outputPath,
