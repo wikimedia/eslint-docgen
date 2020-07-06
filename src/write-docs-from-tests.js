@@ -70,7 +70,7 @@ function writeDocsFromTests( name, rule, tests, testerConfig, done ) {
 			output,
 			( err ) => {
 				if ( err ) {
-					messages.push( { type: 'error', text: err } );
+					messages.push( { type: 'error', text: err.toString() } );
 				}
 				if ( messages.length ) {
 					console.log();
