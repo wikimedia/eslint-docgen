@@ -1,5 +1,13 @@
 # eslint-docgen release history
 
+## v0.4.4
+
+* Code: Ensure config.docPath exists before writing output path. (Raine Revere)
+* Code: Calculate outputDir from outputPath
+* Code: Fix reporting of writeFile error messages
+* Code: Output formatted error when rule not found (#92)
+* Docs: Fix config param heading level in README (#91)
+
 ## v0.4.3
 
 * Code: Run one test 'it' per rule
