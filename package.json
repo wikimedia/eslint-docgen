@@ -36,9 +36,9 @@
 		"upath": "^1.2.0"
 	},
 	"devDependencies": {
-		"eslint-config-wikimedia": "^0.16.1",
+		"eslint-config-wikimedia": "^0.16.2",
 		"eslint-plugin-node": "^11.1.0",
-		"mocha": "^8.0.1",
+		"mocha": "^8.1.1",
 		"nyc": "^15.1.0"
 	}
 }
