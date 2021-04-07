@@ -45,7 +45,7 @@ describe( 'validateConfig', () => {
 				'instance.showConfigComments is not of a type(s) boolean',
 				'instance.showFixExamples is not of a type(s) boolean',
 				'instance.tabWidth is not of a type(s) integer',
-				'instance.tabWidth must have a minimum value of 0',
+				'instance.tabWidth must be greater than or equal to 0',
 				'instance.docPath must contain "{name}"',
 				'instance.rulePath must contain "{name}" or be null',
 				'instance.testPath must contain "{name}" or be null',
@@ -58,7 +58,7 @@ describe( 'validateConfig', () => {
 				'instance.excludeExamplesByDefault is not of a type(s) boolean',
 				'instance.minExamples must be a tuple containing "warn"/"error" and a positive integer, or be null',
 				'instance.maxExamples must be a tuple containing "warn"/"error" and a positive integer, or be null',
-				'instance additionalProperty "additionalProperty" exists in instance when not allowed'
+				'instance is not allowed to have the additional property "additionalProperty"'
 			]
 		);
 	} );
