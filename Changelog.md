@@ -1,5 +1,8 @@
 # eslint-docgen release history
 
+## v0.4.5
+* Code: Update dependencies
+
 ## v0.4.4
 
 * Code: Ensure config.docPath exists before writing output path. (Raine Revere)
