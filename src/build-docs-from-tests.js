@@ -149,13 +149,13 @@ function buildDocsFromTests(
 				const outputLines = output.split( '\n' );
 				const maxLines = Math.max( codeLines.length, outputLines.length );
 				const exampleLines = [];
-				for ( let i = 0; i < maxLines; i++ ) {
-					const code = codeLines[ i ] || '';
-					const output = outputLines[ i ] || '';
+				for ( let l = 0; l < maxLines; l++ ) {
+					const codeLine = codeLines[ l ] || '';
+					const outputLine = outputLines[ l ] || '';
 					exampleLines.push(
-						code + ' '.repeat( Math.max( 0, maxCodeLength - code.length ) ) +
+						codeLine + ' '.repeat( Math.max( 0, maxCodeLength - codeLine.length ) ) +
 						' /* → */' +
-						( output ? ' ' + output : '' )
+						( outputLine ? ' ' + outputLine : '' )
 					);
 				}
 				example = exampleLines.join( '\n' );
@@ -218,16 +218,16 @@ function buildDocsFromTests(
 	let replacedByLinks = '';
 	if ( docs.deprecated && docs.replacedBy ) {
 		replacedByLinks = listFormatter(
-			docs.replacedBy.map( ( name ) => mdLink( name + '.md', '`' + name + '`' ) )
+			docs.replacedBy.map( ( ruleName ) => mdLink( ruleName + '.md', '`' + ruleName + '`' ) )
 		);
 	}
 
 	let inConfigs = [];
 	if ( configMap ) {
-		inConfigs = Array.from( configMap.keys() ).map( ( name ) => {
-			const options = configMap.get( name );
+		inConfigs = Array.from( configMap.keys() ).map( ( configName ) => {
+			const options = configMap.get( configName );
 			return {
-				config: name,
+				config: configName,
 				options: options && Object.keys( options[ 0 ] ).length ? JSON.stringify( options ) : ''
 			};
 		} );
@@ -273,11 +273,11 @@ function buildDocsFromTests(
 	 * Code path with substituted rule name
 	 *
 	 * @param {string} pattern Code path with {name} as placeholder for the rule name
-	 * @param {string} name Rule name
+	 * @param {string} ruleName Rule name
 	 * @return {string}
 	 */
-	function codeLink( pattern, name ) {
-		const filePath = pattern.replace( '{name}', name );
+	function codeLink( pattern, ruleName ) {
+		const filePath = pattern.replace( '{name}', ruleName );
 		return path.join( '/', filePath );
 	}
 
@@ -287,9 +287,9 @@ function buildDocsFromTests(
 	if ( config.ruleTemplatePath ) {
 		const fs = require( 'fs' );
 		const packagePath = require( './package-path' );
-		const path = packagePath( config.ruleTemplatePath.replace( '{name}', name ) );
-		if ( fs.existsSync( path ) ) {
-			index = loadRuleTemplate( path );
+		const ruleTemplatePath = packagePath( config.ruleTemplatePath.replace( '{name}', name ) );
+		if ( fs.existsSync( ruleTemplatePath ) ) {
+			index = loadRuleTemplate( ruleTemplatePath );
 		}
 	}
 

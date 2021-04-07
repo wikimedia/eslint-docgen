@@ -32,12 +32,12 @@ function loadTemplates( dirPaths ) {
 	function compile( string, filename ) {
 		const compiled = ejs.compile( string, { client: true } );
 		return ( data ) =>
-			compiled( data, null, function ( path, includeData ) {
+			compiled( data, null, function ( template, includeData ) {
 				const mergedData = Object.assign( {}, data, includeData );
-				if ( !hasOwn.call( templateStrings, path ) ) {
-					throw new Error( 'Template `' + path + '` not found in template `' + filename + '`' );
+				if ( !hasOwn.call( templateStrings, template ) ) {
+					throw new Error( 'Template `' + template + '` not found in template `' + filename + '`' );
 				}
-				return globalTemplates[ path ]( mergedData );
+				return globalTemplates[ template ]( mergedData );
 			} );
 	}
 
@@ -45,9 +45,9 @@ function loadTemplates( dirPaths ) {
 		globalTemplates[ filename ] = compile( templateStrings[ filename ], filename );
 	} );
 
-	function loadRuleTemplate( path ) {
+	function loadRuleTemplate( ruleTemplatePath ) {
 		return compile(
-			fs.readFileSync( path ).toString()
+			fs.readFileSync( ruleTemplatePath ).toString()
 		);
 	}
 
