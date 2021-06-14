@@ -23,7 +23,7 @@
 		"node": ">=10.0.0"
 	},
 	"dependencies": {
-		"chalk": "^4.1.0",
+		"chalk": "^4.1.1",
 		"ejs": "^3.1.6",
 		"eslint": ">=5.0.0",
 		"import-fresh": "^3.3.0",
@@ -36,9 +36,9 @@
 		"upath": "^2.0.1"
 	},
 	"devDependencies": {
-		"eslint-config-wikimedia": "^0.19.0",
+		"eslint-config-wikimedia": "^0.20.0",
 		"eslint-plugin-node": "^11.1.0",
-		"mocha": "^8.3.2",
+		"mocha": "^8.4.0",
 		"nyc": "^15.1.0"
 	}
 }
