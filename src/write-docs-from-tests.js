@@ -20,14 +20,18 @@ try {
 	process.exit( 1 );
 }
 
-const configErrors = require( './validate-config' )( config );
-
-if ( configErrors.length ) {
-	console.log( formatter.heading( configPath ) );
-	configErrors.forEach( ( error ) => console.log( formatter.error( error ) ) );
-	console.log();
-	process.exit( 1 );
+const configValidator = require( './validate-config' );
+function assertValidConfig( maybeValidConfig, configSource ) {
+	const configErrors = configValidator( maybeValidConfig );
+	if ( configErrors.length ) {
+		console.log( formatter.heading( configSource ) );
+		configErrors.forEach( ( error ) => console.log( formatter.error( error ) ) );
+		console.log();
+		process.exit( 1 );
+	}
 }
+
+assertValidConfig( config, configPath );
 
 const packagePath = require( './package-path' );
 
@@ -39,7 +43,14 @@ if ( config.globalTemplatePath ) {
 const { globalTemplates, loadRuleTemplate } = loadTemplates( templatePaths );
 
 function writeDocsFromTests( name, rule, tests, testerConfig, done ) {
-	const outputPath = packagePath( config.docPath.replace( '{name}', name ) );
+	// If the tests have a `docgenConfig` property, this overrides the global configuration
+	let configForRule = config;
+	if ( tests.docgenConfig !== undefined ) {
+		configForRule = Object.assign( {}, config, tests.docgenConfig );
+		assertValidConfig( configForRule, 'Rule specific config for ' + name );
+		delete tests.docgenConfig;
+	}
+	const outputPath = packagePath( configForRule.docPath.replace( '{name}', name ) );
 	const ruleWithConfig = rulesWithConfig.get( name );
 	if ( !ruleWithConfig ) {
 		console.log();
@@ -52,7 +63,7 @@ function writeDocsFromTests( name, rule, tests, testerConfig, done ) {
 	let output, messages;
 	try {
 		( { output, messages } = buildDocsFromTests(
-			name, rule.meta, tests, configMap, config,
+			name, rule.meta, tests, configMap, configForRule,
 			globalTemplates, loadRuleTemplate, testerConfig
 		) );
 	} catch ( e ) {
