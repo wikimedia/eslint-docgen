@@ -63,7 +63,7 @@ To migrate an existing plugin with manually built documentation you can use the 
 
 ## ⚙️ Configuration
 
-Create a JSON/JavaScript file called `.eslintdocgenrc.json`/`.eslintdocgenrc.js` in your project root:
+Configuration for all rules in a project is controlled by creating a JSON/JavaScript file called `.eslintdocgenrc.json`/`.eslintdocgenrc.js` in your project root:
 
 #### JSON
 ```jsonc
@@ -80,6 +80,10 @@ module.exports = {
     // ...
 };
 ```
+
+#### Overriding
+
+The project-wide rules configuration can be overridden for individual rules by adding a `docgenConfig` property to the tests object passed to RuleTester.run(). All configuration options that are supported project-wide can be changed.
 
 The following config options are available:
 
