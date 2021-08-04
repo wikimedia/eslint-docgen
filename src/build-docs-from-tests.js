@@ -59,6 +59,21 @@ function buildDocsFromTests(
 		return typeof test === 'string' ? test : test.code;
 	}
 
+	/**
+	 *
+	 * @param {string|Object} test
+	 * @return {string|undefined} The base file name, or undefined if not set
+	 */
+	function getFileName( test ) {
+		if ( typeof test === 'string' || test.filename === undefined ) {
+			// Either the test is just a code snippet, or its an object but with
+			// no file name set
+			return undefined;
+		}
+		// We don't need the full file path, just the last bit with the name and extension
+		return path.basename( test.filename );
+	}
+
 	function buildRuleDetails( testList, valid, showFixes ) {
 		let fixedCode, fixedOutput, maxCodeLength;
 		const testsByOptions = {};
@@ -113,10 +128,11 @@ function buildDocsFromTests(
 			}
 
 			let optionsAndSettings;
-			if ( test.options || test.settings ) {
+			if ( test.options || test.settings || config.showFileNames ) {
 				optionsAndSettings = {
 					options: test.options,
-					settings: test.settings
+					settings: test.settings,
+					fileName: getFileName( test )
 				};
 			}
 			const hash = optionsAndSettings ? JSON.stringify( optionsAndSettings ) : '';
