@@ -127,6 +127,9 @@ Shows config comments at the top of code examples:
 #### `showFixExamples` (default `true`)
 Show examples of how code is fixed by the rule.
 
+### `showFileNames` (default: `false`)
+Show the relevant file name for test cases.
+
 #### `excludeExamplesByDefault` (default `false`)
 Exclude tests from being used as examples by default. When this is `true` users must set `docgen: true` on any test they want to be included in examples.
 
