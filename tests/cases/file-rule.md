@@ -10,25 +10,25 @@ var x = 123;
 var y = 456;
 ```
 
-❌ Examples of **incorrect** code, for the file named `test.js`:
+❌ Examples of **incorrect** code, for a file named `test.js`:
 ```js
 var tsX = 123;
 var tsY = 456;
 ```
 
-✔️ Examples of **correct** code, for the file named `test.js`:
+✔️ Examples of **correct** code, for a file named `test.js`:
 ```js
 var jsX = 123;
 var jsY = 456;
 ```
 
-❌ Examples of **incorrect** code, for the file named `test.ts`:
+❌ Examples of **incorrect** code, for a file named `test.ts`:
 ```js
 var jsX = 123;
 var jsY = 456;
 ```
 
-✔️ Examples of **correct** code, for the file named `test.ts`:
+✔️ Examples of **correct** code, for a file named `test.ts`:
 ```js
 var tsX = 123;
 var tsY = 456;
