@@ -208,6 +208,7 @@ function buildDocsFromTests(
 			const optionsAndSettings = section.optionsAndSettings;
 			const options = optionsAndSettings && optionsAndSettings.options;
 			const settings = optionsAndSettings && optionsAndSettings.settings;
+			const fileName = optionsAndSettings && optionsAndSettings.fileName;
 
 			let examples = '```js\n';
 			if ( config.showConfigComments ) {
@@ -221,6 +222,7 @@ function buildDocsFromTests(
 				valid: valid,
 				options: options ? JSON.stringify( options ) : '',
 				settings: settings ? JSON.stringify( settings ) : '',
+				fileName: fileName ? fileName : '',
 				examples: examples,
 				testCount: section.tests.length
 			};
