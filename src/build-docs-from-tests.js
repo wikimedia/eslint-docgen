@@ -222,7 +222,7 @@ function buildDocsFromTests(
 				valid: valid,
 				options: options ? JSON.stringify( options ) : '',
 				settings: settings ? JSON.stringify( settings ) : '',
-				fileName: fileName ? fileName : '',
+				fileName: fileName || '',
 				examples: examples,
 				testCount: section.tests.length
 			};
