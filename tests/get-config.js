@@ -13,6 +13,7 @@ describe( 'getConfig', () => {
 				pluginName: 'my-plugin',
 				fixCodeExamples: true,
 				showConfigComments: false,
+				showFileNames: false,
 				showFixExamples: true,
 				tabWidth: 4,
 				docPath: 'docs/{name}/README.md',
