@@ -128,12 +128,17 @@ function buildDocsFromTests(
 			}
 
 			let optionsAndSettings;
-			if ( test.options || test.settings || config.showFileNames ) {
+			// Only include the fileName if it should be shown
+			// Don't create an object if there are no options or settings and the file name is not
+			// set, so that those examples are sorted to the top of the docs
+			if ( test.options || test.settings || ( config.showFileNames && getFileName( test ) ) ) {
 				optionsAndSettings = {
 					options: test.options,
-					settings: test.settings,
-					fileName: getFileName( test )
+					settings: test.settings
 				};
+				if ( config.showFileNames ) {
+					optionsAndSettings.fileName = getFileName( test );
+				}
 			}
 			const hash = optionsAndSettings ? JSON.stringify( optionsAndSettings ) : '';
 
