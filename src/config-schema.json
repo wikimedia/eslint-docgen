@@ -5,6 +5,7 @@
 		"fixCodeExamples": { "type": "boolean" },
 		"showConfigComments": { "type": "boolean" },
 		"showFixExamples": { "type": "boolean" },
+		"showFileNames": { "type": "boolean" },
 		"tabWidth": {
 			"type": "integer",
 			"minimum": 0
