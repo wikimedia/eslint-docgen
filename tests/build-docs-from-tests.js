@@ -8,6 +8,9 @@ const testUtils = require( './test-utils' );
 /* eslint-disable mocha/no-setup-in-describe */
 
 describe( 'buildDocsFromTests', () => {
+	const jsFileName = path.resolve( __dirname, '../sandbox/test.js' );
+	const tsFileName = path.resolve( __dirname, '../sandbox/test.ts' );
+
 	const noDesc = { type: 'warn', text: 'No description found in rule metadata' };
 	const cases = [
 		{
@@ -85,6 +88,59 @@ describe( 'buildDocsFromTests', () => {
 				strict: null
 			} ) ),
 			expected: 'cases/simple-rule.md'
+		},
+		{
+			description: 'file-rule.md: Rule where the file name matters',
+			name: 'file-rule',
+			ruleMeta: {
+				docs: {
+					description: 'File rule cares about the file name (variable names starting with "js" are reserved for JavaScript files, and "ts" are reserved for TypeScript files)'
+				}
+			},
+			tests: {
+				valid: [
+					'var x = 123',
+					'var y = 456',
+					{
+						code: 'var jsX = 123',
+						filename: jsFileName
+					},
+					{
+						code: 'var jsY = 456',
+						filename: jsFileName
+					},
+					{
+						code: 'var tsX = 123',
+						filename: tsFileName
+					},
+					{
+						code: 'var tsY = 456',
+						filename: tsFileName
+					}
+				],
+				invalid: [
+					{
+						code: 'var jsX = 123',
+						filename: tsFileName
+					},
+					{
+						code: 'var jsY = 456',
+						filename: tsFileName
+					},
+					{
+						code: 'var tsX = 123',
+						filename: jsFileName
+					},
+					{
+						code: 'var tsY = 456',
+						filename: jsFileName
+					}
+				]
+			},
+			config: {
+				showFileNames: true
+			},
+			expected: 'cases/file-rule.md'
 		},
 		{
 			description: 'no-fix-code-examples.md: No description, rule with `docgen: false`, fixCodeExamples:false, showConfigComments:true',
