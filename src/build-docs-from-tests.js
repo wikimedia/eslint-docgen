@@ -64,7 +64,7 @@ function buildDocsFromTests(
 	 * @param {string|Object} test
 	 * @return {string|undefined} The base file name, or undefined if not set
 	 */
-	function getFileName( test ) {
+	function getFilename( test ) {
 		if ( typeof test === 'string' || test.filename === undefined ) {
 			// Either the test is just a code snippet, or its an object but with
 			// no file name set
@@ -128,16 +128,16 @@ function buildDocsFromTests(
 			}
 
 			let optionsAndSettings;
-			// Only include the fileName if it should be shown
+			// Only include the filename if it should be shown
 			// Don't create an object if there are no options or settings and the file name is not
 			// set, so that those examples are sorted to the top of the docs
-			if ( test.options || test.settings || ( config.showFileNames && getFileName( test ) ) ) {
+			if ( test.options || test.settings || ( config.showFilenames && getFilename( test ) ) ) {
 				optionsAndSettings = {
 					options: test.options,
 					settings: test.settings
 				};
-				if ( config.showFileNames ) {
-					optionsAndSettings.fileName = getFileName( test );
+				if ( config.showFilenames ) {
+					optionsAndSettings.filename = getFilename( test );
 				}
 			}
 			const hash = optionsAndSettings ? JSON.stringify( optionsAndSettings ) : '';
@@ -213,7 +213,7 @@ function buildDocsFromTests(
 			const optionsAndSettings = section.optionsAndSettings;
 			const options = optionsAndSettings && optionsAndSettings.options;
 			const settings = optionsAndSettings && optionsAndSettings.settings;
-			const fileName = optionsAndSettings && optionsAndSettings.fileName;
+			const filename = optionsAndSettings && optionsAndSettings.filename;
 
 			let examples = '```js\n';
 			if ( config.showConfigComments ) {
@@ -227,7 +227,7 @@ function buildDocsFromTests(
 				valid: valid,
 				options: options ? JSON.stringify( options ) : '',
 				settings: settings ? JSON.stringify( settings ) : '',
-				fileName: fileName || '',
+				filename: filename || '',
 				examples: examples,
 				testCount: section.tests.length
 			};

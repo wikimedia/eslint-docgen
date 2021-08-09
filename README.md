@@ -127,7 +127,7 @@ Shows config comments at the top of code examples:
 #### `showFixExamples` (default `true`)
 Show examples of how code is fixed by the rule.
 
-### `showFileNames` (default: `false`)
+### `showFilenames` (default: `false`)
 Show the relevant file name for test cases.
 
 #### `excludeExamplesByDefault` (default `false`)

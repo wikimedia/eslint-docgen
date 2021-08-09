@@ -8,8 +8,8 @@ const testUtils = require( './test-utils' );
 /* eslint-disable mocha/no-setup-in-describe */
 
 describe( 'buildDocsFromTests', () => {
-	const jsFileName = path.resolve( __dirname, '../sandbox/test.js' );
-	const tsFileName = path.resolve( __dirname, '../sandbox/test.ts' );
+	const jsFilename = path.resolve( __dirname, '../sandbox/test.js' );
+	const tsFilename = path.resolve( __dirname, '../sandbox/test.ts' );
 
 	const noDesc = { type: 'warn', text: 'No description found in rule metadata' };
 	const cases = [
@@ -103,42 +103,42 @@ describe( 'buildDocsFromTests', () => {
 					'var y = 456',
 					{
 						code: 'var jsX = 123',
-						filename: jsFileName
+						filename: jsFilename
 					},
 					{
 						code: 'var jsY = 456',
-						filename: jsFileName
+						filename: jsFilename
 					},
 					{
 						code: 'var tsX = 123',
-						filename: tsFileName
+						filename: tsFilename
 					},
 					{
 						code: 'var tsY = 456',
-						filename: tsFileName
+						filename: tsFilename
 					}
 				],
 				invalid: [
 					{
 						code: 'var jsX = 123',
-						filename: tsFileName
+						filename: tsFilename
 					},
 					{
 						code: 'var jsY = 456',
-						filename: tsFileName
+						filename: tsFilename
 					},
 					{
 						code: 'var tsX = 123',
-						filename: jsFileName
+						filename: jsFilename
 					},
 					{
 						code: 'var tsY = 456',
-						filename: jsFileName
+						filename: jsFilename
 					}
 				]
 			},
 			config: {
-				showFileNames: true
+				showFilenames: true
 			},
 			expected: 'cases/file-rule.md'
 		},

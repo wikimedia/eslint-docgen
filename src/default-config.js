@@ -9,7 +9,7 @@ module.exports = {
 	pluginName: pluginName,
 	fixCodeExamples: true,
 	showConfigComments: false,
-	showFileNames: false,
+	showFilenames: false,
 	showFixExamples: true,
 	tabWidth: 4,
 	docPath: null,
