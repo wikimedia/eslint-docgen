@@ -131,7 +131,10 @@ function buildDocsFromTests(
 			// Only include the filename if it should be shown
 			// Don't create an object if there are no options or settings and the file name is not
 			// set, so that those examples are sorted to the top of the docs
-			if ( test.options || test.settings || ( config.showFilenames && getFilename( test ) ) ) {
+			if (
+				test.options || test.settings ||
+				( config.showFilenames && getFilename( test ) )
+			) {
 				optionsAndSettings = {
 					options: test.options,
 					settings: test.settings
