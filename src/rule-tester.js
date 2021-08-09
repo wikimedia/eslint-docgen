@@ -23,7 +23,8 @@ class RuleTester extends ESLintRuleTester {
 				writeDocsFromTests( name, rule, tests, this.testerConfig, done );
 			} );
 		} else {
-			// Filter out invalid property "noDoc", used in documentation building mode
+			// Filter out invalid property "noDoc"
+			// (used in documentation building mode).
 			tests.valid.forEach( ( test ) => {
 				delete test.docgen;
 				// Deprecated
@@ -35,7 +36,8 @@ class RuleTester extends ESLintRuleTester {
 				delete test.noDoc;
 			} );
 
-			// Filter out invalid top level property "docgenConfig", used in documentation building mode
+			// Filter out invalid top level property "docgenConfig"
+			// (used in documentation building mode).
 			delete tests.docgenConfig;
 
 			return super.run.call( this, name, rule, tests );
