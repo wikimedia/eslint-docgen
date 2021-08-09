@@ -59,6 +59,21 @@ function buildDocsFromTests(
 		return typeof test === 'string' ? test : test.code;
 	}
 
+	/**
+	 *
+	 * @param {string|Object} test
+	 * @return {string|undefined} The base file name, or undefined if not set
+	 */
+	function getFileName( test ) {
+		if ( typeof test === 'string' || test.filename === undefined ) {
+			// Either the test is just a code snippet, or its an object but with
+			// no file name set
+			return undefined;
+		}
+		// We don't need the full file path, just the last bit with the name and extension
+		return path.basename( test.filename );
+	}
+
 	function buildRuleDetails( testList, valid, showFixes ) {
 		let fixedCode, fixedOutput, maxCodeLength;
 		const testsByOptions = {};
@@ -113,11 +128,17 @@ function buildDocsFromTests(
 			}
 
 			let optionsAndSettings;
-			if ( test.options || test.settings ) {
+			// Only include the fileName if it should be shown
+			// Don't create an object if there are no options or settings and the file name is not
+			// set, so that those examples are sorted to the top of the docs
+			if ( test.options || test.settings || ( config.showFileNames && getFileName( test ) ) ) {
 				optionsAndSettings = {
 					options: test.options,
 					settings: test.settings
 				};
+				if ( config.showFileNames ) {
+					optionsAndSettings.fileName = getFileName( test );
+				}
 			}
 			const hash = optionsAndSettings ? JSON.stringify( optionsAndSettings ) : '';
 
@@ -192,6 +213,7 @@ function buildDocsFromTests(
 			const optionsAndSettings = section.optionsAndSettings;
 			const options = optionsAndSettings && optionsAndSettings.options;
 			const settings = optionsAndSettings && optionsAndSettings.settings;
+			const fileName = optionsAndSettings && optionsAndSettings.fileName;
 
 			let examples = '```js\n';
 			if ( config.showConfigComments ) {
@@ -205,6 +227,7 @@ function buildDocsFromTests(
 				valid: valid,
 				options: options ? JSON.stringify( options ) : '',
 				settings: settings ? JSON.stringify( settings ) : '',
+				fileName: fileName || '',
 				examples: examples,
 				testCount: section.tests.length
 			};
