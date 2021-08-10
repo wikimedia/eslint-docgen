@@ -218,7 +218,14 @@ function buildDocsFromTests(
 			const settings = optionsAndSettings && optionsAndSettings.settings;
 			const filename = optionsAndSettings && optionsAndSettings.filename;
 
-			let examples = '```js\n';
+			let syntaxHighlightLang = 'js';
+			// Switch to Vue if we are showing file names and its a Vue file.
+			// optionsAndSettings.filename is only set if it should be shown
+			// TODO should we add other languages too?
+			if ( filename && path.extname( filename ) === '.vue' ) {
+				syntaxHighlightLang = 'vue';
+			}
+			let examples = '```' + syntaxHighlightLang + '\n';
 			if ( config.showConfigComments ) {
 				examples += comments[ i ] + '\n';
 			}
