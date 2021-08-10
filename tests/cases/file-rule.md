@@ -1,6 +1,6 @@
 # file-rule
 
-File rule cares about the file name (variable names starting with "js" are reserved for JavaScript files, "vue" are reserved for scripts in Vue files). Code fixes are disabled.
+File rule cares about the file name (variable names starting with "js" are reserved for JavaScript files, "ts" are reserved for TypeScript files, "vue" are reserved for scripts in Vue files). Code fixes are disabled.
 
 ## Rule details
 
