@@ -116,8 +116,8 @@ describe( 'buildDocsFromTests', () => {
 			},
 			tests: {
 				valid: [
-					'var x = 123',
-					'var y = 456',
+					'var x = 123;',
+					'var y = 456;',
 					{
 						code: 'var jsX = 123;',
 						filename: jsFilename
