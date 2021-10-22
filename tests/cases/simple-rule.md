@@ -6,9 +6,9 @@ My rule enforces a thing
 
 ⚠️ This rule is deprecated. Use [`my-new-rule`](my-new-rule.md), [`my-other-rule`](my-other-rule.md) and [`third-rule`](third-rule.md) instead.
 
-⚙️ This rule is enabled in `plugin:my-plugin/recommended` with `[{"myOption":true}]` options.
+📋 This rule is enabled in `plugin:my-plugin/recommended` with `[{"myOption":true}]` options.
 
-⚙️ This rule is enabled in `plugin:my-plugin/strict`.
+📋 This rule is enabled in `plugin:my-plugin/strict`.
 
 🔧 The `--fix` option on the [command line](https://eslint.org/docs/user-guide/command-line-interface#fixing-problems) can automatically fix some of the problems reported by this rule.
 
