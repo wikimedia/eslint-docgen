@@ -85,6 +85,8 @@ module.exports = {
 
 The project-wide rules configuration can be overridden for individual rules by adding a `docgenConfig` property to the tests object passed to RuleTester.run(). All configuration options that are supported project-wide can be changed.
 
+### Options
+
 The following config options are available:
 
 #### `docPath` (*required*)
