@@ -217,13 +217,21 @@ function buildDocsFromTests(
 			const options = optionsAndSettings && optionsAndSettings.options;
 			const settings = optionsAndSettings && optionsAndSettings.settings;
 			const filename = optionsAndSettings && optionsAndSettings.filename;
+			// Mapping from extension to language name for markdown
+			// Default language is 'js'
+			const languageFromExtension = {
+				'.vue': 'vue'
+			};
 
 			let syntaxHighlightLang = 'js';
 			// Switch to Vue if we are showing file names and its a Vue file.
 			// optionsAndSettings.filename is only set if it should be shown
 			// TODO should we add other languages too?
-			if ( filename && path.extname( filename ) === '.vue' ) {
-				syntaxHighlightLang = 'vue';
+			if ( filename ) {
+				const ext = path.extname( filename );
+				if ( ext in languageFromExtension ) {
+					syntaxHighlightLang = languageFromExtension[ ext ];
+				}
 			}
 			let examples = '```' + syntaxHighlightLang + '\n';
 			if ( config.showConfigComments ) {
