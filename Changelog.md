@@ -1,5 +1,14 @@
 # eslint-docgen release history
 
+## v0.5.1
+* Breaking change: Change the default icon for rules which are included in a preset (#109)
+* Breaking change: Add generated-file-warning comment to the top of MD files (#107)
+* Breaking change: Drop support for Node 10 (#110)
+* New: Add configuration to show file names for test cases (#101) (DannyS712)
+* New: Add per-rule config overrides (DannyS7123)
+* Docs: Various README fixes
+* Code: Update dependencies
+
 ## v0.4.5
 * Code: Update dependencies
 
