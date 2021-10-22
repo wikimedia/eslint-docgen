@@ -5,11 +5,28 @@ const fs = require( 'fs' );
 const path = require( 'upath' );
 const testUtils = require( './test-utils' );
 
+/**
+ * Returns the contents that would be appropriate for an overall
+ * .vue file, with the scriptContents being contained between <script></script>
+ * tags.
+ *
+ * @param {string} scriptContents
+ * @return {string}
+ */
+function makeVueFileContent( scriptContents ) {
+	const aboveScriptContents = `<template>
+	<p>Placeholder...</p>
+</template>
+<script>`;
+	return aboveScriptContents + '\n' + scriptContents + '\n</script>';
+}
+
 /* eslint-disable mocha/no-setup-in-describe */
 
 describe( 'buildDocsFromTests', () => {
 	const jsFilename = path.resolve( __dirname, '../sandbox/test.js' );
 	const tsFilename = path.resolve( __dirname, '../sandbox/test.ts' );
+	const vueFilename = path.resolve( __dirname, '../sandbox/test.vue' );
 
 	const noDesc = { type: 'warn', text: 'No description found in rule metadata' };
 	const cases = [
@@ -94,51 +111,64 @@ describe( 'buildDocsFromTests', () => {
 			name: 'file-rule',
 			ruleMeta: {
 				docs: {
-					description: 'File rule cares about the file name (variable names starting with "js" are reserved for JavaScript files, and "ts" are reserved for TypeScript files)'
+					description: 'File rule cares about the file name (variable names starting with "js" are reserved for JavaScript files, "ts" are reserved for TypeScript files, "vue" are reserved for scripts in Vue files). Code fixes are disabled.'
 				}
 			},
 			tests: {
 				valid: [
-					'var x = 123',
-					'var y = 456',
+					'var x = 123;',
+					'var y = 456;',
 					{
-						code: 'var jsX = 123',
+						code: 'var jsX = 123;',
 						filename: jsFilename
 					},
 					{
-						code: 'var jsY = 456',
+						code: 'var jsY = 456;',
 						filename: jsFilename
 					},
 					{
-						code: 'var tsX = 123',
+						code: 'var tsX = 123;',
 						filename: tsFilename
 					},
 					{
-						code: 'var tsY = 456',
+						code: 'var tsY = 456;',
 						filename: tsFilename
+					},
+					{
+						code: makeVueFileContent( 'var vueZ = 789;' ),
+						filename: vueFilename
 					}
 				],
 				invalid: [
 					{
-						code: 'var jsX = 123',
+						code: 'var jsX = 123;',
 						filename: tsFilename
 					},
 					{
-						code: 'var jsY = 456',
+						code: 'var jsY = 456;',
 						filename: tsFilename
 					},
 					{
-						code: 'var tsX = 123',
+						code: 'var tsX = 123;',
 						filename: jsFilename
 					},
 					{
-						code: 'var tsY = 456',
+						code: 'var tsY = 456;',
 						filename: jsFilename
+					},
+					{
+						code: makeVueFileContent( 'var jsZ = 789;' ),
+						filename: vueFilename
+					},
+					{
+						code: makeVueFileContent( 'var tsZ = 789;' ),
+						filename: vueFilename
 					}
 				]
 			},
 			config: {
-				showFilenames: true
+				showFilenames: true,
+				fixCodeExamples: false
 			},
 			expected: 'cases/file-rule.md'
 		},
