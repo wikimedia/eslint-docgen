@@ -22,19 +22,16 @@ var jsY = 456;
 
 ❌ Examples of **incorrect** code:
 ```ts
-
 function jsF<T>(x: T): T { return x; }
 ```
 
 ✔️ Examples of **correct** code:
 ```ts
-
 function tsF<T>(x: T): T { return x; }
 ```
 
 ❌ Examples of **incorrect** code:
 ```vue
-
 <template>
     <p>Placeholder...</p>
 </template>
@@ -52,7 +49,6 @@ var tsZ = 789;
 
 ✔️ Examples of **correct** code:
 ```vue
-
 <template>
     <p>Placeholder...</p>
 </template>
