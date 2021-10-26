@@ -26,6 +26,7 @@ ${scriptContents}
 
 describe( 'buildDocsFromTests', () => {
 	const jsFilename = path.resolve( __dirname, '../sandbox/test.js' );
+	const tsFilename = path.resolve( __dirname, '../sandbox/test.ts' );
 	const vueFilename = path.resolve( __dirname, '../sandbox/test.vue' );
 
 	const noDesc = { type: 'warn', text: 'No description found in rule metadata' };
@@ -129,6 +130,10 @@ describe( 'buildDocsFromTests', () => {
 					{
 						code: makeVueFileContent( 'var vueZ = 789;' ),
 						filename: vueFilename
+					},
+					{
+						code: 'function tsF<T>(x: T): T { return x; }',
+						filename: tsFilename
 					}
 				],
 				invalid: [
@@ -147,6 +152,10 @@ describe( 'buildDocsFromTests', () => {
 					{
 						code: makeVueFileContent( 'var tsZ = 789;' ),
 						filename: vueFilename
+					},
+					{
+						code: 'function jsF<T>(x: T): T { return x; }',
+						filename: tsFilename
 					}
 				]
 			},

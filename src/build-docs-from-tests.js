@@ -5,6 +5,7 @@ const path = require( 'upath' );
 // Mapping from extension to language name for markdown
 // Default language is 'js'
 const languageFromExtension = {
+	'.ts': 'ts',
 	'.vue': 'vue'
 };
 
