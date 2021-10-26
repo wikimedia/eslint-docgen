@@ -1,5 +1,14 @@
 # eslint-docgen release history
 
+## v0.6.0
+* Breaking change: Drop deprecated 'noDoc' option and '--doc' CLI flag (#115)
+* New: build-docs-from-tests: add Vue syntax highlighting (#105) (DannyS712)
+* New: Add TypeScript syntax highlighting
+* New: Add HTML syntax highlighting
+* New: Separate syntax highlighting support from showFilenames (#114)
+* Fix: Don't put an empty line before the first multi-line examples in a set (#117)
+* Code: Cleanup code for detecting highlight language (#113)
+
 ## v0.5.1
 * Breaking change: Change the default icon for rules which are included in a preset (#109)
 * Breaking change: Add generated-file-warning comment to the top of MD files (#107)
