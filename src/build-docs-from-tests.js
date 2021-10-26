@@ -197,7 +197,8 @@ function buildDocsFromTests(
 				example = code;
 				multiLine = code.split( '\n' ).length > 1;
 			}
-			if ( multiLine || previousMultiLine ) {
+			// Put linebreaks around multi-line examples
+			if ( testsByOptions[ hash ].tests.length && ( multiLine || previousMultiLine ) ) {
 				example = '\n' + example;
 			}
 			testsByOptions[ hash ].tests.push( example );
