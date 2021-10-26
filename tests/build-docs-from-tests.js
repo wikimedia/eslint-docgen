@@ -280,46 +280,6 @@ describe( 'buildDocsFromTests', () => {
 			expected: 'cases/no-fix-code-examples.md'
 		},
 		{
-			description: 'no-fix-code-examples.md: Deprecated `noDoc: true`.',
-			ruleMeta: {
-				fixable: 'code'
-			},
-			tests: {
-				valid: [
-					'var x="123"',
-					'var y="45678"',
-					{
-						code: 'var z="not-included-in-docs"',
-						noDoc: true
-					}
-				],
-				invalid: [
-					{
-						code: 'var x="1.23"',
-						options: [ { myOption: true } ],
-						output: 'var x="123"'
-					},
-					{
-						code: 'var y="4.5678"',
-						options: [ { myOption: true } ]
-						// `output` missing, not allowed in ESLint >= 7
-					}
-				]
-			},
-			config: {
-				showConfigComments: true,
-				fixCodeExamples: false
-			},
-			messages: [
-				noDesc,
-				{
-					type: 'warn',
-					text: '`noDoc: true` is deprecated. Use `docgen: false` instead.'
-				}
-			],
-			expected: 'cases/no-fix-code-examples.md'
-		},
-		{
 			description: 'config-comments.md: No valid cases, fixCodeExamples:true, showConfigComments:true',
 			ruleMeta: {
 				fixable: 'code'

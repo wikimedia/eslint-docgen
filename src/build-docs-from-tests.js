@@ -113,14 +113,6 @@ function buildDocsFromTests(
 		const codeSet = {};
 		let previousMultiLine = false;
 		testList.forEach( function ( test, i ) {
-			if ( !config.excludeExamplesByDefault && test.noDoc ) {
-				messages.push( {
-					type: 'warn',
-					text: '`noDoc: true` is deprecated. Use `docgen: false` instead.'
-				} );
-				return;
-			}
-
 			const docgen = test.docgen === undefined ?
 				!config.excludeExamplesByDefault :
 				test.docgen;
