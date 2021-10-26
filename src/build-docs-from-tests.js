@@ -2,6 +2,11 @@
 
 const pluralize = require( 'pluralize' );
 const path = require( 'upath' );
+// Mapping from extension to language name for markdown
+// Default language is 'js'
+const languageFromExtension = {
+	'.vue': 'vue'
+};
 
 /**
  * Format a list of items with natural language
@@ -60,17 +65,14 @@ function buildDocsFromTests(
 	}
 
 	/**
-	 *
-	 * @param {string|Object} test
-	 * @return {string|undefined} The base file name, or undefined if not set
+	 * @param {string|Object} test Test case
+	 * @return {string|null} The base file name, or null if not set
 	 */
 	function getFilename( test ) {
 		if ( typeof test === 'string' || test.filename === undefined ) {
-			// Either the test is just a code snippet, or its an object but with
-			// no file name set
-			return undefined;
+			// Either the test is just a code snippet, or no file name is set
+			return null;
 		}
-		// We don't need the full file path, just the last bit with the name and extension
 		return path.basename( test.filename );
 	}
 
@@ -127,23 +129,37 @@ function buildDocsFromTests(
 				return;
 			}
 
-			let optionsAndSettings;
-			// Only include the filename if it should be shown
-			// Don't create an object if there are no options or settings and the file name is not
-			// set, so that those examples are sorted to the top of the docs
-			if (
-				test.options || test.settings ||
-				( config.showFilenames && getFilename( test ) )
-			) {
-				optionsAndSettings = {
-					options: test.options,
-					settings: test.settings
-				};
-				if ( config.showFilenames ) {
-					optionsAndSettings.filename = getFilename( test );
+			const filename = getFilename( test );
+			let lang = 'js';
+			// Switch to Vue if we are showing file names and its a Vue file.
+			// optionsAndSettings.filename is only set if it should be shown
+			// TODO should we add other languages too?
+			if ( filename ) {
+				const ext = path.extname( filename );
+				if ( ext in languageFromExtension ) {
+					lang = languageFromExtension[ ext ];
 				}
 			}
-			const hash = optionsAndSettings ? JSON.stringify( optionsAndSettings ) : '';
+
+			// Keys are in reverse sort order, e.g. examples with options
+			// are shown before examples with settings
+			const optionsAndSettings = {
+				// Always separate tests by language for syntax highlighting
+				lang: lang,
+				settings: test.settings,
+				options: test.options,
+				// Only group by filename if filenames are shown
+				filename: config.showFilenames && filename
+			};
+			const hashObject = {};
+			// Ensure examples without a specific key are shown first
+			Object.keys( optionsAndSettings ).forEach( ( key ) => {
+				hashObject[ key ] = optionsAndSettings[ key ] ?
+					[ '1', optionsAndSettings[ key ] ] :
+					[ '0', optionsAndSettings[ key ] ];
+			} );
+
+			const hash = JSON.stringify( hashObject );
 
 			codeSet[ hash ] = codeSet[ hash ] || {};
 
@@ -214,26 +230,12 @@ function buildDocsFromTests(
 		return Object.keys( testsByOptions ).map( ( key, i ) => {
 			const section = testsByOptions[ key ];
 			const optionsAndSettings = section.optionsAndSettings;
+			const lang = optionsAndSettings && optionsAndSettings.lang;
 			const options = optionsAndSettings && optionsAndSettings.options;
 			const settings = optionsAndSettings && optionsAndSettings.settings;
 			const filename = optionsAndSettings && optionsAndSettings.filename;
-			// Mapping from extension to language name for markdown
-			// Default language is 'js'
-			const languageFromExtension = {
-				'.vue': 'vue'
-			};
 
-			let syntaxHighlightLang = 'js';
-			// Switch to Vue if we are showing file names and its a Vue file.
-			// optionsAndSettings.filename is only set if it should be shown
-			// TODO should we add other languages too?
-			if ( filename ) {
-				const ext = path.extname( filename );
-				if ( ext in languageFromExtension ) {
-					syntaxHighlightLang = languageFromExtension[ ext ];
-				}
-			}
-			let examples = '```' + syntaxHighlightLang + '\n';
+			let examples = '```' + lang + '\n';
 			if ( config.showConfigComments ) {
 				examples += comments[ i ] + '\n';
 			}
