@@ -7,6 +7,20 @@ Syntax language set from filename extension, fixCodeExamples:false
 ## Rule details
 
 ❌ Examples of **incorrect** code:
+```html
+<script>
+var jsX = 123;
+</script>
+```
+
+✔️ Examples of **correct** code:
+```html
+<script>
+var htmlX = 123;
+</script>
+```
+
+❌ Examples of **incorrect** code:
 ```js
 var tsX = 123;
 var tsY = 456;
