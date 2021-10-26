@@ -14,18 +14,18 @@ const testUtils = require( './test-utils' );
  * @return {string}
  */
 function makeVueFileContent( scriptContents ) {
-	const aboveScriptContents = `<template>
+	return `<template>
 	<p>Placeholder...</p>
 </template>
-<script>`;
-	return aboveScriptContents + '\n' + scriptContents + '\n</script>';
+<script>
+${scriptContents}
+</script>`;
 }
 
 /* eslint-disable mocha/no-setup-in-describe */
 
 describe( 'buildDocsFromTests', () => {
 	const jsFilename = path.resolve( __dirname, '../sandbox/test.js' );
-	const tsFilename = path.resolve( __dirname, '../sandbox/test.ts' );
 	const vueFilename = path.resolve( __dirname, '../sandbox/test.vue' );
 
 	const noDesc = { type: 'warn', text: 'No description found in rule metadata' };
@@ -107,11 +107,11 @@ describe( 'buildDocsFromTests', () => {
 			expected: 'cases/simple-rule.md'
 		},
 		{
-			description: 'file-rule.md: Rule where the file name matters',
-			name: 'file-rule',
+			description: 'syntax-lang.md: Different syntax languages',
+			name: 'syntax-lang',
 			ruleMeta: {
 				docs: {
-					description: 'File rule cares about the file name (variable names starting with "js" are reserved for JavaScript files, "ts" are reserved for TypeScript files, "vue" are reserved for scripts in Vue files). Code fixes are disabled.'
+					description: 'Syntax language set from filename extension, fixCodeExamples:false'
 				}
 			},
 			tests: {
@@ -127,27 +127,11 @@ describe( 'buildDocsFromTests', () => {
 						filename: jsFilename
 					},
 					{
-						code: 'var tsX = 123;',
-						filename: tsFilename
-					},
-					{
-						code: 'var tsY = 456;',
-						filename: tsFilename
-					},
-					{
 						code: makeVueFileContent( 'var vueZ = 789;' ),
 						filename: vueFilename
 					}
 				],
 				invalid: [
-					{
-						code: 'var jsX = 123;',
-						filename: tsFilename
-					},
-					{
-						code: 'var jsY = 456;',
-						filename: tsFilename
-					},
 					{
 						code: 'var tsX = 123;',
 						filename: jsFilename
@@ -167,10 +151,48 @@ describe( 'buildDocsFromTests', () => {
 				]
 			},
 			config: {
-				showFilenames: true,
 				fixCodeExamples: false
 			},
-			expected: 'cases/file-rule.md'
+			expected: 'cases/syntax-lang.md'
+		},
+		{
+			description: 'file-names.md: Show filenames',
+			name: 'file-names',
+			ruleMeta: {
+				docs: {
+					description: 'showFilenames: true'
+				}
+			},
+			tests: {
+				valid: [
+					'var x = 123;',
+					'var y = 456;',
+					{
+						code: 'var jsX = 123;',
+						filename: jsFilename
+					},
+					{
+						code: 'var jsY = 456;',
+						filename: jsFilename
+					}
+				],
+				invalid: [
+					'var vueX = 123;',
+					'var vueY = 456;',
+					{
+						code: 'var tsX = 123;',
+						filename: jsFilename
+					},
+					{
+						code: 'var tsY = 456;',
+						filename: jsFilename
+					}
+				]
+			},
+			config: {
+				showFilenames: true
+			},
+			expected: 'cases/file-names.md'
 		},
 		{
 			description: 'no-fix-code-examples.md: No description, rule with `docgen: false`, fixCodeExamples:false, showConfigComments:true',
