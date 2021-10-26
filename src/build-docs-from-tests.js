@@ -79,6 +79,12 @@ function buildDocsFromTests(
 	}
 
 	function buildRuleDetails( testList, valid, showFixes ) {
+		testList = testList.filter( ( test ) =>
+			test.docgen === undefined ?
+				!config.excludeExamplesByDefault :
+				test.docgen
+		);
+
 		let fixedCode, fixedOutput, maxCodeLength;
 		const testsByOptions = {};
 
@@ -115,14 +121,6 @@ function buildDocsFromTests(
 		const codeSet = {};
 		let previousMultiLine = false;
 		testList.forEach( function ( test, i ) {
-			const docgen = test.docgen === undefined ?
-				!config.excludeExamplesByDefault :
-				test.docgen;
-
-			if ( !docgen ) {
-				return;
-			}
-
 			const filename = getFilename( test );
 			let lang = 'js';
 			// Switch to Vue if we are showing file names and its a Vue file.

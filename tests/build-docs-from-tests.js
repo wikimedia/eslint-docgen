@@ -96,6 +96,11 @@ describe( 'buildDocsFromTests', () => {
 						code: 'var z2 = "1.23"',
 						options: [ { myOption: true } ],
 						output: 'var z2 = "123"'
+					},
+					{
+						// Parser error shouldn't be a problem if docgen is false
+						code: 'parser:::error',
+						docgen: false
 					}
 				]
 			},
