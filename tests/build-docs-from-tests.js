@@ -25,6 +25,7 @@ ${scriptContents}
 /* eslint-disable mocha/no-setup-in-describe */
 
 describe( 'buildDocsFromTests', () => {
+	const htmlFilename = path.resolve( __dirname, '../sandbox/test.html' );
 	const jsFilename = path.resolve( __dirname, '../sandbox/test.js' );
 	const tsFilename = path.resolve( __dirname, '../sandbox/test.ts' );
 	const vueFilename = path.resolve( __dirname, '../sandbox/test.vue' );
@@ -134,6 +135,10 @@ describe( 'buildDocsFromTests', () => {
 					{
 						code: 'function tsF<T>(x: T): T { return x; }',
 						filename: tsFilename
+					},
+					{
+						code: '<script>\nvar htmlX = 123;\n</script>',
+						filename: htmlFilename
 					}
 				],
 				invalid: [
@@ -156,6 +161,10 @@ describe( 'buildDocsFromTests', () => {
 					{
 						code: 'function jsF<T>(x: T): T { return x; }',
 						filename: tsFilename
+					},
+					{
+						code: '<script>\nvar jsX = 123;\n</script>',
+						filename: htmlFilename
 					}
 				]
 			},
