@@ -1,5 +1,8 @@
 # eslint-docgen release history
 
+## v0.6.1
+* Fix: Filter out docgen:false tests before parsing
+
 ## v0.6.0
 * Breaking change: Drop deprecated 'noDoc' option and '--doc' CLI flag (#115)
 * New: build-docs-from-tests: add Vue syntax highlighting (#105) (DannyS712)
