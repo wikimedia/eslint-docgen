@@ -78,7 +78,7 @@ function buildDocsFromTests(
 		return path.basename( test.filename );
 	}
 
-	function buildRuleDetails( testList, valid, showFixes ) {
+	function buildRuleDetails( testList, isValid, showFixes ) {
 		testList = testList.filter( ( test ) =>
 			test.docgen === undefined ?
 				!config.excludeExamplesByDefault :
@@ -176,9 +176,8 @@ function buildDocsFromTests(
 				};
 
 			if ( showFixes && test.output ) {
-				const output = fixedOutput[ i ];
 				const codeLines = code.split( '\n' );
-				const outputLines = output.split( '\n' );
+				const outputLines = fixedOutput[ i ].split( '\n' );
 				const maxLines = Math.max( codeLines.length, outputLines.length );
 				const exampleLines = [];
 				for ( let l = 0; l < maxLines; l++ ) {
@@ -237,7 +236,7 @@ function buildDocsFromTests(
 
 			return {
 				key: key,
-				valid: valid,
+				valid: isValid,
 				options: options ? JSON.stringify( options ) : '',
 				settings: settings ? JSON.stringify( settings ) : '',
 				filename: filename || '',
