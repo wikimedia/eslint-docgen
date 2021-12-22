@@ -1,6 +1,5 @@
 'use strict';
 
-/* eslint-disable no-process-exit */
 const fs = require( 'fs' );
 const mkdirp = require( 'mkdirp' );
 const path = require( 'upath' );
@@ -14,14 +13,14 @@ let config, configPath;
 try {
 	( { config, configPath } = getConfig() );
 } catch ( e ) {
-	throw new Error([ formatter.heading( 'eslint-docgen' ),formatter.error( e.message )].join('\n'))
+	throw new Error( [ formatter.heading( 'eslint-docgen' ), formatter.error( e.message ) ].join( '\n' ) );
 }
 
 const configValidator = require( './validate-config' );
 function assertValidConfig( maybeValidConfig, configSource ) {
 	const configErrors = configValidator( maybeValidConfig );
 	if ( configErrors.length ) {
-		throw new Error([ formatter.heading( configSource ),...configErrors.map(formatter.error)].join('\n'))
+		throw new Error( [ formatter.heading( configSource ), ...configErrors.map( formatter.error ) ].join( '\n' ) );
 	}
 }
 
@@ -47,7 +46,7 @@ function writeDocsFromTests( name, rule, tests, testerConfig, done ) {
 	const outputPath = packagePath( configForRule.docPath.replace( '{name}', name ) );
 	const ruleWithConfig = rulesWithConfig.get( name );
 	if ( !ruleWithConfig ) {
-		throw new Error([ formatter.heading( outputPath ),formatter.error( 'Rule not found.' )].join('\n'))
+		throw new Error( [ formatter.heading( outputPath ), formatter.error( 'Rule not found.' ) ].join( '\n' ) );
 	}
 	const configMap = rulesWithConfig.get( name ).configMap;
 	let output, messages;
@@ -57,7 +56,7 @@ function writeDocsFromTests( name, rule, tests, testerConfig, done ) {
 			globalTemplates, loadRuleTemplate, testerConfig
 		) );
 	} catch ( e ) {
-		throw new Error([ formatter.heading( outputPath ),formatter.error( e.message )].join('\n'))		
+		throw new Error( [ formatter.heading( outputPath ), formatter.error( e.message ) ].join( '\n' ) );
 	}
 
 	const outputDir = path.dirname( outputPath );
@@ -78,10 +77,10 @@ function writeDocsFromTests( name, rule, tests, testerConfig, done ) {
 					console.log();
 				}
 
-				const errors = messages.filter((message) => message.type === 'error')
+				const errors = messages.filter( ( message ) => message.type === 'error' );
 
 				if ( errors.length ) {
-					throw new Error(errors.map(formatter.error).join('\n'))
+					throw new Error( errors.map( formatter.error ).join( '\n' ) );
 				}
 
 				done();
