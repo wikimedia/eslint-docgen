@@ -1,5 +1,9 @@
 # eslint-docgen release history
 
+## v0.6.2
+* Fix: Use throw instead of process.exit (#127) (Justin Poehnelt)
+* Code: Update eslint-config-wikimedia to 0.21.0
+
 ## v0.6.1
 * Fix: Filter out docgen:false tests before parsing (#120)
 

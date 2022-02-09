@@ -1,6 +1,6 @@
 {
 	"name": "eslint-docgen",
-	"version": "0.6.1",
+	"version": "0.6.2",
 	"description": "Automatically generate ESLint plugin documentation from rule metadata and test cases.",
 	"repository": {
 		"type": "git",
