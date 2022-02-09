@@ -429,7 +429,7 @@ describe( 'buildDocsFromTests', () => {
 	];
 
 	cases.forEach( ( caseItem ) => {
-		it( caseItem.description, () => {
+		it( caseItem.description, async () => {
 			testUtils.mockCwd( caseItem.cwd || 'cases/plugin/src' );
 
 			const buildDocsFromTests = require( '../src/build-docs-from-tests' );
@@ -445,7 +445,7 @@ describe( 'buildDocsFromTests', () => {
 				return fs.readFileSync( path.join( __dirname, filename ) ).toString();
 			}
 
-			const { output, messages } = buildDocsFromTests(
+			const { output, messages } = await buildDocsFromTests(
 				caseItem.name || 'my-rule',
 				caseItem.ruleMeta || {},
 				caseItem.tests,

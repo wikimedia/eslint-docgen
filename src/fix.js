@@ -1,23 +1,29 @@
 'use strict';
 
-const eslint = require( 'eslint' );
-const linter = new eslint.Linter();
-const cli = new eslint.CLIEngine();
-const config = cli.getConfigForFile( require( './main' ) );
-const rules = cli.getRules();
+const { Linter, ESLint } = require( 'eslint' );
+const linter = new Linter();
+const eslint = new ESLint();
 const mergeOptions = require( 'merge-options' );
+// eslint-disable-next-line node/no-missing-require
+const { builtinRules } = require( 'eslint/use-at-your-own-risk' );
 
-// Optimization: Only use fixable rules
-const fixableRules = {};
-Object.keys( config.rules ).forEach( function ( ruleName ) {
-	if ( rules.has( ruleName ) ) {
-		const rule = rules.get( ruleName );
-		if ( rule.meta.fixable ) {
-			fixableRules[ ruleName ] = config.rules[ ruleName ];
+async function getConfig() {
+	const config = await eslint.calculateConfigForFile( require( './main' ) );
+
+	// Optimization: Only use fixable rules
+	const fixableRules = {};
+	Object.keys( config.rules ).forEach( function ( ruleName ) {
+		if ( builtinRules.has( ruleName ) ) {
+			const rule = builtinRules.get( ruleName );
+			if ( rule.meta.fixable ) {
+				fixableRules[ ruleName ] = config.rules[ ruleName ];
+			}
 		}
-	}
-} );
-config.rules = fixableRules;
+	} );
+	config.rules = fixableRules;
+
+	return config;
+}
 
 /**
  * Lint and fix some code
@@ -26,8 +32,8 @@ config.rules = fixableRules;
  * @param {Object} testerConfig Config
  * @return {string} Fixed code
  */
-function lintFix( code, testerConfig ) {
-	const mergedConfig = mergeOptions( config, testerConfig );
+async function lintFix( code, testerConfig ) {
+	const mergedConfig = mergeOptions( await getConfig(), testerConfig );
 
 	// TODO
 	// istanbul ignore next
@@ -55,11 +61,12 @@ function lintFix( code, testerConfig ) {
  * @param {Object} testerConfig Config
  * @return {string[]} Fixed code list
  */
-function batchLintFix( codeList, testerConfig ) {
+async function batchLintFix( codeList, testerConfig ) {
 	const separator = '\n/* - */\n';
 	const codeBlock = codeList.join( ';' + separator );
 	// Add an extra semicolon to avoid syntax error
-	return lintFix( codeBlock, testerConfig ).split( separator ).map( ( code ) => code.trim() );
+	const fixed = await lintFix( codeBlock, testerConfig );
+	return fixed.split( separator ).map( ( code ) => code.trim() );
 }
 
 module.exports = {

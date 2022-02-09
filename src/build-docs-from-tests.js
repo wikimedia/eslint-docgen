@@ -37,7 +37,7 @@ function mdLink( target, label ) {
 	return '[' + label + '](' + target + ')';
 }
 
-function buildDocsFromTests(
+async function buildDocsFromTests(
 	name, ruleMeta, tests, configMap, config, globalTemplates, loadRuleTemplate, testerConfig
 ) {
 
@@ -78,7 +78,7 @@ function buildDocsFromTests(
 		return path.basename( test.filename );
 	}
 
-	function buildRuleDetails( testList, isValid, showFixes ) {
+	async function buildRuleDetails( testList, isValid, showFixes ) {
 		testList = testList.filter( ( test ) =>
 			test.docgen === undefined ?
 				!config.excludeExamplesByDefault :
@@ -91,7 +91,7 @@ function buildDocsFromTests(
 		const codeList = testList.map( getCode );
 		if ( config.fixCodeExamples ) {
 			const fix = require( './fix' );
-			fixedCode = fix.batchLintFix( codeList, testerConfig );
+			fixedCode = await fix.batchLintFix( codeList, testerConfig );
 		} else {
 			fixedCode = codeList;
 		}
@@ -110,7 +110,7 @@ function buildDocsFromTests(
 			const outputList = testList.map( ( test ) => test.output );
 			if ( config.fixCodeExamples ) {
 				const fix = require( './fix' );
-				fixedOutput = fix.batchLintFix( outputList, testerConfig );
+				fixedOutput = await fix.batchLintFix( outputList, testerConfig );
 			} else {
 				fixedOutput = outputList;
 			}
@@ -215,7 +215,7 @@ function buildDocsFromTests(
 			if ( config.fixCodeExamples ) {
 				const fix = require( './fix' );
 				// Fixes whitespace in block comment. Too expensive for such a small fix?
-				comments = fix.batchLintFix( comments, testerConfig );
+				comments = await fix.batchLintFix( comments, testerConfig );
 			}
 		}
 
@@ -268,8 +268,8 @@ function buildDocsFromTests(
 		} );
 	}
 
-	const invalid = buildRuleDetails( tests.invalid, false );
-	const valid = buildRuleDetails( tests.valid, true );
+	const invalid = await buildRuleDetails( tests.invalid, false );
+	const valid = await buildRuleDetails( tests.valid, true );
 
 	const validInvalid = invalid.concat( valid ).sort( ( a, b ) => {
 		return a.key === b.key ?
@@ -279,7 +279,7 @@ function buildDocsFromTests(
 
 	let fixed = [];
 	if ( ruleMeta.fixable && config.showFixExamples ) {
-		fixed = buildRuleDetails(
+		fixed = await buildRuleDetails(
 			tests.invalid.filter( ( test ) => !!test.output ),
 			false,
 			true

@@ -35,7 +35,7 @@ if ( config.globalTemplatePath ) {
 }
 const { globalTemplates, loadRuleTemplate } = loadTemplates( templatePaths );
 
-function writeDocsFromTests( name, rule, tests, testerConfig, done ) {
+async function writeDocsFromTests( name, rule, tests, testerConfig, done ) {
 	// If the tests have a `docgenConfig` property, this overrides the global configuration
 	let configForRule = config;
 	if ( tests.docgenConfig !== undefined ) {
@@ -51,7 +51,7 @@ function writeDocsFromTests( name, rule, tests, testerConfig, done ) {
 	const configMap = rulesWithConfig.get( name ).configMap;
 	let output, messages;
 	try {
-		( { output, messages } = buildDocsFromTests(
+		( { output, messages } = await buildDocsFromTests(
 			name, rule.meta, tests, configMap, configForRule,
 			globalTemplates, loadRuleTemplate, testerConfig
 		) );
