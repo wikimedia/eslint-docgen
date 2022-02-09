@@ -1,5 +1,8 @@
 # eslint-docgen release history
 
+## v0.7.0
+* Breaking change: Upgrade to ESLint 8
+
 ## v0.6.2
 * Fix: Use throw instead of process.exit (#127) (Justin Poehnelt)
 * Code: Update eslint-config-wikimedia to 0.21.0
