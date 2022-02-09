@@ -1,6 +1,5 @@
 'use strict';
 
-/* eslint-disable no-process-exit */
 const fs = require( 'fs' );
 const mkdirp = require( 'mkdirp' );
 const path = require( 'upath' );
@@ -14,20 +13,14 @@ let config, configPath;
 try {
 	( { config, configPath } = getConfig() );
 } catch ( e ) {
-	console.log( formatter.heading( 'eslint-docgen' ) );
-	console.log( formatter.error( e.message ) );
-	console.log();
-	process.exit( 1 );
+	throw new Error( [ formatter.heading( 'eslint-docgen' ), formatter.error( e.message ) ].join( '\n' ) );
 }
 
 const configValidator = require( './validate-config' );
 function assertValidConfig( maybeValidConfig, configSource ) {
 	const configErrors = configValidator( maybeValidConfig );
 	if ( configErrors.length ) {
-		console.log( formatter.heading( configSource ) );
-		configErrors.forEach( ( error ) => console.log( formatter.error( error ) ) );
-		console.log();
-		process.exit( 1 );
+		throw new Error( [ formatter.heading( configSource ), ...configErrors.map( formatter.error ) ].join( '\n' ) );
 	}
 }
 
@@ -53,11 +46,7 @@ function writeDocsFromTests( name, rule, tests, testerConfig, done ) {
 	const outputPath = packagePath( configForRule.docPath.replace( '{name}', name ) );
 	const ruleWithConfig = rulesWithConfig.get( name );
 	if ( !ruleWithConfig ) {
-		console.log();
-		console.log( formatter.heading( outputPath ) );
-		console.log( formatter.error( 'Rule not found.' ) );
-		console.log();
-		process.exit( 1 );
+		throw new Error( [ formatter.heading( outputPath ), formatter.error( 'Rule not found.' ) ].join( '\n' ) );
 	}
 	const configMap = rulesWithConfig.get( name ).configMap;
 	let output, messages;
@@ -67,11 +56,7 @@ function writeDocsFromTests( name, rule, tests, testerConfig, done ) {
 			globalTemplates, loadRuleTemplate, testerConfig
 		) );
 	} catch ( e ) {
-		console.log();
-		console.log( formatter.heading( outputPath ) );
-		console.log( formatter.error( e.message ) );
-		console.log();
-		process.exit( 1 );
+		throw new Error( [ formatter.heading( outputPath ), formatter.error( e.message ) ].join( '\n' ) );
 	}
 
 	const outputDir = path.dirname( outputPath );
@@ -92,8 +77,10 @@ function writeDocsFromTests( name, rule, tests, testerConfig, done ) {
 					console.log();
 				}
 
-				if ( messages.some( ( message ) => message.type === 'error' ) ) {
-					process.exit( 1 );
+				const errors = messages.filter( ( message ) => message.type === 'error' );
+
+				if ( errors.length ) {
+					throw new Error( errors.map( formatter.error ).join( '\n' ) );
 				}
 
 				done();
