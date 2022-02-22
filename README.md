@@ -25,6 +25,18 @@ To build your documentation, run your rule tests with the `DOCGEN` environment v
 DOCGEN=1 mocha tests/rules/
 ```
 
+You could add this to your package.json to make it available as `npm run doc`, e.g.
+```jsonc
+{
+    //
+    "scripts": {
+        //
+        "doc": "rm -rf docs/rules && DOCGEN=1 mochan tests/rules/"
+    }
+    //
+}
+```
+
 Documentation will be built using **rule metadata** and **test data** passed to `RuleTester`:
 
 #### `rule.meta.docs.description`
