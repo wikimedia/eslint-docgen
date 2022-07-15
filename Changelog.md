@@ -1,5 +1,9 @@
 # eslint-docgen release history
 
+## v0.7.1
+* Fix: lintFix: Check for custom parser in mergedConfig (#132)
+* Code: Security updates from `npm audit fix`
+
 ## v0.7.0
 * Breaking change: Upgrade to ESLint 8
 
