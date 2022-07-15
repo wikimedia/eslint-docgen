@@ -37,8 +37,8 @@ async function lintFix( code, testerConfig ) {
 
 	// TODO
 	// istanbul ignore next
-	if ( testerConfig && typeof testerConfig.parser === 'string' ) {
-		linter.defineParser( testerConfig.parser, require( testerConfig.parser ) );
+	if ( typeof mergedConfig.parser === 'string' ) {
+		linter.defineParser( mergedConfig.parser, require( mergedConfig.parser ) );
 	}
 
 	const result = linter.verifyAndFix( code, mergedConfig );
