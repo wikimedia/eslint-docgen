@@ -24,10 +24,10 @@
 	},
 	"dependencies": {
 		"chalk": "^4.1.2",
-		"ejs": "^3.1.6",
+		"ejs": "^3.1.8",
 		"eslint": ">=8.0.0",
 		"import-fresh": "^3.3.0",
-		"jsonschema": "^1.4.0",
+		"jsonschema": "^1.4.1",
 		"merge-options": "^3.0.4",
 		"mkdirp": "^1.0.4",
 		"pkg-dir": "^5.0.0",
