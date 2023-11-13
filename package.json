@@ -20,7 +20,7 @@
 		"report": "nyc report --reporter=html"
 	},
 	"engines": {
-		"node": ">=12.0.0"
+		"node": ">=14.0.0"
 	},
 	"dependencies": {
 		"chalk": "^4.1.2",
