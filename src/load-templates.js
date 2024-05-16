@@ -5,10 +5,12 @@ const path = require( 'upath' );
 const ejs = require( 'ejs' );
 
 function loadTemplatesFromPath( dirPath ) {
+	// eslint-disable-next-line security/detect-non-literal-fs-filename
 	const files = fs.readdirSync( dirPath );
 	const templates = {};
 	files.forEach( ( filename ) => {
 		templates[ path.parse( filename ).name ] =
+			// eslint-disable-next-line security/detect-non-literal-fs-filename
 			fs.readFileSync( path.join( dirPath, filename ) ).toString();
 	} );
 	return templates;
@@ -47,6 +49,7 @@ function loadTemplates( dirPaths ) {
 
 	function loadRuleTemplate( ruleTemplatePath ) {
 		return compile(
+			// eslint-disable-next-line security/detect-non-literal-fs-filename
 			fs.readFileSync( ruleTemplatePath ).toString()
 		);
 	}
