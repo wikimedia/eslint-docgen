@@ -22,6 +22,7 @@ function getConfig() {
 	configFilenames.some( ( configFilename ) => {
 		configPath = packagePath( configFilename );
 
+		// eslint-disable-next-line security/detect-non-literal-fs-filename
 		if ( fs.existsSync( configPath ) ) {
 			config = importFresh( configPath );
 			return true;

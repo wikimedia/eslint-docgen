@@ -38,6 +38,7 @@ async function lintFix( code, testerConfig ) {
 	// TODO
 	// istanbul ignore next
 	if ( typeof mergedConfig.parser === 'string' ) {
+		// eslint-disable-next-line security/detect-non-literal-require
 		linter.defineParser( mergedConfig.parser, require( mergedConfig.parser ) );
 	}
 

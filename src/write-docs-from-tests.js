@@ -61,6 +61,7 @@ async function writeDocsFromTests( name, rule, tests, testerConfig, done ) {
 
 	const outputDir = path.dirname( outputPath );
 	mkdirp( outputDir ).then( () => {
+		// eslint-disable-next-line security/detect-non-literal-fs-filename
 		fs.writeFile(
 			outputPath,
 			output,

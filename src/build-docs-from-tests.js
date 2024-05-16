@@ -323,6 +323,7 @@ async function buildDocsFromTests(
 		const fs = require( 'fs' );
 		const packagePath = require( './package-path' );
 		const ruleTemplatePath = packagePath( config.ruleTemplatePath.replace( '{name}', name ) );
+		// eslint-disable-next-line security/detect-non-literal-fs-filename
 		if ( fs.existsSync( ruleTemplatePath ) ) {
 			index = loadRuleTemplate( ruleTemplatePath );
 		}

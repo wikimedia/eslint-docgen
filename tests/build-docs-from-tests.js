@@ -18,7 +18,7 @@ function makeVueFileContent( scriptContents ) {
 	<p>Placeholder...</p>
 </template>
 <script>
-${scriptContents}
+${ scriptContents }
 </script>`;
 }
 
@@ -442,6 +442,7 @@ describe( 'buildDocsFromTests', () => {
 			defaultConfig.testPath = 'tests/{name}.js';
 
 			function loadCase( filename ) {
+				// eslint-disable-next-line security/detect-non-literal-fs-filename
 				return fs.readFileSync( path.join( __dirname, filename ) ).toString();
 			}
 

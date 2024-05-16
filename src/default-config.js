@@ -1,6 +1,7 @@
 'use strict';
 
 const packagePath = require( './package-path' );
+// eslint-disable-next-line security/detect-non-literal-require
 const packageName = require( packagePath( './package' ) ).name;
 const naming = require( './naming' );
 const pluginName = naming.getShorthandName( packageName, 'eslint-plugin' );
