@@ -6,7 +6,7 @@ const testUtils = require( './test-utils' );
 describe( 'getConfig', () => {
 	it( 'simple config', () => {
 		testUtils.mockCwd( 'cases/plugin/src' );
-		const { config } = require( '../src/get-config.js' )();
+		const config = require( '../src/get-config.js' )();
 		assert.deepEqual(
 			config,
 			{
@@ -21,6 +21,8 @@ describe( 'getConfig', () => {
 				testPath: null,
 				ruleTemplatePath: null,
 				globalTemplatePath: null,
+				readmeTemplate: 'README.md.template',
+				readmeTarget: 'README.md',
 				docLink: false,
 				ruleLink: false,
 				testLink: false,

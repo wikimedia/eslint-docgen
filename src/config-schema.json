@@ -21,6 +21,8 @@
 			"type": "null",
 			"message": "must be renamed to \"globalTemplatePath\""
 		},
+		"readmeTemplate": { "type": "string" },
+		"readmeTarget": { "type": "string" },
 		"docLink": { "type": "boolean" },
 		"ruleLink": { "type": "boolean" },
 		"testLink": { "type": "boolean" },
