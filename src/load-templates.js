@@ -33,14 +33,13 @@ function loadTemplates( dirPaths ) {
 
 	function compile( string, filename ) {
 		const compiled = ejs.compile( string, { client: true } );
-		return ( data ) =>
-			compiled( data, null, function ( template, includeData ) {
-				const mergedData = Object.assign( {}, data, includeData );
-				if ( !hasOwn.call( templateStrings, template ) ) {
-					throw new Error( 'Template `' + template + '` not found in template `' + filename + '`' );
-				}
-				return globalTemplates[ template ]( mergedData );
-			} );
+		return ( data ) => compiled( data, null, ( template, includeData ) => {
+			const mergedData = Object.assign( {}, data, includeData );
+			if ( !hasOwn.call( templateStrings, template ) ) {
+				throw new Error( 'Template `' + template + '` not found in template `' + filename + '`' );
+			}
+			return globalTemplates[ template ]( mergedData );
+		} );
 	}
 
 	Object.keys( templateStrings ).forEach( ( filename ) => {

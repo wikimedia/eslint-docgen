@@ -11,8 +11,7 @@ const schema = require( './config-schema' );
  * @return {string[]} A list of errors found
  */
 function validateConfig( config ) {
-	const errors = v.validate( config, schema ).errors.map( ( e ) =>
-		e.schema.message ? e.property + ' ' + e.schema.message : e.stack );
+	const errors = v.validate( config, schema ).errors.map( ( e ) => e.schema.message ? e.property + ' ' + e.schema.message : e.stack );
 
 	return errors;
 }

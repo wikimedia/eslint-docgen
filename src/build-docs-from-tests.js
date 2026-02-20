@@ -21,9 +21,10 @@ const languageFromExtension = {
  * @return {string} Concatenated list
  */
 function listFormatter( list ) {
-	return list.reduce( ( acc, cur, i, arr ) =>
-		acc + ( i === 0 ? '' : ( ( i === arr.length - 1 ) ? ' and ' : ', ' ) ) + cur,
-	'' );
+	return list.reduce(
+		( acc, cur, i, arr ) => acc + ( i === 0 ? '' : ( ( i === arr.length - 1 ) ? ' and ' : ', ' ) ) + cur,
+		''
+	);
 }
 
 /**
@@ -79,8 +80,8 @@ async function buildDocsFromTests(
 	}
 
 	async function buildRuleDetails( testList, isValid, showFixes ) {
-		testList = testList.filter( ( test ) =>
-			test.docgen === undefined ?
+		testList = testList.filter(
+			( test ) => test.docgen === undefined ?
 				!config.excludeExamplesByDefault :
 				test.docgen
 		);
@@ -100,12 +101,13 @@ async function buildDocsFromTests(
 
 		if ( showFixes ) {
 			// Calculate maxCodeLength for alignment
-			maxCodeLength = fixedCode.reduce( ( acc, code ) =>
-				code.split( '\n' ).reduce(
+			maxCodeLength = fixedCode.reduce(
+				( acc, code ) => code.split( '\n' ).reduce(
 					( lineAcc, line ) => Math.max( lineAcc, line.length ),
 					acc
 				),
-			0 );
+				0
+			);
 
 			const outputList = testList.map( ( test ) => test.output );
 			if ( config.fixCodeExamples ) {
@@ -120,7 +122,7 @@ async function buildDocsFromTests(
 
 		const codeSet = {};
 		let previousMultiLine = false;
-		testList.forEach( function ( test, i ) {
+		testList.forEach( ( test, i ) => {
 			const filename = getFilename( test );
 			let lang = 'js';
 			// Switch to Vue if we are showing file names and its a Vue file.
@@ -271,11 +273,12 @@ async function buildDocsFromTests(
 	const invalid = await buildRuleDetails( tests.invalid, false );
 	const valid = await buildRuleDetails( tests.valid, true );
 
-	const validInvalid = invalid.concat( valid ).sort( ( a, b ) => {
-		return a.key === b.key ?
+	const validInvalid = invalid.concat( valid ).sort(
+		// sort by key, then value
+		( a, b ) => a.key === b.key ?
 			( a.valid < b.valid ? -1 : 1 ) :
-			( a.key < b.key ? -1 : 1 );
-	} );
+			( a.key < b.key ? -1 : 1 )
+	);
 
 	let fixed = [];
 	if ( ruleMeta.fixable && config.showFixExamples ) {
