@@ -72,8 +72,8 @@ async function writeDocsFromTests( name, rule, tests, testerConfig, done ) {
 				if ( messages.length ) {
 					console.log();
 					console.log( formatter.heading( outputPath ) );
-					messages.forEach( ( message ) =>
-						console.log( formatter[ message.type ]( message.text, message.label ) )
+					messages.forEach(
+						( message ) => console.log( formatter[ message.type ]( message.text, message.label ) )
 					);
 					console.log();
 				}

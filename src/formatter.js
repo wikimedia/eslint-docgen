@@ -20,8 +20,8 @@ function labelSuffix( label ) {
  * @return {string}
  */
 function indentAfterFirst( text, indent ) {
-	return text.split( '\n' ).map( ( line, i ) =>
-		i ? ' '.repeat( indent ) + line : line
+	return text.split( '\n' ).map(
+		( line, i ) => i ? ' '.repeat( indent ) + line : line
 	).join( '\n' );
 }
 

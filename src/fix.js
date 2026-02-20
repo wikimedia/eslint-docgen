@@ -4,7 +4,6 @@ const { Linter, ESLint } = require( 'eslint' );
 const linter = new Linter();
 const eslint = new ESLint();
 const mergeOptions = require( 'merge-options' );
-// eslint-disable-next-line node/no-missing-require
 const { builtinRules } = require( 'eslint/use-at-your-own-risk' );
 
 async function getConfig() {
@@ -12,7 +11,7 @@ async function getConfig() {
 
 	// Optimization: Only use fixable rules
 	const fixableRules = {};
-	Object.keys( config.rules ).forEach( function ( ruleName ) {
+	Object.keys( config.rules ).forEach( ( ruleName ) => {
 		if ( builtinRules.has( ruleName ) ) {
 			const rule = builtinRules.get( ruleName );
 			if ( rule.meta.fixable ) {
