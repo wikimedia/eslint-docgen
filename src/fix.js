@@ -7,19 +7,21 @@ const mergeOptions = require( 'merge-options' );
 const { builtinRules } = require( 'eslint/use-at-your-own-risk' );
 
 async function getConfig() {
-	const config = await eslint.calculateConfigForFile( require( './main' ) );
+	const config = await eslint.calculateConfigForFile( require.resolve( './main' ) );
 
 	// Optimization: Only use fixable rules
 	const fixableRules = {};
-	Object.keys( config.rules ).forEach( ( ruleName ) => {
-		if ( builtinRules.has( ruleName ) ) {
-			const rule = builtinRules.get( ruleName );
-			if ( rule.meta.fixable ) {
-				fixableRules[ ruleName ] = config.rules[ ruleName ];
+	if ( config && config.rules ) {
+		Object.keys( config.rules ).forEach( function ( ruleName ) {
+			if ( builtinRules.has( ruleName ) ) {
+				const rule = builtinRules.get( ruleName );
+				if ( rule.meta && rule.meta.fixable ) {
+					fixableRules[ ruleName ] = config.rules[ ruleName ];
+				}
 			}
-		}
-	} );
-	config.rules = fixableRules;
+		} );
+		config.rules = fixableRules;
+	}
 
 	return config;
 }
@@ -32,16 +34,62 @@ async function getConfig() {
  * @return {string} Fixed code
  */
 async function lintFix( code, testerConfig ) {
-	const mergedConfig = mergeOptions( await getConfig(), testerConfig );
+	const baseConfig = await getConfig();
 
-	// TODO
-	// istanbul ignore next
-	if ( typeof mergedConfig.parser === 'string' ) {
-		// eslint-disable-next-line security/detect-non-literal-require
-		linter.defineParser( mergedConfig.parser, require( mergedConfig.parser ) );
+	// ESLint v9 compatibility: Extract only simple properties
+	// Avoid complex nested objects that merge-options can't handle
+	const mergeableBaseConfig = {
+		rules: baseConfig.rules || {}
+	};
+
+	// Extract only the simple properties from languageOptions
+	if ( baseConfig.languageOptions ) {
+		mergeableBaseConfig.languageOptions = {};
+		if ( baseConfig.languageOptions.ecmaVersion !== undefined ) {
+			mergeableBaseConfig.languageOptions.ecmaVersion = baseConfig.languageOptions.ecmaVersion;
+		}
+		if ( baseConfig.languageOptions.sourceType !== undefined ) {
+			mergeableBaseConfig.languageOptions.sourceType = baseConfig.languageOptions.sourceType;
+		}
+		// Skip globals and other complex properties
 	}
 
-	const result = linter.verifyAndFix( code, mergedConfig );
+	const mergedConfig = mergeOptions( mergeableBaseConfig, testerConfig || {} );
+
+	// ESLint v9: Convert to proper flat config for Linter
+	const linterConfig = {
+		rules: mergedConfig.rules || {}
+	};
+
+	// Handle languageOptions (flat config format)
+	if ( mergedConfig.languageOptions ) {
+		linterConfig.languageOptions = { ...mergedConfig.languageOptions };
+	}
+
+	// Handle parser (convert string to module for ESLint v9)
+	if ( typeof mergedConfig.parser === 'string' ) {
+		// eslint-disable-next-line security/detect-non-literal-require
+		const parserModule = require( mergedConfig.parser );
+		if ( !linterConfig.languageOptions ) {
+			linterConfig.languageOptions = {};
+		}
+		linterConfig.languageOptions.parser = parserModule;
+	}
+
+	// Handle legacy parserOptions (convert to languageOptions)
+	if ( mergedConfig.parserOptions && !linterConfig.languageOptions ) {
+		linterConfig.languageOptions = {
+			ecmaVersion: mergedConfig.parserOptions.ecmaVersion,
+			sourceType: mergedConfig.parserOptions.sourceType
+		};
+	}
+
+	// Handle settings
+	if ( mergedConfig.settings ) {
+		linterConfig.settings = mergedConfig.settings;
+	}
+
+	const result = linter.verifyAndFix( code, linterConfig );
 	const err = result.messages.find( ( message ) => message.fatal );
 	// TODO
 	// istanbul ignore next

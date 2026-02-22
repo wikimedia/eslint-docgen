@@ -18,7 +18,7 @@ const languageFromExtension = {
  * However Intl.ListFormat not always available
  *
  * @param {string[]} list List of strings
- * @return {string} Concatenated list
+ * @returns {string} Concatenated list
  */
 function listFormatter( list ) {
 	return list.reduce(
@@ -32,7 +32,7 @@ function listFormatter( list ) {
  *
  * @param {string} target Link target
  * @param {string} label Link label
- * @return {string} Markdown link
+ * @returns {string} Markdown link
  */
 function mdLink( target, label ) {
 	return '[' + label + '](' + target + ')';
@@ -51,7 +51,7 @@ async function buildDocsFromTests(
 	 * We can't reply on browsers to render tabs at at consistent width.
 	 *
 	 * @param {string} code
-	 * @return {string}
+	 * @returns {string}
 	 */
 	function fixTabs( code ) {
 		return code.replace( /\t/g, ' '.repeat( config.tabWidth ) );
@@ -60,16 +60,16 @@ async function buildDocsFromTests(
 	/**
 	 * Get code from test case
 	 *
-	 * @param {string|Object} test Test case
-	 * @return {string} Test case's code
+	 * @param {string | object} test Test case
+	 * @returns {string} Test case's code
 	 */
 	function getCode( test ) {
 		return typeof test === 'string' ? test : test.code;
 	}
 
 	/**
-	 * @param {string|Object} test Test case
-	 * @return {string|null} The base file name, or null if not set
+	 * @param {string | object} test Test case
+	 * @returns {string|null} The base file name, or null if not set
 	 */
 	function getFilename( test ) {
 		if ( typeof test === 'string' || test.filename === undefined ) {
@@ -312,7 +312,7 @@ async function buildDocsFromTests(
 	 *
 	 * @param {string} pattern Code path with {name} as placeholder for the rule name
 	 * @param {string} ruleName Rule name
-	 * @return {string}
+	 * @returns {string}
 	 */
 	function codeLink( pattern, ruleName ) {
 		const filePath = pattern.replace( '{name}', ruleName );

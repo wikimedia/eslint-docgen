@@ -6,14 +6,14 @@
 
 ❌ Examples of **incorrect** code:
 ```js
-/* eslint @user/scoped/my-rule: "error" */
-const x = '1.23';
+/* eslint @user/scoped/my-rule: "error"*/
+var x = '1.23';
 ```
 
 ✔️ Examples of **correct** code:
 ```js
-/* eslint @user/scoped/my-rule: "error" */
-const x = '4.56';
+/* eslint @user/scoped/my-rule: "error"*/
+var x = '4.56';
 ```
 
 ## Resources

@@ -10,7 +10,7 @@
  *
  * @param {string} fullname The term which may have the prefix.
  * @param {string} prefix The prefix to remove.
- * @return {string} The term without prefix.
+ * @returns {string} The term without prefix.
  */
 function getShorthandName( fullname, prefix ) {
 	if ( fullname[ 0 ] === '@' ) {

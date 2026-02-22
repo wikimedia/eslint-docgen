@@ -105,7 +105,7 @@ describe( 'buildDocsFromTests', () => {
 				]
 			},
 			testerConfig: {
-				parserOptions: { ecmaVersion: 2019 }
+				languageOptions: { ecmaVersion: 2019, sourceType: 'script' }
 			},
 			configMap: new Map( Object.entries( {
 				recommended: [ { myOption: true } ],
