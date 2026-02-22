@@ -116,6 +116,14 @@ When defined, will try to use a rule specific template instead of [`index.ejs`](
 #### `globalTemplatePath`
 When defined, templates in this path will override the global templates defined in [`src/templates`](src/templates).
 
+#### `readmeTemplate` (default `'README.md.template'`)
+File path containing a README template, with placeholders for a generated rules list (`<!-- rules -->`), and optionally deprecated rules (`<!-- deprecated -->`).
+
+Invoke by running `eslint-docgen-build-readme`.
+
+#### `readmeTarget` (default `'README.md'`)
+File path to write generated README to, after compiling `readmeTemplate`.
+
 #### `docLink` (default `false`)
 Add a link to the documentation source in the "Resources" section.
 

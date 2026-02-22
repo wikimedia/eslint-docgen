@@ -3,6 +3,8 @@
 const fs = require( 'fs' );
 const packagePath = require( './package-path' );
 const importFresh = require( 'import-fresh' );
+const validateConfig = require( './validate-config' );
+const formatter = require( './formatter' );
 
 const configFilenames = [
 	'.eslintdocgenrc.js',
@@ -15,6 +17,7 @@ const configFilenames = [
  * Missing values are backfilled with the defaults
  *
  * @return {Object} Config
+ * @throws {Error} If no config file is found, or if the config is invalid
  */
 function getConfig() {
 	let config, configPath;
@@ -31,16 +34,18 @@ function getConfig() {
 	} );
 
 	if ( !config ) {
-		throw new Error( '.eslintdocgenrc not found' );
+		throw new Error( [ formatter.heading( 'eslint-docgen' ), formatter.error( '.eslintdocgenrc not found' ) ].join( '\n' ) );
 	}
 
 	const defaultConfig = require( './default-config.js' );
 	config = Object.assign( {}, defaultConfig, config );
 
-	return {
-		config: config,
-		configPath: configPath
-	};
+	const configErrors = validateConfig( config );
+	if ( configErrors.length ) {
+		throw new Error( [ formatter.heading( configPath ), ...configErrors.map( formatter.error ) ].join( '\n' ) );
+	}
+
+	return config;
 }
 
 module.exports = getConfig;

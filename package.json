@@ -12,6 +12,9 @@
 		"documentation"
 	],
 	"main": "src/index.js",
+	"bin": {
+		"eslint-docgen-build-readme": "src/build-readme.js"
+	},
 	"files": [
 		"src"
 	],

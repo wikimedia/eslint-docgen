@@ -9,22 +9,15 @@ const formatter = require( './formatter' );
 const rulesWithConfig = require( './rules-with-config' );
 
 const getConfig = require( './get-config' );
-let config, configPath;
-try {
-	( { config, configPath } = getConfig() );
-} catch ( e ) {
-	throw new Error( [ formatter.heading( 'eslint-docgen' ), formatter.error( e.message ) ].join( '\n' ) );
-}
+const config = getConfig();
 
-const configValidator = require( './validate-config' );
+const validateConfig = require( './validate-config' );
 function assertValidConfig( maybeValidConfig, configSource ) {
-	const configErrors = configValidator( maybeValidConfig );
+	const configErrors = validateConfig( maybeValidConfig );
 	if ( configErrors.length ) {
 		throw new Error( [ formatter.heading( configSource ), ...configErrors.map( formatter.error ) ].join( '\n' ) );
 	}
 }
-
-assertValidConfig( config, configPath );
 
 const packagePath = require( './package-path' );
 

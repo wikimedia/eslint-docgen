@@ -2,7 +2,7 @@
 
 // eslint-disable-next-line security/detect-non-literal-require
 const main = require( require( './main' ) );
-const pluginName = require( './get-config' )().config.pluginName;
+const pluginName = require( './get-config' )().pluginName;
 const configs = main.configs;
 const rulesWithConfig = new Map( Object.entries( main.rules ) );
 

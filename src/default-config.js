@@ -18,6 +18,8 @@ module.exports = {
 	testPath: null,
 	ruleTemplatePath: null,
 	globalTemplatePath: null,
+	readmeTemplate: 'README.md.template',
+	readmeTarget: 'README.md',
 	docLink: false,
 	ruleLink: true,
 	testLink: true,
