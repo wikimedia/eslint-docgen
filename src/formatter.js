@@ -6,7 +6,7 @@ const chalk = require( 'chalk' );
  * Add a dim "label" suffix
  *
  * @param {string} label Label
- * @return {string}
+ * @returns {string}
  */
 function labelSuffix( label ) {
 	return label ? '  ' + chalk.dim( label ) : '';
@@ -17,7 +17,7 @@ function labelSuffix( label ) {
  *
  * @param {string} text Text to indent
  * @param {number} indent Characters to indent by
- * @return {string}
+ * @returns {string}
  */
 function indentAfterFirst( text, indent ) {
 	return text.split( '\n' ).map(
@@ -31,7 +31,7 @@ module.exports = {
 	 *
 	 * @param {string} msg Message
 	 * @param {string} label Label suffix
-	 * @return {string}
+	 * @returns {string}
 	 */
 	warn: ( msg, label ) => '  ' + chalk.yellow( 'warning' ) + '  ' + indentAfterFirst( msg, 11 ) + labelSuffix( label ),
 	/**
@@ -39,14 +39,14 @@ module.exports = {
 	 *
 	 * @param {string} msg Message
 	 * @param {string} label Label suffix
-	 * @return {string}
+	 * @returns {string}
 	 */
 	error: ( msg, label ) => '  ' + chalk.red( 'error' ) + '  ' + indentAfterFirst( msg, 9 ) + labelSuffix( label ),
 	/**
 	 * Format a message as a heading
 	 *
 	 * @param {string} msg Message
-	 * @return {string}
+	 * @returns {string}
 	 */
 	heading: ( msg ) => chalk.underline( msg )
 };

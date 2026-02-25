@@ -2,7 +2,6 @@
 
 const packagePath = require( './package-path' );
 // Use plugin's version of ESLint
-// eslint-disable-next-line security/detect-non-literal-require
 const ESLintRuleTester = require( packagePath( 'node_modules/eslint' ) ).RuleTester;
 const inDocMode = !!process.env.DOCGEN;
 
@@ -14,7 +13,15 @@ class RuleTester extends ESLintRuleTester {
 		if ( inDocMode ) {
 			RuleTester.it( name, ( done ) => {
 				const writeDocsFromTests = require( './write-docs-from-tests' );
-				writeDocsFromTests( name, rule, tests, this.testerConfig, done );
+
+				// ESLint v9 compatibility: testerConfig is an array in v9
+				// Extract the first element (user config) for docgen
+				let config = this.testerConfig;
+				if ( Array.isArray( config ) && config.length > 0 ) {
+					config = config[ 0 ];
+				}
+
+				writeDocsFromTests( name, rule, tests, config, done );
 			} );
 		} else {
 			// Filter out invalid property "docgen"
