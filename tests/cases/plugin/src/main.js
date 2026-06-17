@@ -6,7 +6,7 @@ module.exports = {
 	configs: {
 		recommended: {
 			rules: {
-				'my-plugin/recommended-rule': [ 'error', { myOption: true } ]
+				'my-plugin/recommended-rule': [ 'warn', { myOption: true } ]
 			}
 		},
 		strict: {

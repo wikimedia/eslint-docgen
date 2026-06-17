@@ -108,8 +108,14 @@ describe( 'buildDocsFromTests', () => {
 				parserOptions: { ecmaVersion: 2019 }
 			},
 			configMap: new Map( Object.entries( {
-				recommended: [ { myOption: true } ],
-				strict: null
+				recommended: {
+					options: [ { myOption: true } ],
+					severity: 'warn'
+				},
+				strict: {
+					options: null,
+					severity: 'error'
+				}
 			} ) ),
 			expected: 'cases/simple-rule.md'
 		},

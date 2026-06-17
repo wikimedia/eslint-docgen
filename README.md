@@ -166,7 +166,7 @@ Number of spaces to convert tabs to in code examples. Tabs in examples are alway
 
 ## 🔍 Rules index
 
-To assist with building an index of your rules, for example to put in a root README, this package exports `rulesWithConfig`. The value is a Map much like the one returned by [Linter#getRules](https://eslint.org/docs/developer-guide/nodejs-api#linter-getrules) but each rule has an additional `configMap` property that describes which configs include the rule and the options used (`null` if no options are used).
+To assist with building an index of your rules, for example to put in a root README, this package exports `rulesWithConfig`. The value is a Map much like the one returned by [Linter#getRules](https://eslint.org/docs/developer-guide/nodejs-api#linter-getrules) but each rule has an additional `configMap` property that describes which configs include the rule, the severity (normalised to a string) and options used (`null` if none are used).
 
 Note that the rule names do not include the plugin prefix.
 
@@ -178,8 +178,9 @@ require( 'eslint-docgen' ).rulesWithConfig.get( 'no-event-shorthand' );
     meta: [Object],
     create: [Function],
     configMap: Map {
-        'deprecated-3.5' => null,
-        'deprecated-3.3' => [ { allowAjaxEvents: true } ]
+        'deprecated-4.0' => { severity: 'error', options: null },
+        'deprecated-3.5' => { severity: 'warn', options: null },
+        'deprecated-3.3' => { severity: 'warn', options: [ { allowAjaxEvents: true } ] }
     }
 }
 ```

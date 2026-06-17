@@ -262,10 +262,12 @@ async function buildDocsFromTests(
 	let inConfigs = [];
 	if ( configMap ) {
 		inConfigs = Array.from( configMap.keys() ).map( ( configName ) => {
-			const options = configMap.get( configName );
+			const { options, severity } = configMap.get( configName );
+
 			return {
 				config: configName,
-				options: options && Object.keys( options[ 0 ] ).length ? JSON.stringify( options ) : ''
+				options: options && Object.keys( options[ 0 ] ).length ? JSON.stringify( options ) : '',
+				severity: severity
 			};
 		} );
 	}

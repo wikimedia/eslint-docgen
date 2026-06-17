@@ -1,1 +1,1 @@
-📋 This rule is enabled in `plugin:<%- pluginName %>/<%- inConfig.config %>`<%- include( 'optionsAndSettings', { data: inConfig } ) %>.
+📋 This rule is enabled as <%- inConfig.severity === 'warn' ? 'a warning' : 'an error' %> in `plugin:<%- pluginName %>/<%- inConfig.config %>`<%- include( 'optionsAndSettings', { data: inConfig } ) %>.
