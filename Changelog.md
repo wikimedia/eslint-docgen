@@ -1,5 +1,12 @@
 # eslint-docgen release history
 
+## v0.8.0
+* Breaking change: Show rule severity of a rule when used in a config
+* New: Introduce eslint-docgen-build-readme
+* Fix: Fix mkdirp usage
+* build: Update dependencies
+* build: Drop Node <= 18 support
+
 ## v0.7.1
 * Fix: lintFix: Check for custom parser in mergedConfig (#132)
 * Code: Security updates from `npm audit fix`
