@@ -11,8 +11,14 @@ describe( 'rulesWithConfig', () => {
 			'recommended-rule': {
 				meta: { docs: 'Recommended' },
 				configMap: new Map( Object.entries( {
-					recommended: [ { myOption: true } ],
-					strict: null
+					recommended: {
+						options: [ { myOption: true } ],
+						severity: 'warn'
+					},
+					strict: {
+						options: null,
+						severity: 'error'
+					}
 				} ) )
 			},
 			'my-rule': {

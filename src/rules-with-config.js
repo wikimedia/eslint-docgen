@@ -17,9 +17,26 @@ for ( const name in configs ) {
 	for ( const fullName in rules ) {
 		// Configs use the full rule name with the plugin prefix, so remove this
 		const shortName = fullName.slice( pluginName.length + 1 );
+		let options, rawSeverity;
+
+		if ( Array.isArray( rules[ fullName ] ) ) {
+			options = rules[ fullName ].slice( 1 );
+			rawSeverity = rules[ fullName ][ 0 ];
+		} else {
+			options = null;
+			rawSeverity = rules[ fullName ];
+		}
+		const severityMap = [ 'off', 'warn', 'error' ];
+		const severity = typeof rawSeverity === 'number' ?
+			severityMap[ rawSeverity ] || 'error' :
+			rawSeverity;
+
 		rulesWithConfig.get( shortName ).configMap.set(
 			name,
-			Array.isArray( rules[ fullName ] ) ? rules[ fullName ].slice( 1 ) : null
+			{
+				severity,
+				options
+			}
 		);
 	}
 }
