@@ -16,7 +16,7 @@ const configFilenames = [
  *
  * Missing values are backfilled with the defaults
  *
- * @return {Object} Config
+ * @returns {object} Config
  * @throws {Error} If no config file is found, or if the config is invalid
  */
 function getConfig() {

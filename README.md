@@ -1,6 +1,11 @@
 # eslint-docgen
 Automatically generate ESLint plugin documentation from rule metadata and test cases.
 
+## Requirements
+
+- Node.js >= 20.0.0
+- ESLint >= 9.0.0
+
 ## ⬇️ Installation
 
 ```sh

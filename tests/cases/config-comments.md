@@ -8,27 +8,27 @@
 
 ❌ Examples of **incorrect** code:
 ```js
-/* eslint my-plugin/my-rule: "error" */
+/* eslint my-plugin/my-rule: "error"*/
 var x = '1.23';
 var x = '1.23';
 ```
 
 ❌ Examples of **incorrect** code with `[{"myOption":true}]` options:
 ```js
-/* eslint my-plugin/my-rule: ["error",[{"myOption":true}]] */
+/* eslint my-plugin/my-rule: ["error",[{"myOption":true}]]*/
 var x = '1.23';
 ```
 
 🔧 Examples of code **fixed** by this rule:
 ```js
-/* eslint my-plugin/my-rule: "error" */
+/* eslint my-plugin/my-rule: "error"*/
 var x = '1.23'; /* → */ var x = '123';
 var x = '1.23'; /* → */ var x = '123';
 ```
 
 🔧 Examples of code **fixed** by this rule with `[{"myOption":true}]` options:
 ```js
-/* eslint my-plugin/my-rule: ["error",[{"myOption":true}]] */
+/* eslint my-plugin/my-rule: ["error",[{"myOption":true}]]*/
 var x = '1.23'; /* → */ var x = '123';
 ```
 
