@@ -1,5 +1,14 @@
 # eslint-docgen release history
 
+## v0.8.1
+* Support flat configs exported by plugins
+* Support ESLint 9
+* tests: Give the scoped test plugin a standalone lint config
+* CI: Test in Node 26 too.
+* build: Make eslint a peer dependency
+* build: Replace nyc with c8, faster and more supported
+* build: Upgrade mocha from ^11.7.5 to ^12.0.3
+
 ## v0.8.0
 * Breaking change: Show rule severity of a rule when used in a config
 * New: Introduce eslint-docgen-build-readme
