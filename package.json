@@ -19,8 +19,8 @@
 		"src"
 	],
 	"scripts": {
-		"test": "eslint . --cache && nyc mocha tests/",
-		"report": "nyc report --reporter=html"
+		"test": "eslint . --cache && c8 mocha tests/",
+		"report": "c8 report --reporter=html"
 	},
 	"engines": {
 		"node": ">=20.0.0"
@@ -41,9 +41,9 @@
 		"eslint": ">=8.0.0"
 	},
 	"devDependencies": {
+		"c8": "^12.0.0",
 		"eslint": "^8.57.1",
 		"eslint-config-wikimedia": "^0.32.3",
-		"mocha": "^11.7.5",
-		"nyc": "^17.1.0"
+		"mocha": "^11.7.5"
 	}
 }
