@@ -7,13 +7,13 @@
 ❌ Examples of **incorrect** code:
 ```js
 /* eslint @user/scoped/my-rule: "error" */
-const x = '1.23';
+var x = '1.23';
 ```
 
 ✔️ Examples of **correct** code:
 ```js
 /* eslint @user/scoped/my-rule: "error" */
-const x = '4.56';
+var x = '4.56';
 ```
 
 ## Resources
