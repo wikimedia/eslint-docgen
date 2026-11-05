@@ -1,9 +1,7 @@
 'use strict';
 
-const packagePath = require( './package-path' );
 // Use plugin's version of ESLint
-// eslint-disable-next-line security/detect-non-literal-require
-const ESLintRuleTester = require( packagePath( 'node_modules/eslint' ) ).RuleTester;
+const ESLintRuleTester = require( './eslint' )().RuleTester;
 const inDocMode = !!process.env.DOCGEN;
 
 /**
