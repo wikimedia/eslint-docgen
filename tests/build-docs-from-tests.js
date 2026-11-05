@@ -5,6 +5,8 @@ const fs = require( 'fs' );
 const path = require( 'upath' );
 const testUtils = require( './test-utils' );
 
+const isFlatRuleTester = parseInt( require( 'eslint' ).Linter.version, 10 ) >= 9;
+
 /**
  * Returns the contents that would be appropriate for an overall
  * .vue file, with the scriptContents being contained between <script></script>
@@ -104,9 +106,10 @@ describe( 'buildDocsFromTests', () => {
 					}
 				]
 			},
-			testerConfig: {
-				parserOptions: { ecmaVersion: 2019 }
-			},
+			// ESLint 9+'s RuleTester uses flat config
+			testerConfig: isFlatRuleTester ?
+				{ languageOptions: { ecmaVersion: 2019 } } :
+				{ parserOptions: { ecmaVersion: 2019 } },
 			configMap: new Map( Object.entries( {
 				recommended: {
 					options: [ { myOption: true } ],
