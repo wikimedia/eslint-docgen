@@ -2,3 +2,5 @@
 tests/cases/plugin
 tests/cases/plugin-flat
 tests/cases/plugin-scoped
+
+coverage/

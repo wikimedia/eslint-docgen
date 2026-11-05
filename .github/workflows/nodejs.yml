@@ -46,4 +46,4 @@ jobs:
     # TODO: Remove --legacy-peer-deps, and run all tests with ESLint 9, once
     # this repo's own lint config (eslint-config-wikimedia) supports it
     - run: npm install --no-save --legacy-peer-deps eslint@9
-    - run: npx nyc mocha tests/
+    - run: npx c8 mocha tests/
