@@ -1,0 +1,4 @@
+{
+	"name": "eslint-plugin-my-plugin",
+	"main": "src/main.js"
+}

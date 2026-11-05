@@ -1,3 +1,4 @@
 # Test plugins contain fake rules
 tests/cases/plugin
+tests/cases/plugin-flat
 tests/cases/plugin-scoped
