@@ -1,0 +1,16 @@
+{
+	"root": true,
+	"rules": {
+		"indent": [ "error", 4 ],
+		"no-console": "error",
+		"no-extra-semi": "error",
+		"semi": "error",
+		"quotes": [ "error", "single" ],
+		"some-plugin-rule": "error",
+		"space-infix-ops": [ "error" ],
+		"spaced-comment": [ "error", "always", {
+			"exceptions": [ "*", "!" ],
+			"block": { "balanced": true }
+		} ]
+	}
+}
